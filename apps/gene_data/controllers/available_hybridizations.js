@@ -13,6 +13,8 @@
 GeneData.availableHybridizationsController = SC.ArrayController.create(
 /** @scope GeneData.availableHybridizationsController.prototype */ {
 
+  orderBy: 'name',
+
   contentBinding: 'GeneData.schemeController.hybridizations',
 
 }) ;

@@ -13,6 +13,8 @@
 GeneData.selectedHybridizationsController = SC.ArrayController.create(
 /** @scope GeneData.selectedHybridizationsController.prototype */ {
 
+  orderBy: 'name',
+
   add: function() {
     var currentHybridizations = this.get('content');
     var addedHybridizations = GeneData.availableHybridizationsController.get('selection').toArray();
@@ -21,6 +23,7 @@ GeneData.selectedHybridizationsController = SC.ArrayController.create(
     availableHybridizations = GeneData.availableHybridizationsController.get('content');
     availableHybridizations.removeObjects(addedHybridizations);
     GeneData.availableHybridizationsController.set('content', availableHybridizations);
+    GeneData.availableHybridizationsController.set('selection', SC.SelectionSet.create());
 
     this.set('content', currentHybridizations);
   },
@@ -35,6 +38,7 @@ GeneData.selectedHybridizationsController = SC.ArrayController.create(
     GeneData.availableHybridizationsController.set('content', availableHybridizations);
 
     this.set('content', currentHybridizations);
+    this.set('selection', SC.SelectionSet.create());
   }
 
 }) ;

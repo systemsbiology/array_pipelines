@@ -130,6 +130,7 @@ GeneData.mainPage = SC.Page.design({
           title: 'Add Array(s)',
           target: 'GeneData.selectedHybridizationsController',
           action: 'add',
+          isEnabledBinding: 'GeneData.availableHybridizationsController.hasSelection',
         }),
 
         removeButton: SC.ButtonView.design({
@@ -137,6 +138,7 @@ GeneData.mainPage = SC.Page.design({
           title: 'Remove Array(s)',
           target: 'GeneData.selectedHybridizationsController',
           action: 'remove',
+          isEnabledBinding: 'GeneData.selectedHybridizationsController.hasSelection',
         }),
 
         selectedLabel: SC.LabelView.design({
