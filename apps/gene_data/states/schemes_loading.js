@@ -22,12 +22,10 @@ GeneData.SCHEMES_LOADING = SC.Responder.create({
   loadingComplete: function() {
     //GeneData.set('currentScene', 'schemesFailed');
     //GeneData.makeFirstResponder(GeneData.SCHEMES_FAILED);
-    GeneData.set('currentScene', 'schemesLoaded');
     GeneData.makeFirstResponder(GeneData.SCHEMES_LOADED);
   },
 
   loadingFailed: function() {
-    GeneData.set('currentScene', 'schemesFailed');
     GeneData.makeFirstResponder(GeneData.SCHEMES_FAILED);
   },
 

@@ -92,10 +92,10 @@ GeneData.mainPage = SC.Page.design({
         schemeScroll: SC.ScrollView.design({
           borderStyle: SC.BORDER_NONE,
 					hasHorizontalScroller: NO,
-					contentView: SC.ListView.design({
+					contentView: SC.SourceListView.design({
             backgroundColor: '#D6DDE5',
-						contentBinding: "GeneData.schemesController.arrangedObjects",
-						selectionBinding: "GeneData.schemesController.selection",
+						contentBinding: "GeneData.sourceController.arrangedObjects",
+						selectionBinding: "GeneData.sourceController.selection",
 						contentValueKey: "name",
 						canEditContent: NO,
 						canDeleteContent: NO,
@@ -107,7 +107,7 @@ GeneData.mainPage = SC.Page.design({
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'availableLabel availableScroll addButton selectedLabel selectedScroll'.w(),
+        childViews: 'availableLabel availableScroll addButton removeButton selectedLabel selectedScroll'.w(),
 
         availableLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
@@ -121,12 +121,22 @@ GeneData.mainPage = SC.Page.design({
           contentView: SC.ListView.design({
             contentBinding: "GeneData.availableHybridizationsController.arrangedObjects",
             selectionBinding: "GeneData.availableHybridizationsController.selection",
+            contentValueKey: "name",
           }),
         }),
 
         addButton: SC.ButtonView.design({
-          layout: { left: 440, centerY: 0, width: 100, height: 24 },
+          layout: { left: 430, centerY: -15, width: 120, height: 24 },
           title: 'Add Array(s)',
+          target: 'GeneData.selectedHybridizationsController',
+          action: 'add',
+        }),
+
+        removeButton: SC.ButtonView.design({
+          layout: { left: 430, centerY: 15, width: 120, height: 24 },
+          title: 'Remove Array(s)',
+          target: 'GeneData.selectedHybridizationsController',
+          action: 'remove',
         }),
 
         selectedLabel: SC.LabelView.design({
@@ -141,6 +151,7 @@ GeneData.mainPage = SC.Page.design({
           contentView: SC.ListView.design({
             contentBinding: "GeneData.selectedHybridizationsController.arrangedObjects",
             selectionBinding: "GeneData.selectedHybridizationsController.selection",
+            contentValueKey: "name",
           }),
         }),
       }),

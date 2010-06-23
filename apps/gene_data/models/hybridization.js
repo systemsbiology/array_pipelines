@@ -15,5 +15,6 @@ GeneData.Hybridization = SC.Record.extend(
 /** @scope GeneData.Hybridization.prototype */ {
 
   name: SC.Record.attr(String),
+  scheme: SC.Record.toOne('GeneData.Project'),
 
 }) ;

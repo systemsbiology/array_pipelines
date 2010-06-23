@@ -15,8 +15,18 @@ GeneData.schemesController = SC.ArrayController.create(
 /** @scope GeneData.schemesController.prototype */ {
 
   load: function(){
-    var schemes = GeneData.store.find(GeneData.SCHEMES_QUERY);
+    // do I need to manually load the project children like this?
+    //GeneData.store.find(GeneData.PROJECTS_QUERY);
+
+    var schemes = GeneData.store.find(GeneData.SCHEMES_QUERY).toArray();
+    var schemeList =  SC.Object.create(SC.TreeItemContent, {
+      treeItemIsGrouped: YES,
+      treeItemChildren: schemes,
+      count: schemes.get('length'),
+    });
+  
     this.set('content', schemes);
+    GeneData.sourceController.set('content', schemeList);
   },
 
   statusDidChange: function() {
