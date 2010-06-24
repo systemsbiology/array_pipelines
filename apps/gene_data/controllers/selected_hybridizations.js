@@ -29,13 +29,16 @@ GeneData.selectedHybridizationsController = SC.ArrayController.create(
   },
 
   remove: function() {
+    var project;
     var currentHybridizations = this.get('content');
     var removedHybridizations = this.get('selection').toArray();
     currentHybridizations = currentHybridizations ? currentHybridizations.removeObjects(removedHybridizations) : null;
 
     availableHybridizations = GeneData.availableHybridizationsController.get('content');
-    availableHybridizations.pushObjects(removedHybridizations);
-    GeneData.availableHybridizationsController.set('content', availableHybridizations);
+    removedHybridizations.forEach(function(hybridization) {
+      project = hybridization.get('project');
+      project.get('hybridizations').pushObject(hybridization);
+    });
 
     this.set('content', currentHybridizations);
     this.set('selection', SC.SelectionSet.create());
