@@ -15,5 +15,6 @@ GeneData.sourceController = SC.TreeController.create(
 
   treeItemIsGrouped: YES,
   treeItemChildrenKey: 'schemes',
+  allowsMultipleSelection: NO,
   
 }) ;
