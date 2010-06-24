@@ -80,14 +80,7 @@ GeneData.mainPage = SC.Page.design({
       defaultThickness: 200,
 
       topLeftView: SC.View.design({
-        childViews: 'schemeLabel schemeScroll'.w(),
-
-        schemeLabel: SC.LabelView.design({
-          classNames: ['scheme-label'],
-          layout: { left: 4, top: 4, right: 4, height: 28 },
-          controlSize: SC.MEDIUM_CONTROL_SIZE,
-          value: 'Choose a naming scheme:',      
-        }),
+        childViews: 'schemeScroll'.w(),
 
         schemeScroll: SC.ScrollView.design({
           borderStyle: SC.BORDER_NONE,
