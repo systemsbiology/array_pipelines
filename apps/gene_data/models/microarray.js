@@ -17,6 +17,5 @@ GeneData.Microarray = SC.Record.extend(
   name: SC.Record.attr(String),
   project: SC.Record.toOne('GeneData.Project'),
   scheme: SC.Record.toOne('GeneData.Scheme'),
-  //schemeProject: SC.Record.toOne('GeneData.SchemeProject'),
 
 }) ;
