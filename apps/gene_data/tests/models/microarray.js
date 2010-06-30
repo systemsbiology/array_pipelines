@@ -1,12 +1,12 @@
 // ==========================================================================
-// Project:   GeneData.Hybridization Unit Test
+// Project:   GeneData.Microarray Unit Test
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals GeneData module test ok equals same stop start */
 
-module("GeneData.Hybridization");
+module("GeneData.Microarray");
 
-// TODO: Replace with real unit test for Hybridization
+// TODO: Replace with real unit test for Microarray
 test("test description", function() {
   var expected = "test";
   var result   = "test";

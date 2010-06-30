@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   GeneData.availableHybridizationsController
+// Project:   GeneData.availableMicroarraysController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals GeneData */
@@ -10,11 +10,11 @@
 
   @extends SC.Object
 */
-GeneData.availableHybridizationsController = SC.ArrayController.create(
-/** @scope GeneData.availableHybridizationsController.prototype */ {
+GeneData.availableMicroarraysController = SC.ArrayController.create(
+/** @scope GeneData.availableMicroarraysController.prototype */ {
 
   orderBy: 'name',
 
-  contentBinding: 'GeneData.schemeController.hybridizations',
+  contentBinding: 'GeneData.schemeController.microarrays',
 
 }) ;

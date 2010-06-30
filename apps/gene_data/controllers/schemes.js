@@ -15,19 +15,38 @@ GeneData.schemesController = SC.ArrayController.create(
 /** @scope GeneData.schemesController.prototype */ {
 
   load: function(){
-    // do I need to manually load the project children like this?
-    //GeneData.store.find(GeneData.PROJECTS_QUERY);
-
     var schemes = GeneData.store.find(GeneData.SCHEMES_QUERY).toArray();
-    var schemeList =  SC.Object.create(SC.TreeItemContent, {
-      treeItemIsGrouped: YES,
-      treeItemChildren: schemes,
-      count: schemes.get('length'),
-    });
   
     this.set('content', schemes);
-    GeneData.sourceController.set('content', schemeList);
   },
+
+  sourceRoot: function() {
+    var scheme, ret = [];
+
+    this.forEach(function(scheme) {
+      var children = [];
+
+      scheme.get('projects').forEach(function(project) {
+        children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
+          name: project.get('name'),
+          project: project.get('guid'),
+          scheme: scheme.get('guid'),
+        }));
+      });
+
+      ret.push(SC.Object.create(SC.TreeItemContent, {
+        name: scheme.get('name'),
+        treeItemChildren: children,
+      }));
+    });
+
+    return SC.Object.create(SC.TreeItemContent, {
+      treeItemIsGrouped: YES,
+      treeItemChildren: ret,
+      isExpanded: YES,
+    });
+
+  }.property('[]').cacheable(),
 
   statusDidChange: function() {
     if (this.get('status') & SC.Record.READY) {

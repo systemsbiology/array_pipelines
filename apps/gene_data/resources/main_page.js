@@ -112,8 +112,8 @@ GeneData.mainPage = SC.Page.design({
           layout: { left: 20, top: 40, bottom: 20, width: 400 },
 
           contentView: SC.ListView.design({
-            contentBinding: "GeneData.availableHybridizationsController.arrangedObjects",
-            selectionBinding: "GeneData.availableHybridizationsController.selection",
+            contentBinding: "GeneData.availableMicroarraysController.arrangedObjects",
+            selectionBinding: "GeneData.availableMicroarraysController.selection",
             contentValueKey: "name",
           }),
         }),
@@ -121,17 +121,17 @@ GeneData.mainPage = SC.Page.design({
         addButton: SC.ButtonView.design({
           layout: { left: 430, centerY: -15, width: 120, height: 24 },
           title: 'Add Array(s)',
-          target: 'GeneData.selectedHybridizationsController',
+          target: 'GeneData.selectedMicroarraysController',
           action: 'add',
-          isEnabledBinding: 'GeneData.availableHybridizationsController.hasSelection',
+          isEnabledBinding: 'GeneData.availableMicroarraysController.hasSelection',
         }),
 
         removeButton: SC.ButtonView.design({
           layout: { left: 430, centerY: 15, width: 120, height: 24 },
           title: 'Remove Array(s)',
-          target: 'GeneData.selectedHybridizationsController',
+          target: 'GeneData.selectedMicroarraysController',
           action: 'remove',
-          isEnabledBinding: 'GeneData.selectedHybridizationsController.hasSelection',
+          isEnabledBinding: 'GeneData.selectedMicroarraysController.hasSelection',
         }),
 
         selectedLabel: SC.LabelView.design({
@@ -144,8 +144,8 @@ GeneData.mainPage = SC.Page.design({
           layout: { left: 560, top: 40, bottom: 20, width: 400 },
 
           contentView: SC.ListView.design({
-            contentBinding: "GeneData.selectedHybridizationsController.arrangedObjects",
-            selectionBinding: "GeneData.selectedHybridizationsController.selection",
+            contentBinding: "GeneData.selectedMicroarraysController.arrangedObjects",
+            selectionBinding: "GeneData.selectedMicroarraysController.selection",
             contentValueKey: "name",
           }),
         }),

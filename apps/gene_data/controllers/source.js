@@ -13,8 +13,7 @@
 GeneData.sourceController = SC.TreeController.create(
 /** @scope GeneData.sourceController.prototype */ {
 
-  treeItemIsGrouped: YES,
-  treeItemChildrenKey: 'schemes',
+  contentBinding: 'GeneData.schemesController.sourceRoot',
   allowsMultipleSelection: NO,
   
 }) ;

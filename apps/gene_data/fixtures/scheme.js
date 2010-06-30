@@ -17,7 +17,7 @@ GeneData.Scheme.FIXTURES = [
     name: "ChIP"},
   
   { guid: 3,
-    projects: [],
+    projects: [1],
     name: "Mouse Knockouts"},
   
 ];

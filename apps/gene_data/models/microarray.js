@@ -1,20 +1,22 @@
 // ==========================================================================
-// Project:   GeneData.Hybridization
+// Project:   GeneData.Microarray
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals GeneData */
 
 /** @class
 
-  SLIMarray hybridization
+  SLIMarray microarray
 
   @extends SC.Record
   @version 0.1
 */
-GeneData.Hybridization = SC.Record.extend(
-/** @scope GeneData.Hybridization.prototype */ {
+GeneData.Microarray = SC.Record.extend(
+/** @scope GeneData.Microarray.prototype */ {
 
   name: SC.Record.attr(String),
   project: SC.Record.toOne('GeneData.Project'),
+  scheme: SC.Record.toOne('GeneData.Scheme'),
+  //schemeProject: SC.Record.toOne('GeneData.SchemeProject'),
 
 }) ;
