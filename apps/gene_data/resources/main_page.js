@@ -155,6 +155,7 @@ GeneData.mainPage = SC.Page.design({
           layout: { left: 830, width: 120, bottom: 13, height: 24 },
           title: 'Run Analysis',
           isEnabledBinding: 'GeneData.selectedMicroarraysController.hasArrays',
+		  action: 'runAnalysis'
         }),
       }),
     }),
@@ -189,4 +190,31 @@ GeneData.mainPage = SC.Page.design({
       }),
     }),
   }),
+  
+  analysisRunning: SC.PanelPane.design({
+  	defaultResponder: GeneData,
+	
+	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+	
+	contentView: SC.View.design({
+	  childViews: 'message loadingIndicator cancelButton'.w(),
+	  
+	  message: SC.LabelView.design({
+	  	layout: { top: 20, height: 32, left: 60, right: 0 },
+		value: 'Bundling data files and meta data',
+        controlSize: SC.LARGE_CONTROL_SIZE,
+	  }),
+	  
+	  loadingIndicator: SC.ImageView.design({
+	  	layout: { left: 20, top: 20, width: 32, height: 32 },
+	    value: 'icon-loading-32',
+	  }),
+	  
+	  cancelButton: SC.ButtonView.design({
+	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+		title: 'Cancel',
+		action: 'cancel'
+	  })
+	})
+  })
 });

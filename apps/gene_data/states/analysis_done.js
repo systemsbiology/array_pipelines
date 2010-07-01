@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   GeneData.ARRAYS_LOADED
+// Project:   GeneData.ANALYSISDONE
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals GeneData */
@@ -11,8 +11,8 @@
   @extends SC.Responder
   @version 0.1
 */
-GeneData.ARRAYS_LOADED = SC.Responder.create(
-/** @scope GeneData.ARRAYS_LOADED.prototype */ {
+GeneData.ANALYSIS_DONE = SC.Responder.create(
+/** @scope GeneData.ANALYSIS_DONE.prototype */ {
 
   /**
     The next state to check if this state does not implement the action.
@@ -31,7 +31,9 @@ GeneData.ARRAYS_LOADED = SC.Responder.create(
   // EVENTS
   //
   
-  runAnalysis: function() {
-  	GeneData.makeFirstResponder(GeneData.ANALYSIS_RUNNING);
+  // add event handlers here
+  someAction: function() {
+    
   }
+  
 }) ;

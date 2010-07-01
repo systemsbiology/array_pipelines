@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   GeneData.ARRAYS_LOADED
+// Project:   GeneData.ANALYSIS_RUNNING
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals GeneData */
@@ -11,8 +11,8 @@
   @extends SC.Responder
   @version 0.1
 */
-GeneData.ARRAYS_LOADED = SC.Responder.create(
-/** @scope GeneData.ARRAYS_LOADED.prototype */ {
+GeneData.ANALYSIS_RUNNING = SC.Responder.create(
+/** @scope GeneData.ANALYSIS_RUNNING.prototype */ {
 
   /**
     The next state to check if this state does not implement the action.
@@ -20,18 +20,19 @@ GeneData.ARRAYS_LOADED = SC.Responder.create(
   nextResponder: null,
   
   didBecomeFirstResponder: function() {
-    // Called when this state becomes first responder
+    GeneData.getPath('mainPage.analysisRunning').append() ;
   },
   
   willLoseFirstResponder: function() {
-    // Called when this state loses first responder
+    GeneData.getPath('mainPage.analysisRunning').remove() ;
   },
   
   // ..........................................................
   // EVENTS
   //
   
-  runAnalysis: function() {
-  	GeneData.makeFirstResponder(GeneData.ANALYSIS_RUNNING);
+  cancel: function() {
+  	GeneData.makeFirstResponder(GeneData.ARRAYS_LOADED);
   }
+  
 }) ;
