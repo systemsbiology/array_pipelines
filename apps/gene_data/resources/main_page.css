@@ -6,3 +6,9 @@
 .sc-split-divider-view { border:0px none; }
 
 .array-scroll-label { color:#000; }
+
+.icon-loading-32 {
+  width: 32;
+  height: 32;
+  background: no-repeat sc_static('images/loading.gif') left top;
+}

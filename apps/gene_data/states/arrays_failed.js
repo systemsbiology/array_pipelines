@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   GeneData.SCHEMESLOADED
+// Project:   GeneData.ARRAYS_FAILED
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals GeneData */
@@ -11,8 +11,8 @@
   @extends SC.Responder
   @version 0.1
 */
-GeneData.SCHEMES_LOADED = SC.Responder.create(
-/** @scope GeneData.SCHEMESLOADED.prototype */ {
+GeneData.ARRAYS_FAILED = SC.Responder.create(
+/** @scope GeneData.ARRAYS_FAILED.prototype */ {
 
   /**
     The next state to check if this state does not implement the action.
@@ -20,14 +20,23 @@ GeneData.SCHEMES_LOADED = SC.Responder.create(
   nextResponder: null,
   
   didBecomeFirstResponder: function() {
-    GeneData.set('currentScene', 'schemesLoaded');
+    // show the error pane
+    GeneData.getPath('mainPage.samplesFailed').append() ;
   },
   
   willLoseFirstResponder: function() {
+    GeneData.getPath('mainPage.samplesFailed').remove() ;
   },
   
   // ..........................................................
   // EVENTS
   //
   
+  retryLoading: function() {
+    GeneData.makeFirstResponder(GeneData.ARRAYS_LOADING);
+  },
+  
+  cancelLoading: function() {
+  	GeneData.makeFirstResponder(GeneData.SCHEMES_LOADED);
+  }
 }) ;

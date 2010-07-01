@@ -15,4 +15,7 @@ GeneData.schemeController = SC.ObjectController.create(
 
   contentBinding: 'GeneData.sourceController.selection',
 
+  _contentDidChange: function() {
+    GeneData.makeFirstResponder(GeneData.ARRAYS_LOADING);
+  }.observes('content'),
 }) ;

@@ -13,9 +13,23 @@ GeneData.mainPage = SC.Page.design({
   mainPane: SC.MainPane.design({
     defaultResponder: GeneData,
 
-    childViews: 'sceneView'.w(),
+    childViews: 'topView sceneView'.w(),
     
+    topView: SC.ToolbarView.design({
+      layout: { left: 0, top: 0, right: 0, height: 32 },
+      anchorLocation: SC.ANCHOR_TOP,
+
+      childViews: 'titleView'.w(),
+
+      titleView: SC.LabelView.design({
+        layout: { left: 20, top: 4, width: 300, height: 24 },
+        controlSize: SC.LARGE_CONTROL_SIZE,
+        value: 'GeneData Import File Generator'
+      }),
+    }),
+
     sceneView: SC.SceneView.design({
+      layout: { left: 0, top: 32, right: 0, bottom: 0 },
       scenes: "schemesLoading schemesFailed schemesLoaded".w(),
       nowShowingBinding: "GeneData.currentScene"
     }),
@@ -58,23 +72,10 @@ GeneData.mainPage = SC.Page.design({
 
   schemesLoaded: SC.View.design({
     layout: { left: 0, right: 0, top: 0, bottom: 0 },
-    childViews: 'topView mainView bottomView'.w(),
+    childViews: 'mainView'.w(),
     
-    topView: SC.ToolbarView.design({
-      layout: { left: 0, top: 0, right: 0, height: 32 },
-      anchorLocation: SC.ANCHOR_TOP,
-
-      childViews: 'titleView'.w(),
-
-      titleView: SC.LabelView.design({
-        layout: { left: 20, top: 4, width: 300, height: 24 },
-        controlSize: SC.LARGE_CONTROL_SIZE,
-        value: 'GeneData Import File Generator'
-      }),
-    }),
-
     mainView: SC.SplitView.design({
-      layout: { left: 0, right: 0, top: 32, bottom: 32 },
+      layout: { left: 0, right: 0, top: 0, bottom: 0 },
       layoutDirection: SC.LAYOUT_HORIZONTAL,
 			dividerThickness: 1,
       defaultThickness: 200,
@@ -100,7 +101,7 @@ GeneData.mainPage = SC.Page.design({
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'availableLabel availableScroll addButton removeButton selectedLabel selectedScroll'.w(),
+        childViews: 'availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
 
         availableLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
@@ -109,7 +110,7 @@ GeneData.mainPage = SC.Page.design({
         }),
 
         availableScroll: SC.ScrollView.design({
-          layout: { left: 20, top: 40, bottom: 20, width: 400 },
+          layout: { left: 20, top: 40, bottom: 50, width: 400 },
 
           contentView: SC.ListView.design({
             contentBinding: "GeneData.availableMicroarraysController.arrangedObjects",
@@ -141,7 +142,7 @@ GeneData.mainPage = SC.Page.design({
         }),
 
         selectedScroll: SC.ScrollView.design({
-          layout: { left: 560, top: 40, bottom: 20, width: 400 },
+          layout: { left: 560, top: 40, bottom: 50, width: 400 },
 
           contentView: SC.ListView.design({
             contentBinding: "GeneData.selectedMicroarraysController.arrangedObjects",
@@ -149,13 +150,43 @@ GeneData.mainPage = SC.Page.design({
             contentValueKey: "name",
           }),
         }),
+
+        analyzeButton: SC.ButtonView.design({
+          layout: { left: 830, width: 120, bottom: 13, height: 24 },
+          title: 'Run Analysis',
+          isEnabledBinding: 'GeneData.selectedMicroarraysController.hasArrays',
+        }),
       }),
     }),
-
-    bottomView: SC.ToolbarView.design({
-      layout: { left: 0, right: 0, botom: 0, height: 32},
-      anchorLocation: SC.ANCHOR_BOTTOM,
-    })
   }),
 
+  samplesFailed: SC.PanelPane.design({
+	defaultResponder: GeneData,
+	
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+
+    contentView: SC.View.design({
+      childViews: 'errorMessage retryButton cancelButton'.w(),
+
+      errorMessage: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 0, right: 0 },
+        value: 'Loading samples from the server failed',
+        textAlign: SC.ALIGN_CENTER,
+        controlSize: SC.LARGE_CONTROL_SIZE,
+      }),
+
+      retryButton: SC.ButtonView.design({
+        layout: { bottom: 20, height: 32, right: 20, width: 100},
+        title: 'Retry',
+        isDefault: YES,
+        action: 'retryLoading'
+      }),
+
+      cancelButton: SC.ButtonView.design({
+        layout: { bottom: 20, height: 32, right: 130, width: 100},
+        title: 'Cancel',
+        action: 'cancelLoading'
+      }),
+    }),
+  }),
 });

@@ -51,6 +51,10 @@ GeneData.selectedMicroarraysController = SC.ArrayController.create(
 
     this.set('content', currentMicroarrays);
     this.set('selection', SC.SelectionSet.create());
-  }
+  },
 
+  hasArrays: function() {
+    if(this.get('length') > 0) return true
+    else return false
+  }.property('length'),
 }) ;

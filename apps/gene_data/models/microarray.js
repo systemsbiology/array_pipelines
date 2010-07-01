@@ -17,5 +17,9 @@ GeneData.Microarray = SC.Record.extend(
   name: SC.Record.attr(String),
   project: SC.Record.toOne('GeneData.Project'),
   scheme: SC.Record.toOne('GeneData.Scheme'),
+  chipName: SC.Record.attr(String),
+  rawDataPath: SC.Record.attr(String),
+  arrayNumber: SC.Record.attr(String),
+  schemedDescriptors: SC.Record.attr(Object),
 
 }) ;
