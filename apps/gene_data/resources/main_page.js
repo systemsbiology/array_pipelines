@@ -216,5 +216,65 @@ GeneData.mainPage = SC.Page.design({
 		action: 'cancel'
 	  })
 	})
-  })
+  }),
+  
+  analysisFailed: SC.PanelPane.design({
+  	defaultResponder: GeneData,
+	
+	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+	
+	contentView: SC.View.design({
+      childViews: 'errorMessage retryButton cancelButton'.w(),
+
+      errorMessage: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 0, right: 0 },
+        value: 'Bundling data files and meta data failed',
+        textAlign: SC.ALIGN_CENTER,
+        controlSize: SC.LARGE_CONTROL_SIZE,
+      }),
+
+      retryButton: SC.ButtonView.design({
+        layout: { bottom: 20, height: 32, right: 20, width: 100},
+        title: 'Retry',
+        isDefault: YES,
+        action: 'retry'
+      }),
+
+      cancelButton: SC.ButtonView.design({
+        layout: { bottom: 20, height: 32, right: 130, width: 100},
+        title: 'Cancel',
+        action: 'cancel'
+      }),
+	})
+  }),
+  
+  analysisDone: SC.PanelPane.design({
+  	defaultResponder: GeneData,
+	
+	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+	
+	contentView: SC.View.design({
+	  childViews: 'message resultLink closeButton'.w(),
+	  
+	  message: SC.LabelView.design({
+	  	layout: { top: 20, height: 32, left: 0, right: 0 },
+		textAlign: SC.ALIGN_CENTER,
+		value: 'Download results',
+        controlSize: SC.LARGE_CONTROL_SIZE,
+	  }),
+	  
+	  resultLink: SC.LabelView.design({
+	  	layout: { centerY: 0, height: 32, left: 0, right: 0 },
+		textAlign: SC.ALIGN_CENTER,
+		valueBinding: 'GeneData.analysisController.hyperlink',
+		escapeHTML: NO,
+	  }),
+	  
+	  closeButton: SC.ButtonView.design({
+	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+		title: 'Close',
+		action: 'close'
+	  })
+	})
+  }),
 });

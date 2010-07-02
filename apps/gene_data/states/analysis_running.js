@@ -33,6 +33,14 @@ GeneData.ANALYSIS_RUNNING = SC.Responder.create(
   
   cancel: function() {
   	GeneData.makeFirstResponder(GeneData.ARRAYS_LOADED);
+  },
+  
+  failed: function() {
+  	GeneData.makeFirstResponder(GeneData.ANALYSIS_FAILED);
+  },
+  
+  complete: function() {
+  	GeneData.makeFirstResponder(GeneData.ANALYSIS_DONE);
   }
   
 }) ;

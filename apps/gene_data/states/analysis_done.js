@@ -20,20 +20,19 @@ GeneData.ANALYSIS_DONE = SC.Responder.create(
   nextResponder: null,
   
   didBecomeFirstResponder: function() {
-    // Called when this state becomes first responder
+    GeneData.getPath('mainPage.analysisDone').append() ;
   },
   
   willLoseFirstResponder: function() {
-    // Called when this state loses first responder
+    GeneData.getPath('mainPage.analysisDone').remove() ;
   },
   
   // ..........................................................
   // EVENTS
   //
   
-  // add event handlers here
-  someAction: function() {
-    
+  close: function() {
+  	GeneData.makeFirstResponder(GeneData.ARRAYS_LOADED);
   }
   
 }) ;
