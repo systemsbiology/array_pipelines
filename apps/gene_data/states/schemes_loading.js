@@ -17,14 +17,18 @@ GeneData.SCHEMES_LOADING = SC.Responder.create({
   didBecomeFirstResponder: function() {
     GeneData.set('currentScene', 'schemesLoading');
     GeneData.schemesController.load();
+	GeneData.projectsController.load();
   },
 
   loadingComplete: function() {
-    GeneData.makeFirstResponder(GeneData.SCHEMES_LOADED);
-  },
-
-  loadingFailed: function() {
-    GeneData.makeFirstResponder(GeneData.SCHEMES_FAILED);
+  	schemeStatus = GeneData.schemesController.get('status');
+	projectStatus = GeneData.projectsController.get('status');
+	
+  	if (schemeStatus & SC.Record.READY && projectStatus & SC.Record.READY) {
+      GeneData.makeFirstResponder(GeneData.SCHEMES_LOADED);
+    } else if (schemeStatus & SC.Record.ERROR || projectStatus & SC.Record.ERROR) {
+      GeneData.makeFirstResponder(GeneData.SCHEMES_FAILED);
+    }
   },
 
 });

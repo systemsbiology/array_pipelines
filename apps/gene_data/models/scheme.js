@@ -17,7 +17,7 @@ GeneData.Scheme = SC.Record.extend(SC.TreeItemContent,
   primaryKey: 'id',
   
   name: SC.Record.attr(String),
-  projects: SC.Record.toMany('GeneData.Project'),
+  projects: SC.Record.toMany('GeneData.Project', {key: 'project_ids'}),
 
   count: function() {
     return this.getPath('projects.length') ;

@@ -21,6 +21,7 @@ GeneData.SCHEMES_LOADED = SC.Responder.create(
   
   didBecomeFirstResponder: function() {
     GeneData.set('currentScene', 'schemesLoaded');
+	GeneData.sourceController.populateContent();
   },
   
   willLoseFirstResponder: function() {
