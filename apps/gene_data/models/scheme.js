@@ -14,6 +14,8 @@
 GeneData.Scheme = SC.Record.extend(SC.TreeItemContent,
 /** @scope GeneData.Scheme.prototype */ {
 
+  primaryKey: 'id',
+  
   name: SC.Record.attr(String),
   projects: SC.Record.toMany('GeneData.Project'),
 

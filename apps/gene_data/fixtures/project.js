@@ -8,15 +8,15 @@ sc_require('models/project');
 
 GeneData.Project.FIXTURES = [
 
-  { guid: 1,
+  { id: 1,
     microarrays: [1,2,3],
     name: "wild-type yeast" },
 
-  { guid: 2,
+  { id: 2,
     microarrays: [],
     name: "mutant yeast" },
 
-  { guid: 3,
+  { id: 3,
     microarrays: [4],
     name: "Pol II" },
 

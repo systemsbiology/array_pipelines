@@ -16,6 +16,7 @@ GeneData.schemesController = SC.ArrayController.create(
 
   load: function(){
     var schemes = GeneData.store.find(GeneData.SCHEMES_QUERY).toArray();
+	GeneData.store.find(GeneData.PROJECTS_QUERY);
   
     this.set('content', schemes);
   },
@@ -29,8 +30,8 @@ GeneData.schemesController = SC.ArrayController.create(
       scheme.get('projects').forEach(function(project) {
         children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
           name: project.get('name'),
-          project: project.get('guid'),
-          scheme: scheme.get('guid'),
+          project: project.get('id'),
+          scheme: scheme.get('id'),
         }));
       });
 

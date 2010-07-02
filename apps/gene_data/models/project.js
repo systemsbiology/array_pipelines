@@ -13,6 +13,8 @@
 */
 GeneData.Project = SC.Record.extend(SC.TreeItemContent,
 /** @scope GeneData.Project.prototype */ {
+	
+  primaryKey: 'id',
 
   name: SC.Record.attr(String),
 

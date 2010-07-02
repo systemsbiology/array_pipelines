@@ -8,15 +8,15 @@ sc_require('models/scheme');
 
 GeneData.Scheme.FIXTURES = [
 
-  { guid: 1,
+  { id: 1,
     projects: [1,2],
     name: "Yeast Time Course"},
   
-  { guid: 2,
+  { id: 2,
     projects: [3],
     name: "ChIP"},
   
-  { guid: 3,
+  { id: 3,
     projects: [1],
     name: "Mouse Knockouts"},
   
