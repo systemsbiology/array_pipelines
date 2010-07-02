@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   GeneData.availableMicroarraysController
-// Copyright: ©2010 My Company, Inc.
+// Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
 /*globals GeneData */
 

@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   GeneData.availableMicroarraysController Unit Test
-// Copyright: ©2010 My Company, Inc.
+// Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
 /*globals GeneData module test ok equals same stop start */
 

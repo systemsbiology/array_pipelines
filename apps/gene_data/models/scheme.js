@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   GeneData.Scheme
-// Copyright: ©2010 My Company, Inc.
+// Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
 /*globals GeneData */
 
@@ -31,4 +31,3 @@ GeneData.Scheme = SC.Record.extend(SC.TreeItemContent,
 }) ;
 
 GeneData.SCHEMES_QUERY = SC.Query.local(GeneData.Scheme);
-//GeneData.SCHEMES_QUERY = SC.Query.remote(GeneData.Scheme);
