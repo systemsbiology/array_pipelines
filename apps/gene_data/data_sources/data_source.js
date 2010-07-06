@@ -29,6 +29,17 @@ GeneData.DataSource = SC.DataSource.extend(
 	  	.notify(this, 'didFetchProjects', store, query)
 		.send();
 	  return YES;
+	} else if(query.recordType === GeneData.Microarray) {
+	  var parameters = query.get('parameters'),
+	      url;
+		  
+	  url = '/slimarray/microarrays?project_id=' + parameters.project.get('id') +
+	        '&naming_scheme_id=' + parameters.scheme.get('id') +
+			'&with=scheme,project,chip_name,schemed_descriptors,raw_data_path,array_number';
+	  SC.Request.getUrl(url).header({'Accept': 'application/json'}).json()
+	  	.notify(this, 'didFetchMicroarrays', store, query)
+		.send();
+	  return YES;			
 	}
 
     return NO ; // return YES if you handled the query
@@ -45,6 +56,14 @@ GeneData.DataSource = SC.DataSource.extend(
   didFetchProjects: function(response, store, query) {
   	if(SC.ok(response)) {
 	  store.loadRecords(GeneData.Project, response.get('body'));
+	  store.dataSourceDidFetchQuery(query);
+	  
+	} else store.dataSourceDidErrorQuery(query, response);	
+  },
+  
+  didFetchMicroarrays: function(response, store, query) {
+  	if(SC.ok(response)) {
+	  store.loadRecords(GeneData.Microarray, response.get('body'));
 	  store.dataSourceDidFetchQuery(query);
 	  
 	} else store.dataSourceDidErrorQuery(query, response);	

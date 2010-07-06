@@ -26,8 +26,9 @@ GeneData.selectedMicroarraysController = SC.ArrayController.create(
 
     currentMicroarrays = currentMicroarrays ? currentMicroarrays.pushObjects(addedMicroarrays) : addedMicroarrays;
     
-    availableMicroarrays = GeneData.availableMicroarraysController.get('content');
+    availableMicroarrays = GeneData.availableMicroarraysController.get('content').toArray();
     availableMicroarrays.removeObjects(addedMicroarrays);
+	GeneData.availableMicroarraysController.set('content', availableMicroarrays);
     GeneData.availableMicroarraysController.set('content', availableMicroarrays);
     GeneData.availableMicroarraysController.set('selection', SC.SelectionSet.create());
 

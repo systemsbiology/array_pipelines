@@ -13,7 +13,9 @@
 */
 GeneData.Microarray = SC.Record.extend(
 /** @scope GeneData.Microarray.prototype */ {
-
+	
+  primaryKey: 'id',
+  
   name: SC.Record.attr(String),
   project: SC.Record.toOne('GeneData.Project'),
   scheme: SC.Record.toOne('GeneData.Scheme'),

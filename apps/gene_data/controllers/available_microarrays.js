@@ -22,7 +22,7 @@ GeneData.availableMicroarraysController = SC.ArrayController.create(
 
     var query = SC.Query.local(GeneData.Microarray, "project = {project} AND scheme = {scheme}",
       {project: schemeProject.get('project'), scheme: schemeProject.get('scheme')});
-    schemeProject.set( 'microarrays', GeneData.store.find(query).toArray() );
+    schemeProject.set( 'microarrays', GeneData.store.find(query) );
   },
 
   statusDidChange: function() {
