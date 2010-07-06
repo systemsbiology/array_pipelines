@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Server</title>
+  <%= stylesheet_link_tag :all %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+
+CAS User: <%=h session[:cas_user] %>
+<%= yield %>
+
+</body>
+</html>

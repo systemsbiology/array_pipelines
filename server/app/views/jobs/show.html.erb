@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Pipeline:</b>
+  <%= @job.pipeline %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @job.status %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @job.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @job.end_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>
