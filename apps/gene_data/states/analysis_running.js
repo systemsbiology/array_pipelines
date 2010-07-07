@@ -21,6 +21,7 @@ GeneData.ANALYSIS_RUNNING = SC.Responder.create(
   
   didBecomeFirstResponder: function() {
     GeneData.getPath('mainPage.analysisRunning').append() ;
+	GeneData.analysisController.submitJob();
   },
   
   willLoseFirstResponder: function() {
