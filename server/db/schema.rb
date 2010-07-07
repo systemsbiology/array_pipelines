@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(:version => 20100706183725) do
   create_table "jobs", :force => true do |t|
     t.string   "pipeline"
     t.string   "status"
+    t.string   "script_execution_uri"
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "created_at"

@@ -3,6 +3,7 @@ class CreateJobs < ActiveRecord::Migration
     create_table :jobs do |t|
       t.string :pipeline
       t.string :status
+      t.string :script_execution_uri
       t.datetime :start_time
       t.datetime :end_time
 
