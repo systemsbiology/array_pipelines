@@ -1,49 +1,44 @@
 class Job < ActiveRecord::Base
-  state_machine :status, :initial => :received do
-    event :submit do
-      transition :received => :submitted
-    end
-    
-    event :job_fail do
-      transition any - :failed => :failed
-    end
+  attr_accessor :pipeline, :microarrays, :status, :output
 
-    before_transition :received => :submitted, :do => :record_start_time
-    after_transition any - :complete => [:failed, :complete], :do => :record_end_time
-  end
-  
-  def after_create
+  def save
     begin
-      script_resource = RestClient::Resource.new APP_CONFIG['script_execution_uri'],
+      submission_uri = [APP_CONFIG['script_execution_uri'], pipeline, "jobs"].join("/")
+
+      script_resource = RestClient::Resource.new submission_uri,
         :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
-      logger.info "Sending #{@data.to_json} to #{APP_CONFIG['script_execution_uri']}"
-      script_resource.post @data.to_json
-      submit
-    rescue RestClient::RequestFailed => e
-      job_fail
+
+      logger.info "Sending #{microarrays.to_json} to #{submission_uri}"
+      response = script_resource.post microarrays.to_json
+
+      parsed_response = JSON.parse(response)
+      self.job_uri = parsed_response['uri']
+    rescue RestClient::RequestFailed, RestClient::ResourceNotFound => e
+      return false
     end
+
+    super
   end
 
-  def record_start_time
-    start_time = Time.now
-  end
+  def check_status
+    script_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + job_uri,
+      :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
 
-  def record_end_time
-    end_time = Time.now
-  end
+    logger.info "Querying #{job_uri}"
+    response = script_resource.get
+    logger.info "Got: #{response}"
 
-  def microarrays=(microarrays)
-    @data = Array.new
+    parsed_response = JSON.parse(response)
+    
+    if self.status = parsed_response['status']
+      output_uris = parsed_response['outputs'].collect{|o| o['uri']}
 
-    microarrays.each do |array|
-      @data << {
-        'name' => array['name'],
-        'chip_name' => array['chip_name'],
-        'raw_data_path' => array['raw_data_path'],
-        'array_number' => array['array_number'],
-        'schemed_descriptors' => array['schemed_descriptors']
-      }
+      # use the first (presumably only) zip file in the outputs
+      if zip_uri = output_uris.grep(/\.zip/i).first
+        self.output = APP_CONFIG['script_execution_host'] + zip_uri
+      end
     end
-  end
 
+    return self
+  end
 end

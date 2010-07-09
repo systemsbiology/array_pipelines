@@ -1,5 +1,7 @@
 Server::Application.routes.draw do |map|
-  resources :jobs
+  match 'gene_data' => 'ui#gene_data'
+
+  resources :jobs, :only => [:show, :create]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

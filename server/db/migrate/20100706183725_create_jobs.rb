@@ -1,11 +1,8 @@
 class CreateJobs < ActiveRecord::Migration
   def self.up
     create_table :jobs do |t|
-      t.string :pipeline
-      t.string :status
-      t.string :script_execution_uri
-      t.datetime :start_time
-      t.datetime :end_time
+      t.string :job_uri
+      t.string :user
 
       t.timestamps
     end
