@@ -20,7 +20,8 @@ GeneData.DataSource = SC.DataSource.extend(
   fetch: function(store, query) {
 
     if(query === GeneData.SCHEMES_QUERY) {
-	  SC.Request.getUrl('/slimarray/naming_schemes?with=project_ids').header({'Accept': 'application/json'}).json()
+	  SC.Request.getUrl('/slimarray/naming_schemes?with=project_ids&populated_only=yes')
+	    .header({'Accept': 'application/json'}).json()
 	  	.notify(this, 'didFetchSchemes', store, query)
 		.send();
 	  return YES;

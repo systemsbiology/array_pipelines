@@ -25,6 +25,9 @@ GeneData.ANALYSIS_RUNNING = SC.Responder.create(
   },
   
   willLoseFirstResponder: function() {
+  	var timer = GeneData.analysisController.get('timer');
+  	if(timer) timer.invalidate();
+	
     GeneData.getPath('mainPage.analysisRunning').remove() ;
   },
   
