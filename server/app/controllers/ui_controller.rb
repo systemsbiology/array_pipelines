@@ -1,5 +1,6 @@
 class UiController < ApplicationController
   before_filter CASClient::Frameworks::Rails::Filter
+  layout nil
 
   def gene_data
     #logger.info "bounced: #{params.has_key?(:bounced) ? "Yes" : "No"}"
