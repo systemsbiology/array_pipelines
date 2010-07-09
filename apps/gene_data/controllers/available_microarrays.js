@@ -28,7 +28,7 @@ GeneData.availableMicroarraysController = SC.ArrayController.create(
   statusDidChange: function() {
     if (this.get('status') & SC.Record.READY) {
       GeneData.sendAction('loadingComplete');
-    } else if (this.get('status' & SC.Record.ERROR)) {
+    } else if (this.get('status') & SC.Record.ERROR) {
       GeneData.sendAction('loadingFailed');
     }
   }.observes('status'),
