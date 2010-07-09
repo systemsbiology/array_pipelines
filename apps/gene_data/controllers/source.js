@@ -16,29 +16,13 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
   populateContent: function(){
     var scheme, ret = [], root;
     
-    GeneData.schemesController.forEach(function(scheme){
-      var children = [];
-      
-      scheme.get('projects').forEach(function(project){
-        if (project.get('status') !== SC.Record.ERROR) {
-          children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
-            name: project.get('name'),
-            project: project.get('id'),
-            scheme: scheme.get('id'),
-          }));
-        }
-      });
-      
-      ret.push(SC.Object.create(SC.TreeItemContent, {
-        name: scheme.get('name'),
-        treeItemChildren: children,
-        treeItemIsExpanded: NO,
-      }));
-    });
-
-    // Add a final entry for no naming scheme
+    // First entry for no naming scheme
     var schemelessProjects = GeneData.store.find(
-      SC.Query.local(GeneData.Project, "naming_scheme=nil")
+      SC.Query.create({
+        recordType: GeneData.Project,
+        conditions: 'naming_scheme=nil',
+        orderBy: 'name ASC'
+      })
     );
 
     var children = [];
@@ -57,7 +41,27 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
       treeItemIsExpanded: NO,
     }));
 
-    
+    GeneData.schemesController.forEach(function(scheme){
+      var children = [];
+      
+	  var projects = scheme.get('projects').sortProperty('name');
+      projects.forEach(function(project){
+        if (project.get('status') !== SC.Record.ERROR) {
+          children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
+            name: project.get('name'),
+            project: project.get('id'),
+            scheme: scheme.get('id'),
+          }));
+        }
+      });
+      
+      ret.push(SC.Object.create(SC.TreeItemContent, {
+        name: scheme.get('name'),
+        treeItemChildren: children,
+        treeItemIsExpanded: NO,
+      }));
+    });
+
     root = SC.Object.create(SC.TreeItemContent, {
       treeItemIsGrouped: YES,
       treeItemChildren: ret,
