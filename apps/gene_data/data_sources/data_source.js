@@ -34,8 +34,12 @@ GeneData.DataSource = SC.DataSource.extend(
 	  var parameters = query.get('parameters'),
 	      url;
 		  
+    var scheme_id;
+    if(parameters.scheme) scheme_id = parameters.scheme.get('id');
+    else scheme_id = 'nil';
+
 	  url = '/slimarray/microarrays?project_id=' + parameters.project.get('id') +
-	        '&naming_scheme_id=' + parameters.scheme.get('id') +
+	        '&naming_scheme_id=' + scheme_id +
 			'&with=scheme,project,chip_name,schemed_descriptors,raw_data_path,array_number';
 	  SC.Request.getUrl(url).header({'Accept': 'application/json'}).json()
 	  	.notify(this, 'didFetchMicroarrays', store, query)

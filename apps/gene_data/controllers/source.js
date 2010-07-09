@@ -35,6 +35,28 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
         treeItemIsExpanded: NO,
       }));
     });
+
+    // Add a final entry for no naming scheme
+    var schemelessProjects = GeneData.store.find(
+      SC.Query.local(GeneData.Project, "naming_scheme=nil")
+    );
+
+    var children = [];
+    schemelessProjects.forEach(function(project){
+      if (project.get('status') !== SC.Record.ERROR) {
+        children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
+          name: project.get('name'),
+          project: project.get('id'),
+        }));
+      }
+    });
+    
+    ret.push(SC.Object.create(SC.TreeItemContent, {
+      name: 'No Naming Scheme',
+      treeItemChildren: children,
+      treeItemIsExpanded: NO,
+    }));
+
     
     root = SC.Object.create(SC.TreeItemContent, {
       treeItemIsGrouped: YES,
