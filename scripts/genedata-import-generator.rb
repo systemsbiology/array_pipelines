@@ -5,9 +5,10 @@ require 'csv'
 
 ARRAY_SHARE = "/net/arrays"
 
-raise "genedata-import-generator.rb expects a single JSON string argument" unless ARGV.size == 1
+#raise "genedata-import-generator.rb expects a single JSON string argument. Got #{ARGV.size} arguments: #{ARGV.join(", ")}" unless ARGV.size == 1
 
-json_string = ARGV.first
+# hackish way of dealing with JSON gunk
+json_string = ARGV.join(" ")[1..-3]
 
 begin
   microarrays = JSON.parse(json_string)
@@ -42,7 +43,7 @@ microarrays.each do |microarray|
     "Column" => basename,
     "Multi-array [C]" => microarray['chip_name'],
     "Sub-array [C]" => microarray['array_number'],
-    "Unique from Name [A]" => "#{microarray['chip_name'}_#{microarray['array_number']}"
+    "Unique from Name [A]" => "#{microarray['chip_name']}_#{microarray['array_number']}"
   }
 
   if microarray['schemed_descriptors'].empty?
@@ -83,4 +84,4 @@ end
 
 zip_file = "GeneData_#{date}"
 
-`zip #{zip_file} #{csv_name} #{file_names.join(" ")}`
+`zip -j #{zip_file} #{csv_name} #{file_names.join(" ")}`
