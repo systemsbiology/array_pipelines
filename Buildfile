@@ -4,6 +4,5 @@
 # ===========================================================================
 
 # Add initial buildfile information here
-config :all, :required => :sproutcore
-
-proxy '/slimarray', :to => 'frog'
+config :all, :required => :sproutcore, :url_prefix => '/pipelines/static'
+config :gene_data, :title => "GeneData Import File Generator"
