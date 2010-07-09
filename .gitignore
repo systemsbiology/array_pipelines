@@ -1,1 +1,6 @@
 tmp
+scripts/curl.sh
+frameworks
+server/config/application.yml
+server/config/database.yml
+.project
