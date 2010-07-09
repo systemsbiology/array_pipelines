@@ -19,12 +19,26 @@ GeneData.ARRAYS_LOADING = SC.Responder.create(
   */
   nextResponder: null,
   
+  loadingView: null,
+  
   didBecomeFirstResponder: function() {
+  	var loadingView = SC.LabelView.create({
+	  classNames: 'arrays-loading-message'.w(),
+	  layout: { left: 4, top: 4 },
+	  value: 'Loading...'
+	})
+	
+  	// save this so it can be removed later
+	this.set('loadingView', loadingView);
+  	GeneData.mainPage.getPath('schemesLoaded.mainView.bottomRightView.availableScroll')
+	  .appendChild(loadingView);
+	  
     GeneData.availableMicroarraysController.load();
   },
   
   willLoseFirstResponder: function() {
-    // Called when this state loses first responder
+    GeneData.mainPage.getPath('schemesLoaded.mainView.bottomRightView.availableScroll')
+	  .removeChild( this.get('loadingView') );
   },
   
   // ..........................................................
