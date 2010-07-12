@@ -28,7 +28,7 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
     var children = [];
     schemelessProjects.forEach(function(project){
       if (project.get('status') !== SC.Record.ERROR) {
-        children.push(GeneData.store.createRecord(Slimarray.SchemeProject, {
+        children.push(GeneData.store.createRecord(Slimarray.NestedProject, {
           name: project.get('name'),
           project: project.get('id'),
         }));
@@ -47,7 +47,7 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
 	  var projects = scheme.get('projects').sortProperty('name');
       projects.forEach(function(project){
         if (project.get('status') !== SC.Record.ERROR) {
-          children.push(GeneData.store.createRecord(Slimarray.SchemeProject, {
+          children.push(GeneData.store.createRecord(Slimarray.NestedProject, {
             name: project.get('name'),
             project: project.get('id'),
             scheme: scheme.get('id'),

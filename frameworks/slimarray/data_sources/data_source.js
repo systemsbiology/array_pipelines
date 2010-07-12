@@ -19,28 +19,41 @@ Slimarray.DataSource = SC.DataSource.extend(
 
   fetch: function(store, query) {
 
-    if(query === Slimarray.SCHEMES_QUERY) {
-	  SC.Request.getUrl('/slimarray/naming_schemes?with=project_ids&populated_only=yes')
+    if (query === Slimarray.SCHEMES_QUERY) {
+	  SC.Request.getUrl('/slimarray/naming_schemes?with=project_ids&populated_only=yes').header({
+		'Accept': 'application/json'
+	  	}).json().notify(this, 'didFetchSchemes', store, query).send();
+      return YES;
+	} else if(query === Slimarray.LAB_GROUPS_QUERY) {
+	  SC.Request.getUrl('/slimarray/lab_groups?with=project_ids&populated_only=yes')
 	    .header({'Accept': 'application/json'}).json()
-	  	.notify(this, 'didFetchSchemes', store, query)
+	  	.notify(this, 'didFetchLabGroups', store, query)
 		.send();
-	  return YES;
+	  return YES;	
 	} else if(query === Slimarray.PROJECTS_QUERY) {
 	  SC.Request.getUrl('/slimarray/projects').header({'Accept': 'application/json'}).json()
 	  	.notify(this, 'didFetchProjects', store, query)
 		.send();
 	  return YES;
 	} else if(query.recordType === Slimarray.Microarray) {
-	  var parameters = query.get('parameters'),
-	      url;
-		  
-    var scheme_id;
-    if(parameters.scheme) scheme_id = parameters.scheme.get('id');
-    else scheme_id = 'nil';
+	  var parameters = query.get('parameters');
 
-	  url = '/slimarray/microarrays?project_id=' + parameters.project.get('id') +
-	        '&naming_scheme_id=' + scheme_id +
-			'&with=scheme,project,chip_name,schemed_descriptors,raw_data_path,array_number';
+	  var url = '/slimarray/microarrays' + 
+	    '?with=scheme,lab_group,project,chip_name,schemed_descriptors,raw_data_path,array_number'
+	  if(parameters.scheme !== undefined) {
+	  	if(parameters.scheme === null) url += '&naming_scheme_id=nil'
+		else url += '&naming_scheme_id=' + parameters.scheme.get('id')
+	  }
+	  if(parameters.labGroup !== undefined) {
+		url += '&lab_group_id=' + parameters.labGroup.get('id');
+	  }
+	  url += '&project_id=' + parameters.project.get('id');
+				  
+	  var scheme_id;	
+	  if(parameters.scheme) scheme_id = parameters.scheme.get('id');
+	  else scheme_id = 'nil';
+
+
 	  SC.Request.getUrl(url).header({'Accept': 'application/json'}).json()
 	  	.notify(this, 'didFetchMicroarrays', store, query)
 		.send();
@@ -53,6 +66,14 @@ Slimarray.DataSource = SC.DataSource.extend(
   didFetchSchemes: function(response, store, query) {
   	if(SC.ok(response)) {
 	  store.loadRecords(Slimarray.Scheme, response.get('body'));
+	  store.dataSourceDidFetchQuery(query);
+	  
+	} else store.dataSourceDidErrorQuery(query, response);	
+  },
+  
+  didFetchLabGroups: function(response, store, query) {
+  	if(SC.ok(response)) {
+	  store.loadRecords(Slimarray.LabGroup, response.get('body'));
 	  store.dataSourceDidFetchQuery(query);
 	  
 	} else store.dataSourceDidErrorQuery(query, response);	

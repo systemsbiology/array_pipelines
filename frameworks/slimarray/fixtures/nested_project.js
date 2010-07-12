@@ -1,11 +1,11 @@
 // ==========================================================================
-// Project:   Slimarray.SchemeProject Fixtures
+// Project:   Slimarray.NestedProject Fixtures
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
 /*globals Slimarray */
 
-sc_require('models/scheme_project');
+sc_require('models/nested_project');
 
-Slimarray.SchemeProject.FIXTURES = [
+Slimarray.NestedProject.FIXTURES = [
 
 ];

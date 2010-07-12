@@ -46,7 +46,9 @@ GeneData.mainPage = SC.Page.design({
     childViews: 'labelView'.w(),
     
     labelView: SC.LabelView.design({
-      layout: { width: 200, height: 32, centerX: 0, centerY: 0 },
+      layout: { width: 400, height: 32, centerX: 0, centerY: 0 },
+	  controlSize: SC.LARGE_CONTROL_SIZE,
+      fontWeight: SC.BOLD_WEIGHT,
       value: 'Loading naming schemes...'
     }),
   }),

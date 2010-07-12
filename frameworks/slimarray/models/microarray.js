@@ -19,6 +19,7 @@ Slimarray.Microarray = SC.Record.extend(
   name: SC.Record.attr(String),
   project: SC.Record.toOne('Slimarray.Project'),
   scheme: SC.Record.toOne('Slimarray.Scheme'),
+  labGroup: SC.Record.toOne('Slimarray.LabGroup', {key: 'lab_group'}),
   chipName: SC.Record.attr(String, {key: 'chip_name'}),
   rawDataPath: SC.Record.attr(String, {key: 'raw_data_path'}),
   arrayNumber: SC.Record.attr(String, {key: 'array_number'}),
