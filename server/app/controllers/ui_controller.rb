@@ -4,7 +4,7 @@ class UiController < ApplicationController
 
   def gene_data
     slimarray_refreshed = cookies[:slimarray_refreshed]
-    logger.info "slimarray_refreshed: #{slimarray_refreshed}"
+
     if slimarray_refreshed && slimarray_refreshed == "Yes"
       cookies[:slimarray_refreshed] = "No"
       render :file => [RAILS_ROOT, "public", "ui", "gene_data.html"].join("/")
@@ -13,4 +13,14 @@ class UiController < ApplicationController
     end
   end
 
+  def downloader
+    slimarray_refreshed = cookies[:slimarray_refreshed]
+
+    if slimarray_refreshed && slimarray_refreshed == "Yes"
+      cookies[:slimarray_refreshed] = "No"
+      render :file => [RAILS_ROOT, "public", "ui", "downloader.html"].join("/")
+    else
+      redirect_to "/slimarray/bounce?destination=#{request.request_uri}" 
+    end
+  end
 end
