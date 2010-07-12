@@ -1,17 +1,17 @@
 // ==========================================================================
-// Project:   GeneData.DataSource
+// Project:   Slimarray.DataSource
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
-/*globals GeneData */
+/*globals Slimarray */
 
 /** @class
 
-  (Document Your Data Source Here)
+  Data source for SLIMarray back end
 
   @extends SC.DataSource
 */
-GeneData.DataSource = SC.DataSource.extend(
-/** @scope GeneData.DataSource.prototype */ {
+Slimarray.DataSource = SC.DataSource.extend(
+/** @scope Slimarray.DataSource.prototype */ {
 
   // ..........................................................
   // QUERY SUPPORT
@@ -19,18 +19,18 @@ GeneData.DataSource = SC.DataSource.extend(
 
   fetch: function(store, query) {
 
-    if(query === GeneData.SCHEMES_QUERY) {
+    if(query === Slimarray.SCHEMES_QUERY) {
 	  SC.Request.getUrl('/slimarray/naming_schemes?with=project_ids&populated_only=yes')
 	    .header({'Accept': 'application/json'}).json()
 	  	.notify(this, 'didFetchSchemes', store, query)
 		.send();
 	  return YES;
-	} else if(query === GeneData.PROJECTS_QUERY) {
+	} else if(query === Slimarray.PROJECTS_QUERY) {
 	  SC.Request.getUrl('/slimarray/projects').header({'Accept': 'application/json'}).json()
 	  	.notify(this, 'didFetchProjects', store, query)
 		.send();
 	  return YES;
-	} else if(query.recordType === GeneData.Microarray) {
+	} else if(query.recordType === Slimarray.Microarray) {
 	  var parameters = query.get('parameters'),
 	      url;
 		  
@@ -52,7 +52,7 @@ GeneData.DataSource = SC.DataSource.extend(
 
   didFetchSchemes: function(response, store, query) {
   	if(SC.ok(response)) {
-	  store.loadRecords(GeneData.Scheme, response.get('body'));
+	  store.loadRecords(Slimarray.Scheme, response.get('body'));
 	  store.dataSourceDidFetchQuery(query);
 	  
 	} else store.dataSourceDidErrorQuery(query, response);	
@@ -60,7 +60,7 @@ GeneData.DataSource = SC.DataSource.extend(
   
   didFetchProjects: function(response, store, query) {
   	if(SC.ok(response)) {
-	  store.loadRecords(GeneData.Project, response.get('body'));
+	  store.loadRecords(Slimarray.Project, response.get('body'));
 	  store.dataSourceDidFetchQuery(query);
 	  
 	} else store.dataSourceDidErrorQuery(query, response);	
@@ -68,7 +68,7 @@ GeneData.DataSource = SC.DataSource.extend(
   
   didFetchMicroarrays: function(response, store, query) {
   	if(SC.ok(response)) {
-	  store.loadRecords(GeneData.Microarray, response.get('body'));
+	  store.loadRecords(Slimarray.Microarray, response.get('body'));
 	  store.dataSourceDidFetchQuery(query);
 	  
 	} else store.dataSourceDidErrorQuery(query, response);	

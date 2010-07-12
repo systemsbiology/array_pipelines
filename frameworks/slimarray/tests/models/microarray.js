@@ -1,10 +1,10 @@
 // ==========================================================================
-// Project:   GeneData.Microarray Unit Test
+// Project:   Slimarray.Microarray Unit Test
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
-/*globals GeneData module test ok equals same stop start */
+/*globals Slimarray module test ok equals same stop start */
 
-module("GeneData.Microarray");
+module("Slimarray.Microarray");
 
 // TODO: Replace with real unit test for Microarray
 test("test description", function() {

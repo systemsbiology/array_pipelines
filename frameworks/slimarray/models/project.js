@@ -1,8 +1,8 @@
 // ==========================================================================
-// Project:   GeneData.Project
+// Project:   Slimarray.Project
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
-/*globals GeneData */
+/*globals Slimarray */
 
 /** @class
 
@@ -11,8 +11,8 @@
   @extends SC.Record
   @version 0.1
 */
-GeneData.Project = SC.Record.extend(SC.TreeItemContent,
-/** @scope GeneData.Project.prototype */ {
+Slimarray.Project = SC.Record.extend(SC.TreeItemContent,
+/** @scope Slimarray.Project.prototype */ {
 	
   primaryKey: 'id',
 
@@ -21,4 +21,4 @@ GeneData.Project = SC.Record.extend(SC.TreeItemContent,
   count: 0, // no children
 }) ;
 
-GeneData.PROJECTS_QUERY = SC.Query.local(GeneData.Project);
+Slimarray.PROJECTS_QUERY = SC.Query.local(Slimarray.Project);

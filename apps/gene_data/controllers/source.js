@@ -19,7 +19,7 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
     // First entry for no naming scheme
     var schemelessProjects = GeneData.store.find(
       SC.Query.create({
-        recordType: GeneData.Project,
+        recordType: Slimarray.Project,
         conditions: 'naming_scheme=nil',
         orderBy: 'name ASC'
       })
@@ -28,7 +28,7 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
     var children = [];
     schemelessProjects.forEach(function(project){
       if (project.get('status') !== SC.Record.ERROR) {
-        children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
+        children.push(GeneData.store.createRecord(Slimarray.SchemeProject, {
           name: project.get('name'),
           project: project.get('id'),
         }));
@@ -47,7 +47,7 @@ GeneData.sourceController = SC.TreeController.create(/** @scope GeneData.sourceC
 	  var projects = scheme.get('projects').sortProperty('name');
       projects.forEach(function(project){
         if (project.get('status') !== SC.Record.ERROR) {
-          children.push(GeneData.store.createRecord(GeneData.SchemeProject, {
+          children.push(GeneData.store.createRecord(Slimarray.SchemeProject, {
             name: project.get('name'),
             project: project.get('id'),
             scheme: scheme.get('id'),

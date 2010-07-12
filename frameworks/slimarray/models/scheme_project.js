@@ -1,8 +1,8 @@
 // ==========================================================================
-// Project:   GeneData.SchemeProject
+// Project:   Slimarray.SchemeProject
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
-/*globals GeneData */
+/*globals Slimarray */
 
 /** @class
 
@@ -12,12 +12,12 @@
   @extends SC.Record
   @version 0.1
 */
-GeneData.SchemeProject = SC.Record.extend(
-/** @scope GeneData.SchemeProject.prototype */ {
+Slimarray.SchemeProject = SC.Record.extend(
+/** @scope Slimarray.SchemeProject.prototype */ {
 
   name: SC.Record.attr(String),
-  project: SC.Record.toOne('GeneData.Project'),
-  scheme: SC.Record.toOne('GeneData.Scheme'),
+  project: SC.Record.toOne('Slimarray.Project'),
+  scheme: SC.Record.toOne('Slimarray.Scheme'),
   microarrays: new Array(),
 
 }) ;

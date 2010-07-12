@@ -19,6 +19,6 @@ GeneData = SC.Application.create(
   //store: SC.Store.create().from(SC.Record.fixtures)
   store: SC.Store.create({
   	commitRecordsAutomatically: NO
-  }).from('GeneData.DataSource')
+  }).from('Slimarray.DataSource')
 
 }) ;

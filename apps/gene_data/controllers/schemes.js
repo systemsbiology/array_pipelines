@@ -15,7 +15,7 @@ GeneData.schemesController = SC.ArrayController.create(
 /** @scope GeneData.schemesController.prototype */ {
   
   load: function(){
-    var schemes = GeneData.store.find(GeneData.SCHEMES_QUERY);
+    var schemes = GeneData.store.find(Slimarray.SCHEMES_QUERY);
   
     this.set('content', schemes);
   },

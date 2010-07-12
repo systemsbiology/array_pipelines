@@ -1,12 +1,12 @@
 // ==========================================================================
-// Project:   GeneData.Project Fixtures
+// Project:   Slimarray.Project Fixtures
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
-/*globals GeneData */
+/*globals Slimarray */
 
 sc_require('models/project');
 
-GeneData.Project.FIXTURES = [
+Slimarray.Project.FIXTURES = [
 
   { id: 1,
     microarrays: [1,2,3],

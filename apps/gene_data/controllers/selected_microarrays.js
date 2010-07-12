@@ -44,7 +44,7 @@ GeneData.selectedMicroarraysController = SC.ArrayController.create(
     availableMicroarrays = GeneData.availableMicroarraysController.get('content');
     removedMicroarrays.forEach(function(microarray) {
       schemeProject = GeneData.store.find(
-        SC.Query.local(GeneData.SchemeProject, "scheme = {s} AND project = {p}",
+        SC.Query.local(Slimarray.SchemeProject, "scheme = {s} AND project = {p}",
         {s: microarray.get('scheme'), p: microarray.get('project')})
       ).firstObject();
       schemeProject.get('microarrays').pushObject(microarray);

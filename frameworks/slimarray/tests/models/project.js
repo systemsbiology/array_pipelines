@@ -1,12 +1,12 @@
 // ==========================================================================
-// Project:   GeneData.SchemeProject Unit Test
+// Project:   Slimarray.Project Unit Test
 // Copyright: ©2010 Institute for Systems Biology
 // ==========================================================================
-/*globals GeneData module test ok equals same stop start */
+/*globals Slimarray module test ok equals same stop start */
 
-module("GeneData.SchemeProject");
+module("Slimarray.Project");
 
-// TODO: Replace with real unit test for SchemeProject
+// TODO: Replace with real unit test for Project
 test("test description", function() {
   var expected = "test";
   var result   = "test";
