@@ -22,6 +22,8 @@ GeneData.ARRAYS_LOADING = SC.Responder.create(
   loadingView: null,
   
   didBecomeFirstResponder: function() {
+  	GeneData.availableMicroarraysController.set('selection', []);
+		
   	var loadingView = SC.LabelView.create({
 	  classNames: 'arrays-loading-message'.w(),
 	  layout: { left: 4, top: 4 },

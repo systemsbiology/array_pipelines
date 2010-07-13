@@ -22,8 +22,9 @@ Downloader.availableMicroarraysController = SC.ArrayController.create(
 
     var query = SC.Query.create({
 	  recordType: Slimarray.Microarray,
-	  conditions: {project: nestedProject.get('project'),
-				labGroup: nestedProject.get('labGroup')},
+	  conditions: "project = {project} AND labGroup = {labGroup}",
+	  parameters: {project: nestedProject.get('project'),
+	  			labGroup: nestedProject.get('labGroup')},
 	  extraFields: 'lab_group,project,raw_data_path'
 	 });
     nestedProject.set( 'microarrays', Downloader.store.find(query) );

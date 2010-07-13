@@ -36,21 +36,21 @@ Slimarray.DataSource = SC.DataSource.extend(
 		.send();
 	  return YES;
 	} else if(query.recordType === Slimarray.Microarray) {
-	  var conditions = query.get('conditions');
+	  var parameters = query.get('parameters');
 
 	  var url = '/slimarray/microarrays?with=' + query.get('extraFields');
 	  //  '?with=scheme,lab_group,project,chip_name,schemed_descriptors,raw_data_path,array_number'
-	  if(conditions.scheme !== undefined) {
-	  	if(conditions.scheme === null) url += '&naming_scheme_id=nil'
-		else url += '&naming_scheme_id=' + conditions.scheme.get('id')
+	  if(parameters.scheme !== undefined) {
+	  	if(parameters.scheme === null) url += '&naming_scheme_id=nil'
+		else url += '&naming_scheme_id=' + parameters.scheme.get('id')
 	  }
-	  if(conditions.labGroup !== undefined) {
-		url += '&lab_group_id=' + conditions.labGroup.get('id');
+	  if(parameters.labGroup !== undefined) {
+		url += '&lab_group_id=' + parameters.labGroup.get('id');
 	  }
-	  url += '&project_id=' + conditions.project.get('id');
+	  url += '&project_id=' + parameters.project.get('id');
 				  
 	  var scheme_id;	
-	  if(conditions.scheme) scheme_id = conditions.scheme.get('id');
+	  if(parameters.scheme) scheme_id = parameters.scheme.get('id');
 	  else scheme_id = 'nil';
 
 
