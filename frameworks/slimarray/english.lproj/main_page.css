@@ -1,0 +1,19 @@
+.array-legend .sc-label-view { color:#000; }
+
+.icon-affymetrix-16 {
+  width: 16px;
+  height: 16px;
+  background: no-repeat sc_static('affy.png') left top;
+}
+
+.icon-agilent-16 {
+  width: 16px;
+  height: 16px;
+  background: no-repeat sc_static('agilent.png') left top;
+}
+
+.icon-exiqon-16 {
+  width: 16px;
+  height: 16px;
+  background: no-repeat sc_static('exiqon.png') left top;
+}

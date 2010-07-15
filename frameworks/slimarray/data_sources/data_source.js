@@ -39,7 +39,6 @@ Slimarray.DataSource = SC.DataSource.extend(
 	  var parameters = query.get('parameters');
 
 	  var url = '/slimarray/microarrays?with=' + query.get('extraFields');
-	  //  '?with=scheme,lab_group,project,chip_name,schemed_descriptors,raw_data_path,array_number'
 	  if(parameters.scheme !== undefined) {
 	  	if(parameters.scheme === null) url += '&naming_scheme_id=nil'
 		else url += '&naming_scheme_id=' + parameters.scheme.get('id')
@@ -47,7 +46,8 @@ Slimarray.DataSource = SC.DataSource.extend(
 	  if(parameters.labGroup !== undefined) {
 		url += '&lab_group_id=' + parameters.labGroup.get('id');
 	  }
-	  url += '&project_id=' + parameters.project.get('id');
+	  if(parameters.sampleNumber) url += '&sample_number=' + parameters.sampleNumber;
+	  if(parameters.project) url += '&project_id=' + parameters.project.get('id');
 				  
 	  var scheme_id;	
 	  if(parameters.scheme) scheme_id = parameters.scheme.get('id');
