@@ -14,7 +14,7 @@ GeneData.availableMicroarraysController = SC.ArrayController.create(
 /** @scope GeneData.availableMicroarraysController.prototype */ {
 
   contentBinding: 'GeneData.schemeController.microarrays',
-  orderBy: 'name',
+  orderBy: 'displayName',
 
   load: function(){
     var schemeProject = GeneData.schemeController.get('content').firstObject()
@@ -25,7 +25,7 @@ GeneData.availableMicroarraysController = SC.ArrayController.create(
 	  conditions: "project = {project} AND scheme = {scheme}",
 	  parameters: {project: schemeProject.get('project'),
 				scheme: schemeProject.get('scheme')},
-	  extraFields: 'scheme,lab_group,project,chip_name,schemed_descriptors,raw_data_path,array_number'
+	  extraFields: 'scheme,lab_group,project,chip_name,schemed_descriptors,raw_data_path,array_number,hybridization_date,platform_name'
 	 });
     schemeProject.set( 'microarrays', GeneData.store.find(query) );
   },

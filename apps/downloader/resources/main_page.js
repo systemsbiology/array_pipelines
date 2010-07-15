@@ -98,21 +98,27 @@ Downloader.mainPage = SC.Page.design({
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
+        childViews: 'legend availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
+
+		legend: Slimarray.LegendView.design({
+		  layout: { top: 10, left: 280, width: 400, height: 26 },
+		}),
 
         availableLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
-          layout: { left: 20, top: 20 },
+          layout: { left: 20, top: 40 },
           value: 'Available Arrays',
         }),
 
         availableScroll: SC.ScrollView.design({
-          layout: { left: 20, top: 40, bottom: 50, width: 400 },
-
+          layout: { left: 20, top: 60, bottom: 50, width: 400 },
+		  
           contentView: SC.ListView.design({
             contentBinding: "Downloader.availableMicroarraysController.arrangedObjects",
             selectionBinding: "Downloader.availableMicroarraysController.selection",
-            contentValueKey: "name",
+            contentValueKey: "displayName",
+			hasContentIcon: YES,
+			contentIconKey: "icon"
           }),
         }),
 
@@ -134,17 +140,19 @@ Downloader.mainPage = SC.Page.design({
 
         selectedLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
-          layout: { left: 560, top: 20 },
+          layout: { left: 560, top: 40 },
           value: 'Selected Arrays',
         }),
 
         selectedScroll: SC.ScrollView.design({
-          layout: { left: 560, top: 40, bottom: 50, width: 400 },
-
+          layout: { left: 560, top: 60, bottom: 50, width: 400 },
+		  
           contentView: SC.ListView.design({
             contentBinding: "Downloader.selectedMicroarraysController.arrangedObjects",
             selectionBinding: "Downloader.selectedMicroarraysController.selection",
-            contentValueKey: "name",
+            contentValueKey: "displayName",
+			hasContentIcon: YES,
+			contentIconKey: "icon"
           }),
         }),
 

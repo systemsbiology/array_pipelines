@@ -14,7 +14,7 @@ Downloader.availableMicroarraysController = SC.ArrayController.create(
 /** @scope Downloader.availableMicroarraysController.prototype */ {
 
   contentBinding: 'Downloader.nestedProjectController.microarrays',
-  orderBy: 'name',
+  orderBy: 'displayName',
 
   load: function(){
     var nestedProject = Downloader.nestedProjectController.get('content').firstObject()
@@ -25,7 +25,7 @@ Downloader.availableMicroarraysController = SC.ArrayController.create(
 	  conditions: "project = {project} AND labGroup = {labGroup}",
 	  parameters: {project: nestedProject.get('project'),
 	  			labGroup: nestedProject.get('labGroup')},
-	  extraFields: 'lab_group,project,raw_data_path'
+	  extraFields: 'lab_group,project,raw_data_path,platform_name,hybridization_date'
 	 });
     nestedProject.set( 'microarrays', Downloader.store.find(query) );
   },
