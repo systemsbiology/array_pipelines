@@ -4,7 +4,7 @@ require 'fileutils'
 
 ARRAY_SHARE = "/net/arrays"
 
-raise "file_rename_and_zip.rb expects a single JSON string argument" unless ARGV.size == 1
+raise "array-file-packager.rb expects a single JSON string argument" unless ARGV.size == 1
 
 json_string = ARGV.first
 
