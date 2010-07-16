@@ -13,7 +13,7 @@
 GeneData.selectedMicroarraysController = SC.ArrayController.create(
 /** @scope GeneData.selectedMicroarraysController.prototype */ {
 
-  orderBy: 'name',
+  orderBy: 'displayName',
 
   add: function() {
     var currentMicroarrays = this.get('content');

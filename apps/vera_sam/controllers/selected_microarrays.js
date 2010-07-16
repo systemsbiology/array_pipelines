@@ -13,7 +13,7 @@
 VeraSam.selectedMicroarraysController = SC.ArrayController.create(
 /** @scope VeraSam.selectedMicroarraysController.prototype */ {
 
-  orderBy: 'name',
+  orderBy: 'displayName',
 
   add: function() {
     var currentMicroarrays = this.get('content');
