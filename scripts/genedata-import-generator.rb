@@ -47,6 +47,7 @@ microarrays.each do |microarray|
   }
 
   if microarray['schemed_descriptors'].empty?
+    columns << "Sample Name" unless columns.include? "Sample Name"
     array_data['Sample Name'] = microarray['name']
   else
     microarray['schemed_descriptors'].each do |key, value|
