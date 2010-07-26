@@ -25,6 +25,7 @@ microarrays.each do |microarray|
   ###########################################################
 
   path = microarray['raw_data_path']
+  next unless path
 
   # complain if the path isn't under the ARRAY_SHARE
   if !path.include?(ARRAY_SHARE) || path.include?("..")
@@ -37,13 +38,22 @@ microarrays.each do |microarray|
   # Gather data for CSV file
   ###########################################################
 
-  basename = File.basename(path)
+  basename = File.basename(path, ".*")
+  
+  multiarray = microarray['chip_name']
+  if basename =~ /(.*)_(\d_(\d))/
+    subarray = $2
+    unique = [multiarray, $3].join("_")
+  else
+    subarray = microarray['array_number']
+    unique = [multiarray, subarray].join("_")
+  end
 
   array_data = {
     "Column" => basename,
-    "Multi-array [C]" => microarray['chip_name'],
-    "Sub-array [C]" => microarray['array_number'],
-    "Unique from Name [A]" => "#{microarray['chip_name']}_#{microarray['array_number']}"
+    "Multi-array [C]" => multiarray,
+    "Sub-array [C]" => subarray,
+    "Unique from Name [A]" => unique
   }
 
   if microarray['schemed_descriptors'].empty?
