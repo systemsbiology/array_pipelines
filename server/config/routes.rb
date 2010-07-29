@@ -2,6 +2,7 @@ Server::Application.routes.draw do |map|
   match 'gene_data' => 'ui#gene_data'
   match 'downloader' => 'ui#downloader'
   match 'vera_sam' => 'ui#vera_sam'
+  match 'agilent_one' => 'ui#agilent_one'
 
   resources :jobs, :only => [:show, :create]
 

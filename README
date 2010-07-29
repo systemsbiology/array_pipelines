@@ -3,5 +3,8 @@ Project:   Pipelines
 Copyright: ©2010 Institute for Systems Biology
 =============================================================================
 
-TODO: Describe Your Project
+== Changes needed for new pipelines
 
+  * Add a route in config/routes.rb
+  * Add an action in app/controllers/ui_controller.rb
+  * Add line in the Rakefile

@@ -12,7 +12,8 @@ namespace :build do
 
     FileUtils.cp Dir.glob("server/public/static/gene_data/en/*/index.html").first, "server/public/ui/gene_data.html"
     FileUtils.cp Dir.glob("server/public/static/downloader/en/*/index.html").first, "server/public/ui/downloader.html"
-    FileUtils.cp Dir.glob("server/public/static/verae_sam/en/*/index.html").first, "server/public/ui/vera_sam.html"
+    FileUtils.cp Dir.glob("server/public/static/vera_sam/en/*/index.html").first, "server/public/ui/vera_sam.html"
+    FileUtils.cp Dir.glob("server/public/static/agilent_one/en/*/index.html").first, "server/public/ui/agilent_one.html"
 
     puts "== UI building complete"
   end
