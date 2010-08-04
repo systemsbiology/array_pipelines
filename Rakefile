@@ -8,6 +8,7 @@ namespace :build do
 
     puts "== Placing the built application(s) under the server's public folder"
     FileUtils.rm_rf Dir.glob("server/public/static/*")
+    FileUtils.rm_rf Dir.glob("server/public/ui/*")
     FileUtils.mv Dir.glob("tmp/build/pipelines/static/*"), "server/public/static/"
 
     FileUtils.cp Dir.glob("server/public/static/gene_data/en/*/index.html").first, "server/public/ui/gene_data.html"
