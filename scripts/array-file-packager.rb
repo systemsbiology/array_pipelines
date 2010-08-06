@@ -4,9 +4,10 @@ require 'fileutils'
 
 ARRAY_SHARE = "/net/arrays"
 
-raise "array-file-packager.rb expects a single JSON string argument" unless ARGV.size == 1
+raise "file_rename_and_zip.rb expects a single JSON string argument" unless ARGV.size == 1
 
 json_string = ARGV.first
+json_string = json_string.gsub(/\A\"/,'').gsub(/\=\"\Z/,'')
 
 begin
   file_sets = JSON.parse(json_string)
@@ -27,9 +28,12 @@ file_sets.each do |file_set|
   new_name = File.basename(file_set["new_name"])
 
   new_names << new_name
-  FileUtils.cp original_name, new_name
+  system("ln -s #{original_name} #{new_name}")
 end
 
 zip_file = "ArrayFiles_#{Time.now.strftime("%Y-%m-%d")}"
 
 `zip #{zip_file} #{new_names.join(" ")}`
+
+# remove symlinks to files that were zipped
+new_names.each{|name| FileUtils.rm(name)}
