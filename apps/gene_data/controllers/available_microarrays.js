@@ -22,7 +22,7 @@ GeneData.availableMicroarraysController = SC.ArrayController.create(
 
 	var query = SC.Query.create({
 	  recordType: Slimarray.Microarray,
-	  conditions: "project = {project} AND scheme = {scheme}",
+	  conditions: "project = {project} AND scheme = {scheme} AND rawDataPath != null",
 	  parameters: {project: schemeProject.get('project'),
 				scheme: schemeProject.get('scheme')},
 	  extraFields: 'scheme,lab_group,project,chip_name,schemed_descriptors,raw_data_path,array_number,hybridization_date,platform_name'
