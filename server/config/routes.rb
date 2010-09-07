@@ -3,6 +3,7 @@ Server::Application.routes.draw do |map|
   match 'downloader' => 'ui#downloader'
   match 'vera_sam' => 'ui#vera_sam'
   match 'agilent_one' => 'ui#agilent_one'
+  match 'chip_analytics' => 'ui#chip_analytics'
 
   resources :jobs, :only => [:show, :create]
 

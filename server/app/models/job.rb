@@ -14,6 +14,8 @@ class Job < ActiveRecord::Base
       parsed_response = JSON.parse(response)
       self.job_uri = parsed_response['uri']
     rescue RestClient::RequestFailed, RestClient::ResourceNotFound => e
+      logger.error "Failed REST request: #{e.message}"
+
       return false
     end
 

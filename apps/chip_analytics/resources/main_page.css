@@ -1,0 +1,14 @@
+.labGroup-label, .arrays-loading-message {
+  color: #2C2C2C;
+}
+
+.sc-split-divider-view { background:#999;}
+.sc-split-divider-view { border:0px none; }
+
+.array-scroll-label { color:#000; }
+
+.icon-loading-32 {
+  width: 32px;
+  height: 32px;
+  background: no-repeat sc_static('images/loading.gif') left top;
+}
