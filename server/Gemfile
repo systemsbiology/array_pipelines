@@ -1,13 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0.beta4'
+gem 'rails', '3.0.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 gem 'rspec-rails', '>= 2.0.0.beta.13', :group => :test
-gem 'rubycas-client', '2.1.0', :require => 'casclient'
+gem 'rubycas-client', '2.2.1', :require => 'casclient'
 gem 'state_machine', '0.9.3'
 gem 'rest-client', '1.5.1', :require => 'rest_client'
 gem 'json', '1.1.3'
