@@ -24,7 +24,7 @@ Downloader.mainPage = SC.Page.design({
       titleView: SC.LabelView.design({
         layout: { left: 20, top: 4, width: 300, height: 24 },
         controlSize: SC.LARGE_CONTROL_SIZE,
-        value: 'Microarray Data Dowloader'
+        value: 'Microarray Data Downloader'
       }),
     }),
 
