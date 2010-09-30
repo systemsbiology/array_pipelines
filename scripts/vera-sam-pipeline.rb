@@ -54,11 +54,12 @@ microarrays.each do |microarray|
       gal_file = GAL_FOLDER + "/" + mapping[:gal_file]
     end
   end
-  script << "/tools/bin/perl /net/arrays/Legacy/Core/bin/gal2map.pl --gal #{gal_file} --map #{file_base}.map\n"
+  script << "/tools/bin/perl /net/arrays/Legacy/Core/bin/gal2map.pl --gal #{gal_file} --map #{map_file}\n"
 
   # preprocess
   rep_file_name = file_base + ".rep"
-  script << "/tools/java/jdk/bin/java -Xmx512M -jar /net/arrays/bin/preprocess.jar -q #{file_path} -m #{file_base}.map -o #{rep_file_name} -i -n median\n"
+  map_file = file_base + ".map"
+  script << "/tools/java/jdk/bin/java -Xmx512M -jar /net/arrays/bin/preprocess.jar -q #{file_path} -m #{map_file} -o #{rep_file_name} -i -n median\n"
 
   # ft
   ft = File.open("#{condition}.ft", "w")
@@ -76,7 +77,7 @@ microarrays.each do |microarray|
   script << "/net/arrays/bin/SAM #{condition}.all.merge #{condition}.model #{condition}.sig\n"
 
   # postSAM.pl
-  script << "/net/arrays/bin/postSAM.pl #{condition}.sig /net/arrays/Slide_Templates/exiqon_208202-A_lot31021_hsa,mmu,rno-and-related-vira_from_mb120,miRPlus.map #{condition}.clone\n\n"
+  script << "/net/arrays/bin/postSAM.pl #{condition}.sig #{map_file} #{condition}.clone\n\n"
 end
 
 script.close
