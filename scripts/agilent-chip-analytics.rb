@@ -18,8 +18,17 @@ end
 
 result_folders = []
 
-# check paths to see if they're okay
+conditions = Hash.new
 microarrays.each do |microarray|
+  chip_name = microarray['chip_name']
+  condition = microarray['name']
+
+  if( m = /25(\d{5})\d{5}/.match(chip_name) )
+    design_id = m[1]
+  else
+    raise "Chip #{chip_name} does not appear to be an Agilent slide"
+  end
+
   file_path = microarray["raw_data_path"]
 
   #complain if the path isn't under the ARRAY_SHARE
@@ -27,18 +36,28 @@ microarrays.each do |microarray|
     raise "Path #{file_path} must lie under #{ARRAY_SHARE}"
   end
 
-  chip_name = microarray['chip_name']
-  condition = microarray["name"]
+  if conditions[condition]
+    if conditions[condition][:design_id] != design_id
+      raise "Multiple chips for condition = #{condition} that don't have the same design id"
+    end
 
-  if( m = /25(\d{5})\d{5}/.match(chip_name) )
-    design_id = m[1]
+    conditions[condition][:file_paths] << file_path
   else
-    #design_id = nil
-    raise "Chip #{chip_name} does not appear to be an Agilent slide"
+    conditions[condition] = {
+      :design_id => design_id,
+      :file_paths => [file_path]
+    }
   end
+end
+
+conditions.each do |condition, data|
+  design_id = data[:design_id]
+  file_paths = data[:file_paths]
 
   design_file = Dir.glob(DESIGNS_FOLDER + "/0#{design_id}*/*xml").grep(/\d{6}_D_(F|\d)/).first
   raise "Couldn't find design XML file for design ID #{design_id}" unless design_file
+
+  file_path_xml = file_paths.collect{|p| "<DataFile xml:space=\"preserve\">#{p}</DataFile>"}.join("\n")
 
   template = ERB.new <<-EOF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -47,7 +66,7 @@ microarrays.each do |microarray|
   <Experiment name="<%= condition %>">
     <InputFiles>
       <DesignFile Name="<%= design_file %>">
-        <DataFile xml:space="preserve"><%= file_path %></DataFile>
+        <%= file_path_xml %>
       </DesignFile>
     </InputFiles>
     <Components>
