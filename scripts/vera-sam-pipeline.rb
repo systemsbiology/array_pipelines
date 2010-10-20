@@ -47,6 +47,7 @@ microarrays.each do |microarray|
 
   # annotations
   file_base = File.basename(file_path, ".csv")
+  map_file = file_base + ".map"
   slide_number = file_base.to_i
   gal_file = nil
   mappings.each do |mapping|
@@ -54,11 +55,13 @@ microarrays.each do |microarray|
       gal_file = GAL_FOLDER + "/" + mapping[:gal_file]
     end
   end
+
+  raise "No GAL file could be found for slide #{file_base} in the slide-to-annotations.yml" unless gal_file
+
   script << "/tools/bin/perl /net/arrays/Legacy/Core/bin/gal2map.pl --gal #{gal_file} --map #{map_file}\n"
 
   # preprocess
   rep_file_name = file_base + ".rep"
-  map_file = file_base + ".map"
   script << "/tools/java/jdk/bin/java -Xmx512M -jar /net/arrays/bin/preprocess.jar -q #{file_path} -m #{map_file} -o #{rep_file_name} -i -n median\n"
 
   # ft
