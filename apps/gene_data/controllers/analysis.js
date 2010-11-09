@@ -71,6 +71,11 @@ GeneData.analysisController = SC.ObjectController.create(/** @scope GeneData.ana
         
         GeneData.sendAction('complete')
       }
+      else if (job['status'] == 'failed') {
+        this.set('failureMessage', job['message']);
+
+        GeneData.sendAction('failed');
+      }
     }
     else {
       GeneData.sendAction('failed');

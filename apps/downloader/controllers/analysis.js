@@ -12,6 +12,7 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
   jobID: null,
   timer: null,
   hyperlink: null,
+  failureMessage: null,
   
   submitJob: function(){
     var microarrays = Downloader.selectedMicroarraysController.get('content'), dataHash = {
@@ -73,6 +74,11 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
         this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
         
         Downloader.sendAction('complete')
+      }
+      else if (job['status'] == 'failed') {
+        this.set('failureMessage', job['message']);
+
+        Downloader.sendAction('failed');
       }
     }
     else {

@@ -12,6 +12,7 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
   jobID: null,
   timer: null,
   hyperlink: null,
+  failureMessage: null,
   
   submitJob: function(){
     var microarrays = AgilentOne.selectedMicroarraysController.get('content'), dataHash = {
@@ -67,6 +68,11 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
         this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
         
         AgilentOne.sendAction('complete')
+      }
+      else if (job['status'] == 'failed') {
+        this.set('failureMessage', job['message']);
+
+        AgilentOne.sendAction('failed');
       }
     }
     else {

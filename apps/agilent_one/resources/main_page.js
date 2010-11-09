@@ -229,13 +229,20 @@ AgilentOne.mainPage = SC.Page.design({
 	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
 	
 	contentView: SC.View.design({
-      childViews: 'errorMessage retryButton cancelButton'.w(),
+      childViews: 'errorMessage errorDetail retryButton cancelButton'.w(),
 
       errorMessage: SC.LabelView.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
-        value: 'Bundling data files and meta data failed',
+        value: 'Normalization failed',
         textAlign: SC.ALIGN_CENTER,
         controlSize: SC.LARGE_CONTROL_SIZE,
+      }),
+
+      errorDetail: SC.LabelView.design({
+        layout: { top: 60, height: 80, left: 10, right: 10 },
+        textAlign: SC.ALIGN_CENTER,
+        valueBinding: 'AgilentOne.analysisController.failureMessage',
+        escapeHTML: NO,
       }),
 
       retryButton: SC.ButtonView.design({

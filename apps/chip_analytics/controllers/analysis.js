@@ -12,6 +12,7 @@ ChipAnalytics.analysisController = SC.ObjectController.create(/** @scope ChipAna
   jobID: null,
   timer: null,
   hyperlink: null,
+  failureMessage: null,
   
   submitJob: function(){
     var microarrays = ChipAnalytics.selectedMicroarraysController.get('content'), dataHash = {
@@ -68,6 +69,11 @@ ChipAnalytics.analysisController = SC.ObjectController.create(/** @scope ChipAna
         this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
         
         ChipAnalytics.sendAction('complete')
+      }
+      else if (job['status'] == 'failed') {
+        this.set('failureMessage', job['message']);
+
+        ChipAnalytics.sendAction('failed');
       }
     }
     else {
