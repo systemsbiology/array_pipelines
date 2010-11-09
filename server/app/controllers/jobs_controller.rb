@@ -1,3 +1,5 @@
+require 'casclient/frameworks/rails/filter'
+
 class JobsController < ApplicationController
   before_filter CASClient::Frameworks::Rails::Filter
   
