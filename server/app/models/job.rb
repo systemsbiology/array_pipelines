@@ -31,8 +31,9 @@ class Job < ActiveRecord::Base
     logger.info "Got: #{response}"
 
     parsed_response = JSON.parse(response)
-    
-    if (self.status = parsed_response['status']) && parsed_response['outputs']
+
+    self.status = parsed_response['status']
+    if status == "completed" && parsed_response['outputs']
       output_uris = parsed_response['outputs'].collect{|o| o['uri']}
 
       # use the first (presumably only) zip file in the outputs
