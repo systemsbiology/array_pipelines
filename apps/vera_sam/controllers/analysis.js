@@ -12,6 +12,7 @@ VeraSam.analysisController = SC.ObjectController.create(/** @scope VeraSam.analy
   jobID: null,
   timer: null,
   hyperlink: null,
+  failureMessage: null,
   
   submitJob: function(){
     var microarrays = VeraSam.selectedMicroarraysController.get('content'), dataHash = {
@@ -67,6 +68,11 @@ VeraSam.analysisController = SC.ObjectController.create(/** @scope VeraSam.analy
         this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
         
         VeraSam.sendAction('complete')
+      }
+      else if (job['status'] == 'failed') {
+        this.set('failureMessage', job['message']);
+
+        VeraSam.sendAction('failed');
       }
     }
     else {

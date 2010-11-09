@@ -10,7 +10,7 @@ class JobsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @job }
-      format.json  { render :json => @job.to_json(:only => :id, :methods => [:status, :output]) }
+      format.json  { render :json => @job.to_json(:only => :id, :methods => [:status, :output, :message]) }
     end
   end
 

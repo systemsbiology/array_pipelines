@@ -1,5 +1,5 @@
 class Job < ActiveRecord::Base
-  attr_accessor :pipeline, :microarrays, :status, :output
+  attr_accessor :pipeline, :microarrays, :status, :output, :message
 
   def save
     begin
@@ -38,6 +38,16 @@ class Job < ActiveRecord::Base
       # use the first (presumably only) zip file in the outputs
       if zip_uri = output_uris.grep(/\.zip/i).first
         self.output = APP_CONFIG['script_execution_host'] + zip_uri
+      end
+
+      # lack of a zip file indicates failure
+      self.status = "failed" unless zip_uri
+
+      # get any messages left by the script
+      if message_uri = output_uris.grep(/message.log/i).first
+        message_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + message_uri,
+          :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
+        self.message = message_resource.get
       end
     end
 
