@@ -205,7 +205,7 @@ AgilentOne.mainPage = SC.Page.design({
 	  childViews: 'message loadingIndicator cancelButton'.w(),
 	  
 	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 60, right: 0 },
+	  	layout: { top: 20, height: 64, left: 60, right: 0 },
 		value: 'Agilent 1-color Normalization Running',
         controlSize: SC.LARGE_CONTROL_SIZE,
 	  }),
