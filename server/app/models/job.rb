@@ -33,8 +33,8 @@ class Job < ActiveRecord::Base
     parsed_response = JSON.parse(response)
 
     self.status = parsed_response['status']
-    if status == "completed" && parsed_response['outputs']
-      output_uris = parsed_response['outputs'].collect{|o| o['uri']}
+    if status == "completed" && parsed_response['items']
+      output_uris = parsed_response['items'].collect{|o| o['uri']}
 
       # use the first (presumably only) zip file in the outputs
       if zip_uri = output_uris.grep(/\.zip/i).first
