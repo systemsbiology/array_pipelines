@@ -4,6 +4,7 @@ Server::Application.routes.draw do |map|
   match 'vera_sam' => 'ui#vera_sam'
   match 'agilent_one' => 'ui#agilent_one'
   match 'chip_analytics' => 'ui#chip_analytics'
+  match 'tiling_expression' => 'ui#tiling_expression'
 
   resources :jobs, :only => [:show, :create]
 

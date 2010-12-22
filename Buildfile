@@ -11,3 +11,7 @@ config :downloader, :title => "Microarray Data Downloader"
 config :vera_sam, :title => "Exiqon VERA/SAM 2-color Pipeline"
 config :agilent_one, :title => "Agilent 1-color Normalizer"
 config :chip_analytics, :title => "Agilent ChIP Analytics Pipeline"
+config :tiling_expression, :title => "Agilent Tiling Differential Expression"
+
+proxy '/slimarray', :to => 'frog'
+proxy '/pipelines', :to => 'frog'
