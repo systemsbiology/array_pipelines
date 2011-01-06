@@ -52,8 +52,8 @@ begin
       file_base = File.basename(file_path, ".txt")
       design_id = /^\d{2}(\d{5})/.match(file_base)[1]
 
-      map_file = Dir.glob(DESIGN_FOLDER + "/030521*/*.map").first
-      locus_file = Dir.glob(DESIGN_FOLDER + "/030521*/*locus_probes.txt").first
+      map_file = Dir.glob(DESIGN_FOLDER + "/*#{design_id}*/*.map").first
+      locus_file = Dir.glob(DESIGN_FOLDER + "/*#{design}*/*locus_probes.txt").first
 
       #convert Feature Extraction to AnalyzerDG format
       analyzerdg_file = file_base + ".csv"
