@@ -68,6 +68,9 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
         
         TilingExpression.sendAction('complete')
       }
+      else if (job['status'] == 'completed') {
+        TilingExpression.sendAction('failed');
+      }
     }
     else {
       TilingExpression.sendAction('failed');
