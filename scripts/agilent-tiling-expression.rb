@@ -90,7 +90,7 @@ begin
   end
 
   # mergeConds
-  script << "#{ARRAY_SHARE}/bin/mergeConds matrix_output *.sig\n"
+  script << "#{ARRAY_SHARE}/bin/mergeConds -out matrix_output -conds *.sig\n"
 
   script.close
   system("sh run.sh")
