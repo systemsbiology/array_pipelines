@@ -17,5 +17,5 @@ TilingExpression.nestedProjectController = SC.ObjectController.create(
 
   _contentDidChange: function() {
     TilingExpression.makeFirstResponder(TilingExpression.ARRAYS_LOADING);
-  }.observes('content'),
+  }.observes('content')
 }) ;

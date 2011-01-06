@@ -20,36 +20,33 @@ Slimarray.LegendView = SC.View.extend(SC.Border,
   childViews: 'affyIcon affyLabel agilentIcon agilentLabel exiqonIcon exiqonLabel'.w(),
   
   affyIcon: SC.ImageView.design({
-  	layout: { top: 4, left: 24},
-  	
-	value: 'icon-affymetrix-16'
+    layout: { top: 4, left: 24},
+    value: 'icon-affymetrix-16'
   }),
   
   affyLabel: SC.LabelView.design({
-  	layout: { top: 4, left: 46 },
-	value: 'Affymetrix'
+    layout: { top: 4, left: 46 },
+    value: 'Affymetrix'
   }),
   
   agilentIcon: SC.ImageView.design({
-  	layout: { top: 4, left: 170},
-  	
-	value: 'icon-agilent-16'
+    layout: { top: 4, left: 170},
+    value: 'icon-agilent-16'
   }),
   
   agilentLabel: SC.LabelView.design({
-  	layout: { top: 4, left: 192 },
-	value: 'Agilent'
+    layout: { top: 4, left: 192 },
+    value: 'Agilent'
   }),
   
   exiqonIcon: SC.ImageView.design({
-  	layout: { top: 4, left: 320},
-  	
-	value: 'icon-exiqon-16'
+    layout: { top: 4, left: 320},
+    value: 'icon-exiqon-16'
   }),
   
   exiqonLabel: SC.LabelView.design({
-  	layout: { top: 4, left: 342 },
-	value: 'Exiqon'
-  }),
+    layout: { top: 4, left: 342 },
+    value: 'Exiqon'
+  })
 
 });

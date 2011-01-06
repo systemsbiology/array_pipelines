@@ -90,9 +90,9 @@ TilingExpression.mainPage = SC.Page.design({
 						contentValueKey: "name",
 						canEditContent: NO,
 						canDeleteContent: NO,
-						rowHeight:24,
+						rowHeight:24
 					})
-				}), // labGroupScroll
+				}) // labGroupScroll
       }), // topLeftView
 
       bottomRightView: SC.View.design({
@@ -101,13 +101,13 @@ TilingExpression.mainPage = SC.Page.design({
         childViews: 'legend availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
 
         legend: Slimarray.LegendView.design({
-          layout: { top: 10, left: 280, width: 400, height: 26 },
+          layout: { top: 10, left: 280, width: 400, height: 26 }
         }),
 
         availableLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
           layout: { left: 20, top: 40, width: 200, height: 24 },
-          value: 'Available Arrays',
+          value: 'Available Arrays'
         }),
 
         availableScroll: SC.ScrollView.design({
@@ -127,7 +127,7 @@ TilingExpression.mainPage = SC.Page.design({
           title: 'Add Array(s)',
           target: 'TilingExpression.selectedMicroarraysController',
           action: 'add',
-          isEnabledBinding: 'TilingExpression.availableMicroarraysController.hasSelection',
+          isEnabledBinding: 'TilingExpression.availableMicroarraysController.hasSelection'
         }),
 
         removeButton: SC.ButtonView.design({
@@ -135,13 +135,13 @@ TilingExpression.mainPage = SC.Page.design({
           title: 'Remove Array(s)',
           target: 'TilingExpression.selectedMicroarraysController',
           action: 'remove',
-          isEnabledBinding: 'TilingExpression.selectedMicroarraysController.hasSelection',
+          isEnabledBinding: 'TilingExpression.selectedMicroarraysController.hasSelection'
         }),
 
         selectedLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
           layout: { left: 20, top: 340, width: 200, height: 24 },
-          value: 'Selected Arrays',
+          value: 'Selected Arrays'
         }),
 
         selectedScroll: SC.ScrollView.design({

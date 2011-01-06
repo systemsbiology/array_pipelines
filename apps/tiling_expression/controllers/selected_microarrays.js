@@ -50,7 +50,11 @@ TilingExpression.selectedMicroarraysController = SC.ArrayController.create(
   },
 
   hasArrays: function() {
-    if(this.get('length') > 0) return true
-    else return false
-  }.property('length'),
+    if(this.get('length') > 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }.property('length')
 }) ;

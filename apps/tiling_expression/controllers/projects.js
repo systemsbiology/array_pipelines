@@ -21,5 +21,5 @@ TilingExpression.projectsController = SC.ArrayController.create(
 
   statusDidChange: function() {
     TilingExpression.sendAction('loadingComplete');
-  }.observes('status'),
+  }.observes('status')
 }) ;

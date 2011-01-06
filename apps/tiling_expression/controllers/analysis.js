@@ -20,9 +20,9 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
     };
     
     microarrays.forEach(function(microarray){
-      dataHash['microarrays'].pushObject({
+      dataHash.microarrays.pushObject({
         'name': microarray.get('name'),
-        'raw_data_path': microarray.get('rawDataPath'),
+        'raw_data_path': microarray.get('rawDataPath')
       });
     });
     
@@ -35,7 +35,7 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
   
   didSubmitJob: function(response){
     if (SC.ok(response)) {
-      this.set('jobID', response.get('body')['job']['id']);
+      this.set('jobID', response.get('body').job.id);
       
       var timer = SC.Timer.schedule({
         target: this,
@@ -46,8 +46,9 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
 	  
 	  this.set('timer', timer);
     }
-    else 
+    else {
       TilingExpression.sendAction('failed');
+    }
   },
   
   checkStatus: function(){
@@ -61,14 +62,14 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
   
   didCheckStatus: function(response){
     if (SC.ok(response)) {
-      var job = response.get('body')['job'];
+      var job = response.get('body').job;
       
-      if (job['status'] == 'completed') {
-        this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
+      if (job.status == 'completed') {
+        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
         
-        TilingExpression.sendAction('complete')
+        TilingExpression.sendAction('complete');
       }
-      else if (job['status'] == 'failed') {
+      else if (job.status == 'failed') {
         TilingExpression.sendAction('failed');
       }
     }

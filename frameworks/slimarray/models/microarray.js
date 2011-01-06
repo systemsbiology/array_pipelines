@@ -28,14 +28,18 @@ Slimarray.Microarray = SC.Record.extend(
   hybridizationDate: SC.Record.attr(String, {key: 'hybridization_date'}),
   
   displayName: function() {
-  	return this.get('hybridization_date') + " - " + this.get('name');
+    return this.get('hybridization_date') + " - " + this.get('name');
   }.property('name','hybridizationDate'),
 
   icon: function(){
-  	var platform = this.get('platform');
-	
-    if(platform == "Affymetrix") return 'icon-affymetrix-16'
-	else if(platform == "Agilent") return 'icon-agilent-16'
-	else if(platform == "Exiqon") return 'icon-exiqon-16'
-  }.property('platform').cacheable(),
+    var platform = this.get('platform');
+
+    if(platform == "Affymetrix") {
+      return 'icon-affymetrix-16';
+    } else if(platform == "Agilent") {
+      return 'icon-agilent-16';
+    } else if(platform == "Exiqon") {
+      return 'icon-exiqon-16';
+    }
+  }.property('platform').cacheable()
 }) ;

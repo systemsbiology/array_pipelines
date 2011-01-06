@@ -27,7 +27,7 @@ Slimarray.LabGroup = SC.Record.extend(SC.TreeItemContent,
     return this.get('projects') ;
   }.property('projects').cacheable(),
 
-  treeItemBranchIndexes: function() { return SC.IndexSet.EMPTY; },
+  treeItemBranchIndexes: function() { return SC.IndexSet.EMPTY; }
   
 }) ;
 

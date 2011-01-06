@@ -27,7 +27,7 @@ Slimarray.Scheme = SC.Record.extend(SC.TreeItemContent,
     return this.get('projects') ;
   }.property('projects').cacheable(),
 
-  treeItemBranchIndexes: function() { return SC.IndexSet.EMPTY; },
+  treeItemBranchIndexes: function() { return SC.IndexSet.EMPTY; }
 }) ;
 
 Slimarray.SCHEMES_QUERY = SC.Query.local(Slimarray.Scheme);
