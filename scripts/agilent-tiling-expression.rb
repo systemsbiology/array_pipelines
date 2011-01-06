@@ -89,12 +89,15 @@ begin
     script << "#{ARRAY_SHARE}/bin/SAM #{condition}.all.merge #{condition}.model #{condition}.sig\n"
   end
 
+  # mergeConds
+  script << "#{ARRAY_SHARE}/bin/mergeConds matrix_output *.sig\n"
+
   script.close
   system("sh run.sh")
 
   zip_file = "VERA-SAM_#{Time.now.strftime("%Y-%m-%d")}"
 
-  `zip #{zip_file} *rep *ft *merge *model *sig`
+  `zip #{zip_file} *rep *ft *merge *model *sig matrix_output`
 rescue Exception => e
   message_file << e.to_s
 end
