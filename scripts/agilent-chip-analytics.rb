@@ -12,7 +12,8 @@ message_file = File.open("message.log", "w")
 
 begin
   # hackish way of dealing with JSON gunk
-  json_string = ARGV.join(" ")[1..-3]
+  json_string = ARGV.join(" ")
+  json_string = /\"(.*?)=?\"$/.match(json_string)[1]
 
   begin
     microarrays = JSON.parse(json_string)

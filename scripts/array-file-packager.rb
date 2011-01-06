@@ -10,8 +10,9 @@ message_file = File.open("message.log", "w")
 begin
   raise "file_rename_and_zip.rb expects a single JSON string argument" unless ARGV.size == 1
 
-  json_string = ARGV.first
-  json_string = json_string.gsub(/\A\"/,'').gsub(/\=\"\Z/,'')
+  # hackish way of dealing with JSON gunk
+  json_string = ARGV.join(" ")
+  json_string = /\"(.*?)=?\"$/.match(json_string)[1]
 
   begin
     file_sets = JSON.parse(json_string)

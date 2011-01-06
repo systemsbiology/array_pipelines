@@ -10,12 +10,15 @@ message_file = File.open("message.log", "w")
 
 begin
   # hackish way of dealing with JSON gunk
-  json_string = ARGV.join(" ")[1..-3]
+  json_string = ARGV.join(" ")
+  json_string = /\"(.*?)=?\"$/.match(json_string)[1]
 
   begin
     microarrays = JSON.parse(json_string)
   rescue Exception => e
-    raise "Unable to parse JSON: #{e}"
+    raise "Unable to parse JSON:\n" +
+      "Error: #{e}\n" +
+      "JSON string: #{json_string}\n"
   end
 
   conditions = Hash.new
@@ -53,7 +56,7 @@ begin
       design_id = /^\d{2}(\d{5})/.match(file_base)[1]
 
       map_file = Dir.glob(DESIGN_FOLDER + "/*#{design_id}*/*.map").first
-      locus_file = Dir.glob(DESIGN_FOLDER + "/*#{design}*/*locus_probes.txt").first
+      locus_file = Dir.glob(DESIGN_FOLDER + "/*#{design_id}*/*locus_probes.txt").first
 
       #convert Feature Extraction to AnalyzerDG format
       analyzerdg_file = file_base + ".csv"
