@@ -1,3 +1,5 @@
+#!/tools/bin/ruby
+
 require 'rubygems'
 require 'json'
 require 'fileutils'
@@ -9,9 +11,9 @@ R_BIN = "/net/arrays/Affymetrix/R/R-2.9.1_x64/bin/R"
 message_file = File.open("message.log", "w")
 
 begin
-  # hackish way of dealing with JSON gunk
-  json_string = ARGV.join(" ")
-  json_string = /\"(.*?)=?\"$/.match(json_string)[1]
+  json_file = File.open("form.dat", "r")
+  json_string = json_file.read
+  json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
     microarrays = JSON.parse(json_string)
