@@ -20,7 +20,7 @@ begin
     raise "Unable to parse JSON: #{e}"
   end
 
-  new_names = Array.new
+  result_files = Array.new
   file_sets.each do |file_set|
     original_name = file_set["original_name"]
 
@@ -32,16 +32,25 @@ begin
     # just use the basename here so we don't have to worry about sanitizing the path
     new_name = File.basename(file_set["new_name"])
 
-    new_names << new_name
+    result_files << new_name
     system("ln -s #{original_name} #{new_name}")
+
+    # if an accompanying PDF report exists, grab it
+    original_pdf = original_name.gsub(/\.\w+$/,'.pdf')
+    if File.exists? original_pdf
+      new_pdf = new_name.gsub(/\.\w+$/, '.pdf')
+
+      result_files << new_pdf
+      system("ln -s #{original_pdf} #{new_pdf}")
+    end
   end
 
   zip_file = "ArrayFiles_#{Time.now.strftime("%Y-%m-%d")}"
 
-  `zip #{zip_file} #{new_names.join(" ")}`
+  `zip #{zip_file} #{result_files.join(" ")}`
 
   # remove symlinks to files that were zipped
-  new_names.each{|name| FileUtils.rm(name)}
+  result_files.each{|name| FileUtils.rm(name)}
 rescue Exception => e
   message_file << e.to_s
 end

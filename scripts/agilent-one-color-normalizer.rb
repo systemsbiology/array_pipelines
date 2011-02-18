@@ -25,9 +25,17 @@ begin
   microarrays.each do |microarray|
     file_path = microarray["raw_data_path"]
 
-    #complain if the path isn't under the ARRAY_SHARE
+    # complain if the path isn't under the ARRAY_SHARE
     if !file_path.include?(ARRAY_SHARE) || file_path.include?("..")
       raise "Path #{file_path} must lie under #{ARRAY_SHARE}"
+    end
+
+    # look for an accompanying pdf
+    pdf_path = file_path.gsub(/\.\w+$/,'.pdf')
+    if File.exists? pdf_path
+      new_pdf_path = microarray["name"] + ".pdf"
+
+      system("ln -s #{pdf_path} #{new_pdf_path}")
     end
   end
 
@@ -54,7 +62,7 @@ begin
   script.close
 
   `#{R_BIN} CMD BATCH run.R`
-  `zip #{run_name} run.R run.Rout #{run_name}.txt`
+  `zip #{run_name} run.R run.Rout #{run_name}.txt *.pdf`
 rescue Exception => e
   message_file << e.to_s
 end

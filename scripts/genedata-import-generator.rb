@@ -72,6 +72,12 @@ begin
     end
 
     data << array_data
+
+    # look for an accompanying pdf
+    pdf_path = path.gsub(/\.\w+$/,'.pdf')
+    if File.exists? pdf_path
+      file_names << pdf_path
+    end
   end
 
   columns.concat ["Multi-array [C]", "Sub-array [C]", "Unique from Name [A]"]
