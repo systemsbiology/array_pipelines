@@ -42,12 +42,15 @@ begin
   # generate a script and then run the whole job as one command
   script = File.open("run.sh", "w")
 
+  feature_extraction_files = Array.new
   conditions.each do |condition, replicates|
     ft = File.open("#{condition}.ft", "w")
 
     replicate_number = 1
     replicates.each do |replicate|
       file_path = replicate[:file_path]
+      system("ln -s #{file_path}")
+      feature_extraction_files << File.basename(file_path)
 
       #complain if the path isn't under the ARRAY_SHARE
       if !file_path.include?(ARRAY_SHARE) || file_path.include?("..")
@@ -104,7 +107,7 @@ begin
 
   zip_file = "VERA-SAM_#{Time.now.strftime("%Y-%m-%d")}"
 
-  `zip #{zip_file} *rep *ft *merge *model *sig matrix_output`
+  `zip #{zip_file} #{feature_extraction_files.join(" ")} *rep *ft *merge *model *sig matrix_output`
 rescue Exception => e
   message_file << e.to_s
 end
