@@ -1,10 +1,8 @@
 Server::Application.routes.draw do |map|
-  match 'gene_data' => 'ui#gene_data'
-  match 'downloader' => 'ui#downloader'
-  match 'vera_sam' => 'ui#vera_sam'
-  match 'agilent_one' => 'ui#agilent_one'
-  match 'chip_analytics' => 'ui#chip_analytics'
-  match 'tiling_expression' => 'ui#tiling_expression'
+
+  APP_CONFIG["pipelines"].each do |pipeline|
+    match pipeline => "ui##{pipeline}"
+  end
 
   resources :jobs, :only => [:show, :create]
 

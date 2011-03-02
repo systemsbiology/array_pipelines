@@ -2,8 +2,22 @@ development:
   script_execution_host: https://addama-server
   script_execution_uri: https://addama-server/addama/tools
   api_key: 1234abcd-a12b-1234-abc1-123456abcdef
+  pipelines:
+    - gene_data
+    - downloader
+    - vera_sam
+    - agilent_one
+    - chip_analytics
+    - tiling_expression
 
 production:
   script_execution_host: https://addama-server
   script_execution_uri: https://addama-server/addama/tools
   api_key: 1234abcd-a12b-1234-abc1-123456abcdef
+  pipelines:
+    - gene_data
+    - downloader
+    - vera_sam
+    - agilent_one
+    - chip_analytics
+    - tiling_expression

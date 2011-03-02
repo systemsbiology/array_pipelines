@@ -75,7 +75,5 @@ Array pipelines can use RubyCAS-server to authenticate users, which also allows 
 
 === Steps for adding new pipelines
 
-  * Make a copy of an existing pipeline under apps, then customize as needed
-  * Add a route in server/config/routes.rb
-  * Add an action in /server/app/controllers/ui_controller.rb
-  * Add line in the Rakefile
+  * Make a copy of an existing pipeline under /apps, then customize as needed
+  * Add the pipeline name under 'pipelines' in /server/config/application.yml
