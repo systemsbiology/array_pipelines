@@ -1,21 +1,27 @@
+#!/tools/bin/ruby
+
 require 'rubygems'
 require 'json'
 require 'fileutils'
 
 ARRAY_SHARE = "/net/arrays"
 DESIGN_FOLDER = ARRAY_SHARE + "/Agilent/designs"
+EXCLUDE_FILE = ARRAY_SHARE + "/Pipeline/tools/etc/excluded_gene_names"
 
 # message that gets passed back to UI
 message_file = File.open("message.log", "w")
 
 begin
-  # hackish way of dealing with JSON gunk
-  json_string = ARGV.join(" ")[1..-3]
+  json_file = File.open("form.dat", "r")
+  json_string = json_file.read
+  json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
     microarrays = JSON.parse(json_string)
   rescue Exception => e
-    raise "Unable to parse JSON: #{e}"
+    raise "Unable to parse JSON:\n" +
+      "Error: #{e}\n" +
+      "JSON string: #{json_string}\n"
   end
 
   conditions = Hash.new
@@ -53,7 +59,7 @@ begin
       design_id = /^\d{2}(\d{5})/.match(file_base)[1]
 
       map_file = Dir.glob(DESIGN_FOLDER + "/*#{design_id}*/*.map").first
-      locus_file = Dir.glob(DESIGN_FOLDER + "/*#{design}*/*locus_probes.txt").first
+      locus_file = Dir.glob(DESIGN_FOLDER + "/*#{design_id}*/*locus_probes.txt").first
 
       #convert Feature Extraction to AnalyzerDG format
       analyzerdg_file = file_base + ".csv"
@@ -61,14 +67,18 @@ begin
 
       # preprocess
       rep_file = file_base + ".rep"
-      script << "/tools/java/jdk/bin/java -Xmx512M -jar #{ARRAY_SHARE}/bin/preprocess.jar -q #{analyzerdg_file} -m #{map_file} -o #{rep_file} -i -n median\n"
+      script << "/tools/java/jdk/bin/java -Xmx1024M -jar #{ARRAY_SHARE}/bin/preprocess.jar -q #{analyzerdg_file} -m #{map_file} -o #{rep_file} -i -n median\n"
 
-      # group probes
-      grouped_rep_file = file_base + ".grouped.rep"
-      script << "/tools/bin/ruby #{ARRAY_SHARE}/bin/probe_grouper.rb #{rep_file} #{locus_file} #{grouped_rep_file}\n"
+      if locus_file
+        # group probes
+        grouped_rep_file = file_base + ".grouped.rep"
+        script << "/tools/bin/ruby #{ARRAY_SHARE}/bin/probe_grouper.rb #{rep_file} #{locus_file} #{grouped_rep_file}\n"
 
-      # ft
-      ft << "#{grouped_rep_file} #{replicate[:direction]} #{replicate_number}\n"
+        ft << "#{grouped_rep_file} #{replicate[:direction]} #{replicate_number}\n"
+      else
+        # file table without probe grouping
+        ft << "#{rep_file} #{replicate[:direction]} #{replicate_number}\n"
+      end
 
       replicate_number += 1
     end
@@ -76,8 +86,8 @@ begin
     ft.close
 
     # mergeReps
-    script << "#{ARRAY_SHARE}/bin/mergeReps -opt 3 #{condition}.ft #{condition}.opt.merge\n"
-    script << "#{ARRAY_SHARE}/bin/mergeReps #{condition}.ft #{condition}.all.merge\n"
+    script << "#{ARRAY_SHARE}/bin/mergeReps -opt 3 -exclude #{EXCLUDE_FILE} #{condition}.ft #{condition}.opt.merge\n"
+    script << "#{ARRAY_SHARE}/bin/mergeReps -exclude #{EXCLUDE_FILE} #{condition}.ft #{condition}.all.merge\n"
 
     # VERA
     script << "#{ARRAY_SHARE}/bin/VERA #{condition}.opt.merge #{condition}.model\n"
@@ -86,12 +96,15 @@ begin
     script << "#{ARRAY_SHARE}/bin/SAM #{condition}.all.merge #{condition}.model #{condition}.sig\n"
   end
 
+  # mergeConds
+  script << "#{ARRAY_SHARE}/bin/mergeConds -out matrix_output -conds *.sig\n"
+
   script.close
   system("sh run.sh")
 
   zip_file = "VERA-SAM_#{Time.now.strftime("%Y-%m-%d")}"
 
-  `zip #{zip_file} *rep *ft *merge *model *sig`
+  `zip #{zip_file} *rep *ft *merge *model *sig matrix_output`
 rescue Exception => e
   message_file << e.to_s
 end

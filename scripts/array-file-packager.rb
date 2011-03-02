@@ -1,3 +1,5 @@
+#!/tools/bin/ruby
+
 require 'rubygems'
 require 'json'
 require 'fileutils'
@@ -8,10 +10,9 @@ ARRAY_SHARE = "/net/arrays"
 message_file = File.open("message.log", "w")
 
 begin
-  raise "file_rename_and_zip.rb expects a single JSON string argument" unless ARGV.size == 1
-
-  json_string = ARGV.first
-  json_string = json_string.gsub(/\A\"/,'').gsub(/\=\"\Z/,'')
+  json_file = File.open("form.dat", "r")
+  json_string = json_file.read
+  json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
     file_sets = JSON.parse(json_string)
@@ -19,7 +20,7 @@ begin
     raise "Unable to parse JSON: #{e}"
   end
 
-  new_names = Array.new
+  result_files = Array.new
   file_sets.each do |file_set|
     original_name = file_set["original_name"]
 
@@ -31,16 +32,25 @@ begin
     # just use the basename here so we don't have to worry about sanitizing the path
     new_name = File.basename(file_set["new_name"])
 
-    new_names << new_name
+    result_files << new_name
     system("ln -s #{original_name} #{new_name}")
+
+    # if an accompanying PDF report exists, grab it
+    original_pdf = original_name.gsub(/\.\w+$/,'.pdf')
+    if File.exists? original_pdf
+      new_pdf = new_name.gsub(/\.\w+$/, '.pdf')
+
+      result_files << new_pdf
+      system("ln -s #{original_pdf} #{new_pdf}")
+    end
   end
 
   zip_file = "ArrayFiles_#{Time.now.strftime("%Y-%m-%d")}"
 
-  `zip #{zip_file} #{new_names.join(" ")}`
+  `zip #{zip_file} #{result_files.join(" ")}`
 
   # remove symlinks to files that were zipped
-  new_names.each{|name| FileUtils.rm(name)}
+  result_files.each{|name| FileUtils.rm(name)}
 rescue Exception => e
   message_file << e.to_s
 end

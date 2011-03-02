@@ -25,7 +25,7 @@ TilingExpression.sourceController = SC.TreeController.create(/** @scope TilingEx
           children.push(TilingExpression.store.createRecord(Slimarray.NestedProject, {
             name: project.get('name'),
             project: project.get('id'),
-            labGroup: labGroup.get('id'),
+            labGroup: labGroup.get('id')
           }));
         }
       });
@@ -33,13 +33,13 @@ TilingExpression.sourceController = SC.TreeController.create(/** @scope TilingEx
       ret.push(SC.Object.create(SC.TreeItemContent, {
         name: labGroup.get('name'),
         treeItemChildren: children,
-        treeItemIsExpanded: NO,
+        treeItemIsExpanded: NO
       }));
     });
 
     root = SC.Object.create(SC.TreeItemContent, {
       treeItemIsGrouped: YES,
-      treeItemChildren: ret,
+      treeItemChildren: ret
     });
     
     this.set('content', root);

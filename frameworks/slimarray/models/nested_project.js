@@ -19,6 +19,6 @@ Slimarray.NestedProject = SC.Record.extend(
   project: SC.Record.toOne('Slimarray.Project'),
   scheme: SC.Record.toOne('Slimarray.Scheme'),
   labGroup: SC.Record.toOne('Slimarray.LabGroup'),
-  microarrays: new Array(),
+  microarrays: new Array()
 
 }) ;

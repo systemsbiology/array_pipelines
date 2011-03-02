@@ -1,3 +1,5 @@
+#!/tools/bin/ruby
+
 require 'rubygems'
 require 'json'
 require 'fileutils'
@@ -9,8 +11,9 @@ R_BIN = "/net/arrays/Affymetrix/R/R-2.9.1_x64/bin/R"
 message_file = File.open("message.log", "w")
 
 begin
-  # hackish way of dealing with JSON gunk
-  json_string = ARGV.join(" ")[1..-3]
+  json_file = File.open("form.dat", "r")
+  json_string = json_file.read
+  json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
     microarrays = JSON.parse(json_string)
@@ -22,9 +25,17 @@ begin
   microarrays.each do |microarray|
     file_path = microarray["raw_data_path"]
 
-    #complain if the path isn't under the ARRAY_SHARE
+    # complain if the path isn't under the ARRAY_SHARE
     if !file_path.include?(ARRAY_SHARE) || file_path.include?("..")
       raise "Path #{file_path} must lie under #{ARRAY_SHARE}"
+    end
+
+    # look for an accompanying pdf
+    pdf_path = file_path.gsub(/\.\w+$/,'.pdf')
+    if File.exists? pdf_path
+      new_pdf_path = microarray["name"] + ".pdf"
+
+      system("ln -s #{pdf_path} #{new_pdf_path}")
     end
   end
 
@@ -51,7 +62,7 @@ begin
   script.close
 
   `#{R_BIN} CMD BATCH run.R`
-  `zip #{run_name} run.R run.Rout #{run_name}.txt`
+  `zip #{run_name} run.R run.Rout #{run_name}.txt *.pdf`
 rescue Exception => e
   message_file << e.to_s
 end

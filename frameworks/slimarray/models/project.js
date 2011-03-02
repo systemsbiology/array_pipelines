@@ -18,7 +18,7 @@ Slimarray.Project = SC.Record.extend(SC.TreeItemContent,
 
   name: SC.Record.attr(String),
 
-  count: 0, // no children
+  count: 0 // no children
 }) ;
 
 Slimarray.PROJECTS_QUERY = SC.Query.local(Slimarray.Project);

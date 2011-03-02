@@ -1,3 +1,5 @@
+#!/tools/bin/ruby
+
 require 'rubygems'
 require 'json'
 require 'fileutils'
@@ -9,8 +11,9 @@ ARRAY_SHARE = "/net/arrays"
 message_file = File.open("message.log", "w")
 
 begin
-  # hackish way of dealing with JSON gunk
-  json_string = ARGV.join(" ")[1..-3]
+  json_file = File.open("form.dat", "r")
+  json_string = json_file.read
+  json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
     microarrays = JSON.parse(json_string)
@@ -69,6 +72,12 @@ begin
     end
 
     data << array_data
+
+    # look for an accompanying pdf
+    pdf_path = path.gsub(/\.\w+$/,'.pdf')
+    if File.exists? pdf_path
+      file_names << pdf_path
+    end
   end
 
   columns.concat ["Multi-array [C]", "Sub-array [C]", "Unique from Name [A]"]

@@ -21,6 +21,6 @@ TilingExpression.labGroupsController = SC.ArrayController.create(
   },
 
   statusDidChange: function() {
-  	TilingExpression.sendAction('loadingComplete');
-  }.observes('status'),
+    TilingExpression.sendAction('loadingComplete');
+  }.observes('status')
 }) ;
