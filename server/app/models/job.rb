@@ -6,7 +6,7 @@ class Job < ActiveRecord::Base
       submission_uri = [APP_CONFIG['script_execution_uri'], pipeline, "jobs"].join("/")
 
       script_resource = RestClient::Resource.new submission_uri,
-        :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
+        :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
 
       job_info = {
         :login => login,
@@ -31,7 +31,7 @@ class Job < ActiveRecord::Base
 
   def check_status
     script_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + job_uri,
-      :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
+      :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
 
     logger.info "Querying #{job_uri}"
     response = script_resource.get
@@ -54,7 +54,7 @@ class Job < ActiveRecord::Base
       # get any messages left by the script
       if message_uri = output_uris.grep(/message.log/i).first
         message_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + message_uri,
-          :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
+          :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
         self.message = message_resource.get
       end
     end
