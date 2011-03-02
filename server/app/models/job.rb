@@ -1,5 +1,5 @@
 class Job < ActiveRecord::Base
-  attr_accessor :pipeline, :microarrays, :status, :output, :message
+  attr_accessor :pipeline, :microarrays, :status, :output, :message, :project_id, :login, :email
 
   def save
     begin
@@ -8,8 +8,15 @@ class Job < ActiveRecord::Base
       script_resource = RestClient::Resource.new submission_uri,
         :headers => {'API_KEY' => APP_CONFIG['api_key']}, :timeout => 20
 
-      logger.info "Sending #{microarrays.to_json} to #{submission_uri}"
-      response = script_resource.post microarrays.to_json
+      job_info = {
+        :login => login,
+        :email => email,
+        :project_id => project_id,
+        :microarrays => microarrays
+      }
+
+      logger.info "Sending #{job_info.to_json} to #{submission_uri} with API KEY #{APP_CONFIG['api_key']}"
+      response = script_resource.post job_info.to_json
 
       parsed_response = JSON.parse(response)
       self.job_uri = parsed_response['uri']

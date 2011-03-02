@@ -14,8 +14,14 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
   hyperlink: null,
   
   submitJob: function(){
+    var user = TilingExpression.usersController.get('content').firstObject();
+    var project = TilingExpression.nestedProjectController.get('content').firstObject().get('project');
+
     var microarrays = TilingExpression.selectedMicroarraysController.get('content'), dataHash = {
       'pipeline': 'agilent-tiling-expression',
+      'login': user.get('login'),
+      'email': user.get('email'),
+      'project_id': project.get('id'),
       'microarrays': []
     };
     

@@ -17,16 +17,20 @@ TilingExpression.LAB_GROUPS_LOADING = SC.Responder.create({
   didBecomeFirstResponder: function() {
     TilingExpression.set('currentScene', 'labGroupsLoading');
     TilingExpression.labGroupsController.load();
-	TilingExpression.projectsController.load();
+    TilingExpression.projectsController.load();
+    TilingExpression.usersController.load();
   },
 
   loadingComplete: function() {
-  	labGroupStatus = TilingExpression.labGroupsController.get('status');
-	projectStatus = TilingExpression.projectsController.get('status');
-	
-  	if (labGroupStatus & SC.Record.READY && projectStatus & SC.Record.READY) {
+    labGroupStatus = TilingExpression.labGroupsController.get('status');
+    projectStatus = TilingExpression.projectsController.get('status');
+    userStatus = TilingExpression.usersController.get('status');
+
+    if (labGroupStatus & SC.Record.READY && projectStatus & SC.Record.READY &&
+        userStatus & SC.Record.READY) {
       TilingExpression.makeFirstResponder(TilingExpression.LAB_GROUPS_LOADED);
-    } else if (labGroupStatus & SC.Record.ERROR || projectStatus & SC.Record.ERROR) {
+    } else if (labGroupStatus & SC.Record.ERROR || projectStatus & SC.Record.ERROR ||
+               userStatus & SC.Record.ERROR ) {
       TilingExpression.makeFirstResponder(TilingExpression.LAB_GROUPS_FAILED);
     }
   },

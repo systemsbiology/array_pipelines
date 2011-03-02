@@ -35,6 +35,11 @@ Slimarray.DataSource = SC.DataSource.extend(
       .notify(this, 'didFetchProjects', store, query)
       .send();
       return YES;
+    } else if(query === Slimarray.USER_QUERY) {
+    SC.Request.getUrl('/slimarray/users/current').header({'Accept': 'application/json'}).json()
+      .notify(this, 'didFetchUser', store, query)
+      .send();
+      return YES;
     } else if(query.recordType === Slimarray.Microarray) {
       var parameters = query.get('parameters');
 
@@ -95,6 +100,15 @@ Slimarray.DataSource = SC.DataSource.extend(
   didFetchProjects: function(response, store, query) {
     if(SC.ok(response)) {
       store.loadRecords(Slimarray.Project, response.get('body'));
+      store.dataSourceDidFetchQuery(query);
+    } else {
+      store.dataSourceDidErrorQuery(query, response);	
+    }
+  },
+  
+  didFetchUser: function(response, store, query) {
+    if(SC.ok(response)) {
+      store.loadRecords(Slimarray.User, response.get('body'));
       store.dataSourceDidFetchQuery(query);
     } else {
       store.dataSourceDidErrorQuery(query, response);	
