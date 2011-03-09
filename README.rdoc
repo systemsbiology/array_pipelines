@@ -77,3 +77,4 @@ Array pipelines can use RubyCAS-server to authenticate users, which also allows 
 
   * Make a copy of an existing pipeline under /apps, then customize as needed
   * Add the pipeline name under 'pipelines' in /server/config/application.yml
+  * Set up an accompanying script in the Script Execution Service
