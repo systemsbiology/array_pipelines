@@ -44,6 +44,7 @@ class Job < ActiveRecord::Base
       
       if retries < 3
         retries += 1
+        sleep 0.5
         retry
       end
     end
