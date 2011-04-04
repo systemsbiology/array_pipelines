@@ -34,7 +34,20 @@ class Job < ActiveRecord::Base
       :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
 
     logger.info "Querying #{job_uri}"
-    response = script_resource.get
+
+    # add retries to deal with intermittent 500 errors from script execution server
+    retries = 0
+    begin
+      response = script_resource.get
+    rescue StandardError => e
+      logger.info "Error: #{e.message}"
+      
+      if retries < 3
+        retries += 1
+        retry
+      end
+    end
+
     logger.info "Got: #{response}"
 
     parsed_response = JSON.parse(response)
