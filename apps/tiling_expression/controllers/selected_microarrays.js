@@ -13,7 +13,7 @@
 TilingExpression.selectedMicroarraysController = SC.ArrayController.create(
 /** @scope TilingExpression.selectedMicroarraysController.prototype */ {
 
-  orderBy: 'displayName',
+  orderBy: ['hybridizationDate', 'id'],
 
   add: function() {
     var currentMicroarrays = this.get('content');

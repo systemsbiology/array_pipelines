@@ -14,7 +14,7 @@ TilingExpression.availableMicroarraysController = SC.ArrayController.create(
 /** @scope TilingExpression.availableMicroarraysController.prototype */ {
 
   contentBinding: 'TilingExpression.nestedProjectController.microarrays',
-  orderBy: 'displayName',
+  orderBy: ['hybridizationDate', 'id'],
 
   load: function(){
     var nestedProject = TilingExpression.nestedProjectController.get('content').firstObject();
