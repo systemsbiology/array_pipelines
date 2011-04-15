@@ -15,10 +15,14 @@ begin
   json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
-    file_sets = JSON.parse(json_string)
+    job = JSON.parse(json_string)
   rescue Exception => e
-    raise "Unable to parse JSON: #{e}"
+    raise "Unable to parse JSON:\n" +
+      "Error: #{e}\n" +
+      "JSON string: #{json_string}\n"
   end
+
+  file_sets = job["microarrays"]
 
   result_files = Array.new
   file_sets.each do |file_set|

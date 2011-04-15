@@ -16,10 +16,14 @@ begin
   json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
-    microarrays = JSON.parse(json_string)
+    job = JSON.parse(json_string)
   rescue Exception => e
-    raise "Unable to parse JSON: #{e}"
+    raise "Unable to parse JSON:\n" +
+      "Error: #{e}\n" +
+      "JSON string: #{json_string}\n"
   end
+
+  microarrays = job["microarrays"]
 
   file_names = Array.new
   columns = ["Column"]
