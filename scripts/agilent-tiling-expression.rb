@@ -11,13 +11,13 @@ EXCLUDE_FILE = ARRAY_SHARE + "/Pipeline/tools/etc/excluded_gene_names"
 # message that gets passed back to UI
 message_file = File.open("message.log", "w")
 
-begin
+#begin
   json_file = File.open("form.dat", "r")
   json_string = json_file.read
   json_string = /(.*?)=?$/.match(json_string)[1]
 
   begin
-    microarrays = JSON.parse(json_string)
+    job = JSON.parse(json_string)
   rescue Exception => e
     raise "Unable to parse JSON:\n" +
       "Error: #{e}\n" +
@@ -25,12 +25,19 @@ begin
   end
 
   conditions = Hash.new
-  microarrays.each do |microarray|
+  job["microarrays"].each do |microarray|
     name = microarray["name"].gsub(/\|/,'-')
 
     samples = name.split(/_v_/)
-    condition = samples.sort.join("_v_")
-    direction = name == condition ? "f" : "r"
+    reversed_name = "#{samples[1]}_v_#{samples[0]}"
+
+    if conditions.has_key? reversed_name
+      condition = reversed_name
+      direction = "r"
+    else
+      condition = name
+      direction = "f"
+    end
 
     conditions[condition] ||= Array.new
     conditions[condition] << {
@@ -105,9 +112,17 @@ begin
   script.close
   system("sh run.sh")
 
+  result_files = feature_extraction_files + Dir.glob("*rep *ft *merge *model *sig matrix_output")
   zip_file = "VERA-SAM_#{Time.now.strftime("%Y-%m-%d")}"
 
-  `zip #{zip_file} #{feature_extraction_files.join(" ")} *rep *ft *merge *model *sig matrix_output`
-rescue Exception => e
-  message_file << e.to_s
-end
+  `zip #{zip_file} #{result_files.join(" ")}`
+
+  #begin
+    require File.expand_path(File.dirname(__FILE__) + '/agilent-tiling-expression-postrun')
+    postrun(result_files, job["email"])
+  #rescue StandardError => e
+  #  puts "Failed to do postrun task: #{e.message}"
+  #end
+#rescue Exception => e
+#  message_file << e.to_s
+#end
