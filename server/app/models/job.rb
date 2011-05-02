@@ -16,7 +16,9 @@ class Job < ActiveRecord::Base
       }
 
       logger.info "Sending #{job_info.to_json} to #{submission_uri} with API KEY #{APP_CONFIG['api_key']}"
-      response = script_resource.post job_info.to_json
+      run_with_retries do
+        response = script_resource.post job_info.to_json
+      end
 
       parsed_response = JSON.parse(response)
       self.job_uri = parsed_response['uri']
@@ -35,18 +37,8 @@ class Job < ActiveRecord::Base
 
     logger.info "Querying #{job_uri}"
 
-    # add retries to deal with intermittent 500 errors from script execution server
-    retries = 0
-    begin
+    run_with_retries do
       response = script_resource.get
-    rescue StandardError => e
-      logger.info "Error: #{e.message}"
-      
-      if retries < 3
-        retries += 1
-        sleep 0.5
-        retry
-      end
     end
 
     logger.info "Got: #{response}"
@@ -74,5 +66,25 @@ class Job < ActiveRecord::Base
     end
 
     return self
+  end
+
+  private
+
+  def run_with_retry
+    retries = 0
+
+    begin
+      yield
+    rescue StandardError => e
+      # retry closeout a couple of times
+      if retries < 3
+        retries += 1
+        sleep 0.5
+        retry
+      else
+        # after 3 tries, raise the exception
+        raise e
+      end
+    end
   end
 end
