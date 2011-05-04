@@ -70,7 +70,7 @@ class Job < ActiveRecord::Base
 
   private
 
-  def run_with_retry
+  def run_with_retries
     retries = 0
 
     begin
