@@ -16,6 +16,7 @@ class Job < ActiveRecord::Base
       }
 
       logger.info "Sending #{job_info.to_json} to #{submission_uri} with API KEY #{APP_CONFIG['api_key']}"
+      response = nil
       run_with_retries do
         response = script_resource.post job_info.to_json
       end
@@ -37,6 +38,7 @@ class Job < ActiveRecord::Base
 
     logger.info "Querying #{job_uri}"
 
+    response = nil
     run_with_retries do
       response = script_resource.get
     end
