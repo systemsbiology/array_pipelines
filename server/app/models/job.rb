@@ -53,18 +53,15 @@ class Job < ActiveRecord::Base
 
       # use the first (presumably only) zip file in the outputs
       if zip_uri = output_uris.grep(/\.zip/i).first
-        self.output = APP_CONFIG['script_execution_host'] + zip_uri
+        zip_uri = APP_CONFIG['script_execution_host'] + zip_uri
+        self.output = get_directlink(zip_uri)
       end
 
       # lack of a zip file indicates failure
       self.status = "failed" unless zip_uri
 
       # get any messages left by the script
-      if message_uri = output_uris.grep(/message.log/i).first
-        message_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + message_uri,
-          :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
-        self.message = message_resource.get
-      end
+      self.message = get_message(output_uris)
     end
 
     return self
@@ -88,5 +85,24 @@ class Job < ActiveRecord::Base
         raise e
       end
     end
+  end
+
+  def get_message(output_uris)
+    if message_uri = output_uris.grep(/message.log/i).first
+      message_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + message_uri,
+        :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
+      return message_resource.get
+    end
+  end
+
+  def get_directlink(zip_uri)
+    directlink_resource = RestClient::Resource.new zip_uri + "/directlink",
+      :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
+    response = directlink_resource.get
+
+    # quote the keys since the JSON parser likes that
+    response.gsub!(/([\{|\,}])\s*([a-zA-Z]+):/, '\1 "\2":')
+
+    return JSON.parse(response)["location"]
   end
 end
