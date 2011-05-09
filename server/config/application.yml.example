@@ -1,4 +1,5 @@
 development:
+  server_uri: http://myserver/pipelines
   script_execution_host: https://addama-server
   script_execution_uri: https://addama-server/addama/tools
   api_key: 1234abcd-a12b-1234-abc1-123456abcdef
@@ -11,6 +12,7 @@ development:
     - tiling_expression
 
 production:
+  server_uri: http://myserver/pipelines
   script_execution_host: https://addama-server
   script_execution_uri: https://addama-server/addama/tools
   api_key: 1234abcd-a12b-1234-abc1-123456abcdef
