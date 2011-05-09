@@ -1,7 +1,9 @@
 class Job < ActiveRecord::Base
   attr_accessor :pipeline, :microarrays, :status, :output, :message, :project_id, :login, :email
 
-  def save
+  before_create :submit_job
+
+  def submit_job
     begin
       submission_uri = [APP_CONFIG['script_execution_uri'], pipeline, "jobs"].join("/")
 
@@ -28,8 +30,6 @@ class Job < ActiveRecord::Base
 
       return false
     end
-
-    super
   end
 
   def check_status
@@ -52,9 +52,10 @@ class Job < ActiveRecord::Base
       output_uris = parsed_response['items'].collect{|o| o['uri']}
 
       # use the first (presumably only) zip file in the outputs
-      if zip_uri = output_uris.grep(/\.zip/i).first
-        zip_uri = APP_CONFIG['script_execution_host'] + zip_uri
-        self.output = get_directlink(zip_uri)
+      zip_uri = output_uris.grep(/\.zip/i).first
+      if zip_uri
+        update_attributes(:zip_uri => APP_CONFIG['script_execution_host'] + zip_uri)
+        self.output = APP_CONFIG["server_uri"] + "/jobs/#{id}/download"
       end
 
       # lack of a zip file indicates failure
@@ -65,6 +66,10 @@ class Job < ActiveRecord::Base
     end
 
     return self
+  end
+
+  def single_call_url
+    get_directlink(zip_uri)
   end
 
   private
@@ -88,7 +93,9 @@ class Job < ActiveRecord::Base
   end
 
   def get_message(output_uris)
-    if message_uri = output_uris.grep(/message.log/i).first
+    message_uri = output_uris.grep(/message.log/i).first
+
+    if message_uri
       message_resource = RestClient::Resource.new APP_CONFIG['script_execution_host'] + message_uri,
         :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
       return message_resource.get
@@ -96,6 +103,7 @@ class Job < ActiveRecord::Base
   end
 
   def get_directlink(zip_uri)
+    logger.info "zip_uri = #{zip_uri}"
     directlink_resource = RestClient::Resource.new zip_uri + "/directlink",
       :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
     response = directlink_resource.get

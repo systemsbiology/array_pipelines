@@ -1,13 +1,13 @@
 require 'casclient/frameworks/rails/filter'
 
 class JobsController < ApplicationController
-  before_filter CASClient::Frameworks::Rails::Filter
+  #before_filter CASClient::Frameworks::Rails::Filter
   
   # GET /jobs/1
   # GET /jobs/1.xml
   # GET /jobs/1.json
   def show
-    @job = Job.find(params[:id]).check_status
+    @job = Job.where(:user => session[:cas_user]).find(params[:id]).check_status
 
     respond_to do |format|
       format.html # show.html.erb
@@ -35,4 +35,9 @@ class JobsController < ApplicationController
     end
   end
 
+  def download
+    @job = Job.where(:user => session[:cas_user]).find(params[:id])
+
+    redirect_to @job.single_call_url
+  end
 end
