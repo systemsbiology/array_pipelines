@@ -22,8 +22,12 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
     
     microarrays.forEach(function(microarray){
       var original_name = microarray.get('rawDataPath'),
-          name = microarray.get('hybridizationDate') + "_" + microarray.get('name');
+          name = microarray.get('name'),
+          hybDate = microarray.get('hybridizationDate'),
+          new_name;
         
+      new_name = hybDate.replace("/","","g") + "_" + name;
+
       dataHash.microarrays.pushObject({
         'new_name': new_name,
         'original_name': original_name
