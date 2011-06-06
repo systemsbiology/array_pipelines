@@ -1,7 +1,6 @@
 require 'casclient/frameworks/rails/filter'
 
 class JobsController < ApplicationController
-  before_filter CASClient::Frameworks::Rails::Filter
   
   # GET /jobs/1
   # GET /jobs/1.xml
