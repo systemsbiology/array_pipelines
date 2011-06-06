@@ -21,15 +21,12 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
     };
     
     microarrays.forEach(function(microarray){
-	  var original_name = microarray.get('rawDataPath'),
-	      new_name = microarray.get('name');
-		  
-	  file_ending = /\..*/.exec(original_name)
-	  if(file_ending) new_name += file_ending
-	  
-      dataHash['microarrays'].pushObject({
+      var original_name = microarray.get('rawDataPath'),
+          name = microarray.get('hybridizationDate') + "_" + microarray.get('name');
+        
+      dataHash.microarrays.pushObject({
         'new_name': new_name,
-        'original_name': original_name,
+        'original_name': original_name
       });
     });
     
@@ -42,7 +39,7 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
   
   didSubmitJob: function(response){
     if (SC.ok(response)) {
-      this.set('jobID', response.get('body')['job']['id']);
+      this.set('jobID', response.get('body').job.id);
       
       var timer = SC.Timer.schedule({
         target: this,
@@ -52,9 +49,9 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
       });
 	  
 	  this.set('timer', timer);
-    }
-    else 
+    } else {
       Downloader.sendAction('failed');
+    }
   },
   
   checkStatus: function(){
@@ -68,15 +65,15 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
   
   didCheckStatus: function(response){
     if (SC.ok(response)) {
-      var job = response.get('body')['job'];
+      var job = response.get('body').job;
       
-      if (job['status'] == 'completed') {
-        this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
+      if (job.status == 'completed') {
+        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
         
-        Downloader.sendAction('complete')
+        Downloader.sendAction('complete');
       }
-      else if (job['status'] == 'failed') {
-        this.set('failureMessage', job['message']);
+      else if (job.status == 'failed') {
+        this.set('failureMessage', job.message);
 
         Downloader.sendAction('failed');
       }
