@@ -21,10 +21,16 @@ ChipAnalytics.analysisController = SC.ObjectController.create(/** @scope ChipAna
     };
     
     microarrays.forEach(function(microarray){
-      dataHash['microarrays'].pushObject({
-        'name': microarray.get('name'),
+      var name = microarray.get('name'),
+          hybDate = microarray.get('hybridizationDate');
+        
+      // May turn this on if users eventually need it
+      //name = hybDate.replace("/","","g") + "_" + name;
+
+      dataHash.microarrays.pushObject({
+        'name': name,
         'chip_name': microarray.get('chipName'),
-        'raw_data_path': microarray.get('rawDataPath'),
+        'raw_data_path': microarray.get('rawDataPath')
       });
     });
     
@@ -37,7 +43,7 @@ ChipAnalytics.analysisController = SC.ObjectController.create(/** @scope ChipAna
   
   didSubmitJob: function(response){
     if (SC.ok(response)) {
-      this.set('jobID', response.get('body')['job']['id']);
+      this.set('jobID', response.get('body').job.id);
       
       var timer = SC.Timer.schedule({
         target: this,
@@ -48,8 +54,9 @@ ChipAnalytics.analysisController = SC.ObjectController.create(/** @scope ChipAna
 	  
 	  this.set('timer', timer);
     }
-    else 
+    else {
       ChipAnalytics.sendAction('failed');
+    }
   },
   
   checkStatus: function(){
@@ -63,15 +70,15 @@ ChipAnalytics.analysisController = SC.ObjectController.create(/** @scope ChipAna
   
   didCheckStatus: function(response){
     if (SC.ok(response)) {
-      var job = response.get('body')['job'];
+      var job = response.get('body').job;
       
-      if (job['status'] == 'completed') {
-        this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
+      if (job.status == 'completed') {
+        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
         
-        ChipAnalytics.sendAction('complete')
+        ChipAnalytics.sendAction('complete');
       }
-      else if (job['status'] == 'failed') {
-        this.set('failureMessage', job['message']);
+      else if (job.status == 'failed') {
+        this.set('failureMessage', job.message);
 
         ChipAnalytics.sendAction('failed');
       }

@@ -26,8 +26,14 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
     };
     
     microarrays.forEach(function(microarray){
+      var name = microarray.get('name'),
+          hybDate = microarray.get('hybridizationDate');
+
+      // May turn this on if users eventually need it
+      //name = hybDate.replace("/","","g") + "_" + name;
+
       dataHash.microarrays.pushObject({
-        'name': microarray.get('name'),
+        'name': name,
         'raw_data_path': microarray.get('rawDataPath')
       });
     });

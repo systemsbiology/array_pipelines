@@ -20,8 +20,13 @@ GeneData.analysisController = SC.ObjectController.create(/** @scope GeneData.ana
     };
     
     microarrays.forEach(function(microarray){
-      dataHash['microarrays'].pushObject({
-        'name': microarray.get('name'),
+      var name = microarray.get('name'),
+          hybDate = microarray.get('hybridizationDate');
+        
+      name = hybDate.replace("/","","g") + "_" + name;
+
+      dataHash.microarrays.pushObject({
+        'name': name, 
         'chip_name': microarray.get('chipName'),
         'raw_data_path': microarray.get('rawDataPath'),
         'array_number': microarray.get('arrayNumber'),
@@ -38,7 +43,7 @@ GeneData.analysisController = SC.ObjectController.create(/** @scope GeneData.ana
   
   didSubmitJob: function(response){
     if (SC.ok(response)) {
-      this.set('jobID', response.get('body')['job']['id']);
+      this.set('jobID', response.get('body').job.id);
       
       var timer = SC.Timer.schedule({
         target: this,
@@ -47,10 +52,11 @@ GeneData.analysisController = SC.ObjectController.create(/** @scope GeneData.ana
         repeats: YES
       });
 	  
-	  this.set('timer', timer);
+      this.set('timer', timer);
     }
-    else 
+    else {
       GeneData.sendAction('failed');
+    }
   },
   
   checkStatus: function(){
@@ -64,15 +70,15 @@ GeneData.analysisController = SC.ObjectController.create(/** @scope GeneData.ana
   
   didCheckStatus: function(response){
     if (SC.ok(response)) {
-      var job = response.get('body')['job'];
+      var job = response.get('body').job;
       
-      if (job['status'] == 'completed') {
-        this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
+      if (job.status == 'completed') {
+        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
         
-        GeneData.sendAction('complete')
+        GeneData.sendAction('complete');
       }
-      else if (job['status'] == 'failed') {
-        this.set('failureMessage', job['message']);
+      else if (job.status == 'failed') {
+        this.set('failureMessage', job.message);
 
         GeneData.sendAction('failed');
       }

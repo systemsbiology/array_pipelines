@@ -21,9 +21,15 @@ VeraSam.analysisController = SC.ObjectController.create(/** @scope VeraSam.analy
     };
     
     microarrays.forEach(function(microarray){
-      dataHash['microarrays'].pushObject({
-        'name': microarray.get('name'),
-        'raw_data_path': microarray.get('rawDataPath'),
+      var name = microarray.get('name'),
+          hybDate = microarray.get('hybridizationDate');
+
+      // May turn this on if users eventually need it
+      //name = hybDate.replace("/","","g") + "_" + name;
+
+      dataHash.microarrays.pushObject({
+        'name': name,
+        'raw_data_path': microarray.get('rawDataPath')
       });
     });
     
@@ -36,7 +42,7 @@ VeraSam.analysisController = SC.ObjectController.create(/** @scope VeraSam.analy
   
   didSubmitJob: function(response){
     if (SC.ok(response)) {
-      this.set('jobID', response.get('body')['job']['id']);
+      this.set('jobID', response.get('body').job.id);
       
       var timer = SC.Timer.schedule({
         target: this,
@@ -47,8 +53,9 @@ VeraSam.analysisController = SC.ObjectController.create(/** @scope VeraSam.analy
 	  
 	  this.set('timer', timer);
     }
-    else 
+    else {
       VeraSam.sendAction('failed');
+    }
   },
   
   checkStatus: function(){
@@ -62,16 +69,14 @@ VeraSam.analysisController = SC.ObjectController.create(/** @scope VeraSam.analy
   
   didCheckStatus: function(response){
     if (SC.ok(response)) {
-      var job = response.get('body')['job'];
+      var job = response.get('body').job;
       
-      if (job['status'] == 'completed') {
-        this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
+      if (job.status == 'completed') {
+        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
         
-        VeraSam.sendAction('complete')
+        VeraSam.sendAction('complete');
       }
-      else if (job['status'] == 'failed') {
-        this.set('failureMessage', job['message']);
-
+      else if (job.status == 'failed') {
         VeraSam.sendAction('failed');
       }
     }

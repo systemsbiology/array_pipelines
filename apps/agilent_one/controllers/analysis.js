@@ -15,15 +15,21 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
   failureMessage: null,
   
   submitJob: function(){
-    var microarrays = AgilentOne.selectedMicroarraysController.get('content'), dataHash = {
-      'pipeline': 'agilent-one-color-normalizer',
-      'microarrays': []
-    };
+    var microarrays = AgilentOne.selectedMicroarraysController.get('content'),
+        dataHash = {
+          'pipeline': 'agilent-one-color-normalizer',
+          'microarrays': []
+        };
     
     microarrays.forEach(function(microarray){
-      dataHash['microarrays'].pushObject({
-        'name': microarray.get('name'),
-        'raw_data_path': microarray.get('rawDataPath'),
+      var name = microarray.get('name'),
+          hybDate = microarray.get('hybridizationDate');
+        
+      name = hybDate.replace("/","","g") + "_" + name;
+
+      dataHash.microarrays.pushObject({
+        'name': name,
+        'original_name': microarray.get('rawDataPath')
       });
     });
     
@@ -36,7 +42,7 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
   
   didSubmitJob: function(response){
     if (SC.ok(response)) {
-      this.set('jobID', response.get('body')['job']['id']);
+      this.set('jobID', response.get('body').job.id);
       
       var timer = SC.Timer.schedule({
         target: this,
@@ -45,10 +51,11 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
         repeats: YES
       });
 	  
-	  this.set('timer', timer);
+      this.set('timer', timer);
     }
-    else 
+    else {
       AgilentOne.sendAction('failed');
+    }
   },
   
   checkStatus: function(){
@@ -62,15 +69,15 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
   
   didCheckStatus: function(response){
     if (SC.ok(response)) {
-      var job = response.get('body')['job'];
+      var job = response.get('body').job;
       
-      if (job['status'] == 'completed') {
-        this.set('hyperlink', '<a href="' + job['output']+ '" target="_blank">Result Zip File</a>');
+      if (job.status == 'completed') {
+        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
         
-        AgilentOne.sendAction('complete')
+        AgilentOne.sendAction('complete');
       }
-      else if (job['status'] == 'failed') {
-        this.set('failureMessage', job['message']);
+      else if (job.status == 'failed') {
+        this.set('failureMessage', job.message);
 
         AgilentOne.sendAction('failed');
       }
