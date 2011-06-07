@@ -29,7 +29,7 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
 
       dataHash.microarrays.pushObject({
         'name': name,
-        'original_name': microarray.get('rawDataPath')
+        'raw_data_path': microarray.get('rawDataPath')
       });
     });
     
