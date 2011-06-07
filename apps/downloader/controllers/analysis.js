@@ -26,7 +26,7 @@ Downloader.analysisController = SC.ObjectController.create(/** @scope Downloader
           hybDate = microarray.get('hybridizationDate'),
           new_name;
         
-      new_name = hybDate.replace("/","","g") + "_" + name;
+      new_name = hybDate.replace(/\//g, "") + "_" + name;
 
       dataHash.microarrays.pushObject({
         'new_name': new_name,

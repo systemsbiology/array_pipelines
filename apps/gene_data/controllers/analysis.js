@@ -23,7 +23,7 @@ GeneData.analysisController = SC.ObjectController.create(/** @scope GeneData.ana
       var name = microarray.get('name'),
           hybDate = microarray.get('hybridizationDate');
         
-      name = hybDate.replace("/","","g") + "_" + name;
+      name = hybDate.replace(/\//g, "") + "_" + name;
 
       dataHash.microarrays.pushObject({
         'name': name, 
