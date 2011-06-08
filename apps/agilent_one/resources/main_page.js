@@ -90,9 +90,9 @@ AgilentOne.mainPage = SC.Page.design({
 						contentValueKey: "name",
 						canEditContent: NO,
 						canDeleteContent: NO,
-						rowHeight:24,
+						rowHeight:24
 					})
-				}), // labGroupScroll
+				}) // labGroupScroll
       }), // topLeftView
 
       bottomRightView: SC.View.design({
@@ -107,7 +107,7 @@ AgilentOne.mainPage = SC.Page.design({
         availableLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
           layout: { left: 20, top: 40 },
-          value: 'Available Arrays',
+          value: 'Available Arrays'
         }),
 
         availableScroll: SC.ScrollView.design({
@@ -127,7 +127,7 @@ AgilentOne.mainPage = SC.Page.design({
           title: 'Add Array(s)',
           target: 'AgilentOne.selectedMicroarraysController',
           action: 'add',
-          isEnabledBinding: 'AgilentOne.availableMicroarraysController.hasSelection',
+          isEnabledBinding: 'AgilentOne.availableMicroarraysController.hasSelection'
         }),
 
         removeButton: SC.ButtonView.design({
@@ -135,13 +135,13 @@ AgilentOne.mainPage = SC.Page.design({
           title: 'Remove Array(s)',
           target: 'AgilentOne.selectedMicroarraysController',
           action: 'remove',
-          isEnabledBinding: 'AgilentOne.selectedMicroarraysController.hasSelection',
+          isEnabledBinding: 'AgilentOne.selectedMicroarraysController.hasSelection'
         }),
 
         selectedLabel: SC.LabelView.design({
           classNames: ['array-scroll-label'],
           layout: { left: 560, top: 40 },
-          value: 'Selected Arrays',
+          value: 'Selected Arrays'
         }),
 
         selectedScroll: SC.ScrollView.design({
@@ -178,7 +178,7 @@ AgilentOne.mainPage = SC.Page.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Loading samples from the server failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       retryButton: SC.ButtonView.design({
@@ -197,54 +197,66 @@ AgilentOne.mainPage = SC.Page.design({
   }),
   
   analysisRunning: SC.PanelPane.design({
-  	defaultResponder: AgilentOne,
+    defaultResponder: AgilentOne,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message loadingIndicator cancelButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 64, left: 60, right: 0 },
-		value: 'Agilent 1-color Normalization Running',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  loadingIndicator: SC.ImageView.design({
-	  	layout: { left: 20, top: 20, width: 32, height: 32 },
-	    value: 'icon-loading-32',
-	  }),
-	  
-	  cancelButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Cancel',
-		action: 'cancel'
-	  })
-	})
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'message loadingIndicator cancelButton'.w(),
+      
+      message: SC.LabelView.design({
+        layout: { top: 20, height: 64, left: 60, right: 0 },
+        value: 'Agilent 1-color Normalization Running',
+        controlSize: SC.LARGE_CONTROL_SIZE
+      }),
+      
+      loadingIndicator: SC.ImageView.design({
+        layout: { left: 20, top: 20, width: 32, height: 32 },
+        value: 'icon-loading-32'
+      }),
+      
+      cancelButton: SC.ButtonView.design({
+        layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+        title: 'Cancel',
+        action: 'cancel'
+      })
+    })
   }),
   
   analysisFailed: SC.PanelPane.design({
-  	defaultResponder: AgilentOne,
+    defaultResponder: AgilentOne,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-      childViews: 'errorMessage errorDetail retryButton cancelButton'.w(),
+    layout: { width: 400, height: 400, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'errorMessage errorDetail jobInfoLabel jobInfo retryButton cancelButton'.w(),
 
       errorMessage: SC.LabelView.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Normalization failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       errorDetail: SC.LabelView.design({
         layout: { top: 60, height: 80, left: 10, right: 10 },
         textAlign: SC.ALIGN_CENTER,
         valueBinding: 'AgilentOne.analysisController.failureMessage',
-        escapeHTML: NO,
+        escapeHTML: NO
       }),
 
+      jobInfoLabel: SC.LabelView.design({
+        layout: { top: 150, height: 20, left: 10, right: 10 },
+        textAlign: SC.ALIGN_CENTER,
+        value: 'For brave souls who want to run it manually:'
+      }),
+
+      jobInfo: SC.TextFieldView.design({
+        layout: { top: 170, height: 150, left: 20, right: 20 },
+        isTextArea: YES,
+        valueBinding: 'AgilentOne.analysisController.jobInfo'
+      }),
+      
       retryButton: SC.ButtonView.design({
         layout: { bottom: 20, height: 32, right: 20, width: 100},
         title: 'Retry',
@@ -256,37 +268,37 @@ AgilentOne.mainPage = SC.Page.design({
         layout: { bottom: 20, height: 32, right: 130, width: 100},
         title: 'Cancel',
         action: 'cancel'
-      }),
-	})
+      })
+    })
   }),
   
   analysisDone: SC.PanelPane.design({
-  	defaultResponder: AgilentOne,
-	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message resultLink closeButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		value: 'Download results',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  resultLink: SC.LabelView.design({
-	  	layout: { centerY: 0, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		valueBinding: 'AgilentOne.analysisController.hyperlink',
-		escapeHTML: NO,
-	  }),
-	  
-	  closeButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Close',
-		action: 'close'
-	  })
-	})
-  }),
+    defaultResponder: AgilentOne,
+    
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'message resultLink closeButton'.w(),
+      
+      message: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 0, right: 0 },
+        textAlign: SC.ALIGN_CENTER,
+        value: 'Download results',
+        controlSize: SC.LARGE_CONTROL_SIZE
+      }),
+      
+      resultLink: SC.LabelView.design({
+        layout: { centerY: 0, height: 32, left: 0, right: 0 },
+        textAlign: SC.ALIGN_CENTER,
+        valueBinding: 'AgilentOne.analysisController.hyperlink',
+        escapeHTML: NO
+      }),
+      
+      closeButton: SC.ButtonView.design({
+        layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+        title: 'Close',
+        action: 'close'
+      })
+    })
+  })
 });

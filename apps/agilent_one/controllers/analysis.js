@@ -8,11 +8,14 @@
  (Document Your Controller Here)
  @extends SC.ObjectController
  */
-AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne.analysisController.prototype */{
+AgilentOne.analysisController = SC.ObjectController.create(Slimarray.Analyzable, {
+  /** @scope AgilentOne.analysisController.prototype */
+
   jobID: null,
   timer: null,
   hyperlink: null,
   failureMessage: null,
+  jobInfo: null,
   
   submitJob: function(){
     var microarrays = AgilentOne.selectedMicroarraysController.get('content'),
@@ -33,6 +36,8 @@ AgilentOne.analysisController = SC.ObjectController.create(/** @scope AgilentOne
       });
     });
     
+    this.set('jobInfo', SC.json.encode(dataHash));
+
     SC.Request.postUrl('/pipelines/jobs').header({
       'Accept': 'application/json'
     }).json().notify(this, this.didSubmitJob).send({

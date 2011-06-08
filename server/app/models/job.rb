@@ -1,35 +1,26 @@
 class Job < ActiveRecord::Base
   attr_accessor :pipeline, :microarrays, :status, :output, :message, :project_id, :login, :email
 
-  before_create :submit_job
+  scope :belonging_to, lambda {|user| where(:user => user)}
 
   def submit_job
-    begin
-      submission_uri = [APP_CONFIG['script_execution_uri'], pipeline, "jobs"].join("/")
+    submission_uri = [APP_CONFIG['script_execution_uri'], pipeline, "jobs"].join("/")
 
-      script_resource = RestClient::Resource.new submission_uri,
-        :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
+    script_resource = RestClient::Resource.new submission_uri,
+      :headers => {'x-addama-apikey' => APP_CONFIG['api_key']}, :timeout => 20
 
-      job_info = {
-        :login => login,
-        :email => email,
-        :project_id => project_id,
-        :microarrays => microarrays
-      }
-
-      logger.info "Sending #{job_info.to_json} to #{submission_uri} with API KEY #{APP_CONFIG['api_key']}"
-      response = nil
-      run_with_retries do
-        response = script_resource.post job_info.to_json
-      end
-
-      parsed_response = JSON.parse(response)
-      self.job_uri = parsed_response['uri']
-    rescue RestClient::RequestFailed, RestClient::ResourceNotFound => e
-      logger.error "Failed REST request: #{e.message}"
-
-      return false
+    logger.info "Sending #{job_info.to_json} to #{submission_uri} with API KEY #{APP_CONFIG['api_key']}"
+    response = nil
+    run_with_retries do
+      response = script_resource.post job_info.to_json
     end
+
+    parsed_response = JSON.parse(response)
+    self.job_uri = parsed_response['uri']
+  rescue RestClient::RequestFailed, RestClient::ResourceNotFound => e
+    logger.error "Failed REST request: #{e.message}"
+
+    return false
   end
 
   def check_status
@@ -66,6 +57,15 @@ class Job < ActiveRecord::Base
     end
 
     return self
+  end
+
+  def job_info
+    {
+      :login => login,
+      :email => email,
+      :project_id => project_id,
+      :microarrays => microarrays
+    }
   end
 
   def single_call_url
