@@ -32,10 +32,10 @@ Downloader.ANALYSIS_FAILED = SC.Responder.create(
   //
   
   retry: function() {
-  	Downloader.makeFirstResponder(Downloader.ANALYSIS_RUNNING);
+    Downloader.makeFirstResponder(Downloader.ANALYSIS_RUNNING);
   },
   
   cancel: function() {
-  	Downloader.makeFirstResponder(Downloader.ARRAYS_LOADED);
+    Downloader.makeFirstResponder(Downloader.ARRAYS_LOADED);
   }
 }) ;

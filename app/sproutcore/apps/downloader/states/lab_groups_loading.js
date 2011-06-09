@@ -17,18 +17,18 @@ Downloader.LAB_GROUPS_LOADING = SC.Responder.create({
   didBecomeFirstResponder: function() {
     Downloader.set('currentScene', 'labGroupsLoading');
     Downloader.labGroupsController.load();
-	Downloader.projectsController.load();
+    Downloader.projectsController.load();
   },
 
   loadingComplete: function() {
-  	labGroupStatus = Downloader.labGroupsController.get('status');
-	projectStatus = Downloader.projectsController.get('status');
+    var labGroupStatus = Downloader.labGroupsController.get('status');
+    var projectStatus = Downloader.projectsController.get('status');
 	
-  	if (labGroupStatus & SC.Record.READY && projectStatus & SC.Record.READY) {
+    if (labGroupStatus & SC.Record.READY && projectStatus & SC.Record.READY) {
       Downloader.makeFirstResponder(Downloader.LAB_GROUPS_LOADED);
     } else if (labGroupStatus & SC.Record.ERROR || projectStatus & SC.Record.ERROR) {
       Downloader.makeFirstResponder(Downloader.LAB_GROUPS_FAILED);
     }
-  },
+  }
 
 });

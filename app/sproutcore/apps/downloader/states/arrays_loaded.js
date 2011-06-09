@@ -32,6 +32,6 @@ Downloader.ARRAYS_LOADED = SC.Responder.create(
   //
   
   runAnalysis: function() {
-  	Downloader.makeFirstResponder(Downloader.ANALYSIS_RUNNING);
+    Downloader.makeFirstResponder(Downloader.ANALYSIS_RUNNING);
   }
 }) ;

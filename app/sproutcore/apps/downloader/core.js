@@ -18,7 +18,7 @@ Downloader = SC.Application.create(
 
   //store: SC.Store.create().from(SC.Record.fixtures)
   store: SC.Store.create({
-  	commitRecordsAutomatically: NO
+    commitRecordsAutomatically: NO
   }).from('Slimarray.DataSource')
 
 }) ;

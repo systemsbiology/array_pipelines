@@ -21,11 +21,11 @@ Downloader.LAB_GROUPS_LOADED = SC.Responder.create(
   
   didBecomeFirstResponder: function() {
     Downloader.set('currentScene', 'labGroupsLoaded');
-	Downloader.sourceController.populateContent();
+    Downloader.sourceController.populateContent();
   },
   
   willLoseFirstResponder: function() {
-  },
+  }
   
   // ..........................................................
   // EVENTS

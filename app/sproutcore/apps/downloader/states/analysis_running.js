@@ -25,8 +25,8 @@ Downloader.ANALYSIS_RUNNING = SC.Responder.create(
   },
   
   willLoseFirstResponder: function() {
-  	var timer = Downloader.analysisController.get('timer');
-  	if(timer) timer.invalidate();
+    var timer = Downloader.analysisController.get('timer');
+    if(timer) timer.invalidate();
 	
     Downloader.getPath('mainPage.analysisRunning').remove() ;
   },
@@ -36,15 +36,15 @@ Downloader.ANALYSIS_RUNNING = SC.Responder.create(
   //
   
   cancel: function() {
-  	Downloader.makeFirstResponder(Downloader.ARRAYS_LOADED);
+    Downloader.makeFirstResponder(Downloader.ARRAYS_LOADED);
   },
   
   failed: function() {
-  	Downloader.makeFirstResponder(Downloader.ANALYSIS_FAILED);
+    Downloader.makeFirstResponder(Downloader.ANALYSIS_FAILED);
   },
   
   complete: function() {
-  	Downloader.makeFirstResponder(Downloader.ANALYSIS_DONE);
+    Downloader.makeFirstResponder(Downloader.ANALYSIS_DONE);
   }
   
 }) ;

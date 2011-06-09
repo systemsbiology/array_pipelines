@@ -32,7 +32,7 @@ Downloader.ANALYSIS_DONE = SC.Responder.create(
   //
   
   close: function() {
-  	Downloader.makeFirstResponder(Downloader.ARRAYS_LOADED);
+    Downloader.makeFirstResponder(Downloader.ARRAYS_LOADED);
   }
   
 }) ;

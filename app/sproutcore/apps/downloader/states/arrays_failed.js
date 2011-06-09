@@ -37,6 +37,6 @@ Downloader.ARRAYS_FAILED = SC.Responder.create(
   },
   
   cancelLoading: function() {
-  	Downloader.makeFirstResponder(Downloader.LAB_GROUPS_LOADED);
+    Downloader.makeFirstResponder(Downloader.LAB_GROUPS_LOADED);
   }
 }) ;
