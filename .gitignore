@@ -1,5 +1,10 @@
-tmp
-scripts/curl.sh
-server/config/application.yml
-server/config/database.yml
-.project
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+public/static/*
+public/ui/*
+app/sproutcore/tmp
+analysis_scripts/curl.sh
+config/application.yml
+config/database.yml
