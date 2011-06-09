@@ -3,6 +3,8 @@ class Job < ActiveRecord::Base
 
   scope :belonging_to, lambda {|user| where(:user => user)}
 
+  before_create :submit_job
+
   def submit_job
     submission_uri = [APP_CONFIG['script_execution_uri'], pipeline, "jobs"].join("/")
 
