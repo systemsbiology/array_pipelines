@@ -11,6 +11,7 @@ gem 'rubycas-client', '2.2.1', :require => 'casclient'
 gem 'state_machine', '0.9.3'
 gem 'rest-client', '1.5.1', :require => 'rest_client'
 gem 'json', '1.1.3'
+gem 'sproutcore', '1.4.4'
 
 # Use unicorn as the web server
 # gem 'unicorn'
