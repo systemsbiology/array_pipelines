@@ -8,10 +8,8 @@
  (Document Your Controller Here)
  @extends SC.ObjectController
  */
-TilingExpression.analysisController = SC.ObjectController.create(/** @scope TilingExpression.analysisController.prototype */{
-  jobID: null,
-  timer: null,
-  hyperlink: null,
+TilingExpression.analysisController = SC.ObjectController.create(Slimarray.Analyzable, {
+  /** @scope TilingExpression.analysisController.prototype */
   
   submitJob: function(){
     var user = TilingExpression.usersController.get('content').firstObject();
@@ -43,50 +41,5 @@ TilingExpression.analysisController = SC.ObjectController.create(/** @scope Tili
     }).json().notify(this, this.didSubmitJob).send({
       'job': dataHash
     });
-  },
-  
-  didSubmitJob: function(response){
-    if (SC.ok(response)) {
-      this.set('jobID', response.get('body').job.id);
-      
-      var timer = SC.Timer.schedule({
-        target: this,
-        action: 'checkStatus',
-        interval: 5000,
-        repeats: YES
-      });
-	  
-	  this.set('timer', timer);
-    }
-    else {
-      TilingExpression.sendAction('failed');
-    }
-  },
-  
-  checkStatus: function(){
-    var jobID = this.get('jobID');
-    var uri = '/pipelines/jobs/' + jobID;
-    
-    SC.Request.getUrl(uri).header({
-      'Accept': 'application/json'
-    }).json().notify(this, this.didCheckStatus).send();
-  },
-  
-  didCheckStatus: function(response){
-    if (SC.ok(response)) {
-      var job = response.get('body').job;
-      
-      if (job.status == 'completed') {
-        this.set('hyperlink', '<a href="' + job.output + '" target="_blank">Result Zip File</a>');
-        
-        TilingExpression.sendAction('complete');
-      }
-      else if (job.status == 'failed') {
-        TilingExpression.sendAction('failed');
-      }
-    }
-    else {
-      TilingExpression.sendAction('failed');
-    }
   }
 });

@@ -17,14 +17,14 @@ Downloader.availableMicroarraysController = SC.ArrayController.create(
   orderBy: 'displayName',
 
   load: function(){
-    var nestedProject = Downloader.nestedProjectController.get('content').firstObject()
-    if(!nestedProject) return NO
+    var nestedProject = Downloader.nestedProjectController.get('content').firstObject();
+    if(!nestedProject) return NO;
 
     var query = SC.Query.create({
 	  recordType: Slimarray.Microarray,
 	  conditions: "project = {project} AND labGroup = {labGroup} AND rawDataPath != null",
 	  parameters: {project: nestedProject.get('project'),
-	  			labGroup: nestedProject.get('labGroup')},
+      labGroup: nestedProject.get('labGroup')},
 	  extraFields: 'lab_group,project,raw_data_path,platform_name,hybridization_date'
 	 });
     nestedProject.set( 'microarrays', Downloader.store.find(query) );
@@ -36,5 +36,5 @@ Downloader.availableMicroarraysController = SC.ArrayController.create(
     } else if (this.get('status') & SC.Record.ERROR) {
       Downloader.sendAction('loadingFailed');
     }
-  }.observes('status'),
-}) ;
+  }.observes('status')
+});

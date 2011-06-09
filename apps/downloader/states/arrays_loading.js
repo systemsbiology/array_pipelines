@@ -22,18 +22,18 @@ Downloader.ARRAYS_LOADING = SC.Responder.create(
   loadingView: null,
   
   didBecomeFirstResponder: function() {
-  	Downloader.availableMicroarraysController.set('selection', []);
-	
-  	var loadingView = SC.LabelView.create({
-	  classNames: 'arrays-loading-message'.w(),
-	  layout: { left: 4, top: 4 },
-	  value: 'Loading...'
-	})
-	
-  	// save this so it can be removed later
-	this.set('loadingView', loadingView);
-  	Downloader.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.availableScroll')
-	  .appendChild(loadingView);
+    Downloader.availableMicroarraysController.set('selection', []);
+
+    var loadingView = SC.LabelView.create({
+      classNames: 'arrays-loading-message'.w(),
+      layout: { left: 4, top: 4 },
+      value: 'Loading...'
+    });
+    
+    // save this so it can be removed later
+    this.set('loadingView', loadingView);
+    Downloader.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.availableScroll')
+      .appendChild(loadingView);
 	  
     Downloader.availableMicroarraysController.load();
   },
