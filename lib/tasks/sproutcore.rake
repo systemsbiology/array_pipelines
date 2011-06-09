@@ -9,7 +9,7 @@ namespace :build do
     APP_CONFIG = YAML.load_file("config/application.yml")[rails_env]
 
     puts "== Building the SproutCore application(s)"
-    system("cd app/sproutcore; sc-build")
+    system("cd app/sproutcore; bundle exec sc-build")
 
     puts "== Placing the built application(s) under the server's public folder"
     FileUtils.rm_rf Dir.glob("public/static/*")
