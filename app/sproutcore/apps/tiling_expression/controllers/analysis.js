@@ -10,6 +10,9 @@
  */
 TilingExpression.analysisController = SC.ObjectController.create(Slimarray.Analyzable, {
   /** @scope TilingExpression.analysisController.prototype */
+
+  // set this for use in mixin functions
+  application: TilingExpression,
   
   submitJob: function(){
     var user = TilingExpression.usersController.get('content').firstObject();
