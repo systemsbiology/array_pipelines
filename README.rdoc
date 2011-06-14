@@ -7,40 +7,35 @@ Microarray pipelines built off of SLIMarray as a data source. The front end uses
 Make sure you have the following prerequisites:
 - Git
 - Ruby 1.8.7
-- RubyGems 1.3.6+
-- Rails 3.0.1 (gem install rails -v=3.0.1)
-- SproutCore 1.4.4 (gem install sproutcore -v=1.4.4)
+- Bundler ~> 1.0
 - Java (for the build tools)
 - SLIMarray (http://github.com/bmarzolf/slimarray)
 - Addama Script Execution Service (http://code.google.com/docreader/#p=addama&s=addama&t=HowToScriptExec)
 
-Clone the git repository and install the git submodules:
+Clone the git repository:
 
   git clone git://github.com/bmarzolf/array_pipelines.git
-  cd array_pipelines
-  git submodule init
-  git submodule update
 
 Copy the example configuration files:
 
-  cp server/config/application.yml.example server/config/application.yml
-  cp server/config/database.yml.example server/config/database.yml
+  cd array_pipelines
+  cp config/application.yml.example config/application.yml
+  cp config/database.yml.example config/database.yml
 
 Edit the configuration files to match your setup.
 
 Install the necessary gems, load seed data and start the rails server:
 
-  cd server
   bundle install
   rake db:migrate
   rake db:data:load
   rails server
 
-In another terminal, start the SproutCore development server in your array_pipelines folder:
+In another terminal, start the SproutCore development server in your array_pipelines/app/sproutcore folder:
 
   sc-server
 
-You should now be able to see the app at http://localhost:4020/calendar, and the administrative back end at http://localhost:3000/requirements
+You should now be able to browse to http://localhost:4020 and see entries for each of the pipelines.
 
 === Deploying with Apache/Passenger
 
