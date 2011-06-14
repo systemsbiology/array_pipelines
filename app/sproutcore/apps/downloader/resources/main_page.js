@@ -117,8 +117,8 @@ Downloader.mainPage = SC.Page.design({
             contentBinding: "Downloader.availableMicroarraysController.arrangedObjects",
             selectionBinding: "Downloader.availableMicroarraysController.selection",
             contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
+            hasContentIcon: YES,
+            contentIconKey: "icon"
           }),
         }),
 
