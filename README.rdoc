@@ -45,8 +45,6 @@ Install the application on your server:
 
   git clone git://github.com/bmarzolf/array_pipelines.git
   cd array_pipelines
-  git submodule init
-  git submodule update
 
 Build the user interface:
 
