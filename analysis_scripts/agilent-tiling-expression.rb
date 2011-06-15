@@ -11,7 +11,7 @@ EXCLUDE_FILE = ARRAY_SHARE + "/Pipeline/tools/etc/excluded_gene_names"
 # message that gets passed back to UI
 message_file = File.open("message.log", "w")
 
-#begin
+begin
   json_file = File.open("form.dat", "r")
   json_string = json_file.read
   json_string = /(.*?)=?$/.match(json_string)[1]
@@ -52,6 +52,7 @@ message_file = File.open("message.log", "w")
   feature_extraction_files = Array.new
   conditions.each do |condition, replicates|
     ft = File.open("#{condition}.ft", "w")
+    map_file = nil
 
     replicate_number = 1
     replicates.each do |replicate|
@@ -79,6 +80,9 @@ message_file = File.open("message.log", "w")
       rep_file = file_base + ".rep"
       script << "/tools/java/jdk/bin/java -Xmx1024M -jar #{ARRAY_SHARE}/bin/preprocess.jar -q #{analyzerdg_file} -m #{map_file} -o #{rep_file} -i -n median\n"
 
+      # run postSAM on the preprocess output
+      script << "#{ARRAY_SHARE}/bin/postSAM.pl #{rep_file} #{map_file} #{condition}.txt\n"
+
       if locus_file
         # group probes
         grouped_rep_file = file_base + ".grouped.rep"
@@ -104,6 +108,9 @@ message_file = File.open("message.log", "w")
 
     # SAM
     script << "#{ARRAY_SHARE}/bin/SAM #{condition}.all.merge #{condition}.model #{condition}.sig\n"
+
+    # postSAM: Assumes replicates in a condition have the same layout
+    script << "#{ARRAY_SHARE}/bin/postSAM.pl #{condition}.sig #{map_file} #{condition}.clone\n"
   end
 
   # mergeConds
@@ -112,7 +119,7 @@ message_file = File.open("message.log", "w")
   script.close
   system("sh run.sh")
 
-  result_files = feature_extraction_files + Dir.glob("*rep *ft *merge *model *sig matrix_output")
+  result_files = Dir.glob("*.{rep,ft,merge,model,sig,clone,txt}") + ["matrix_output"]
   zip_file = "VERA-SAM_#{Time.now.strftime("%Y-%m-%d")}"
 
   `zip #{zip_file} #{result_files.join(" ")}`
@@ -123,6 +130,6 @@ message_file = File.open("message.log", "w")
   #rescue StandardError => e
   #  puts "Failed to do postrun task: #{e.message}"
   #end
-#rescue Exception => e
-#  message_file << e.to_s
-#end
+rescue Exception => e
+  message_file << e.to_s
+end
