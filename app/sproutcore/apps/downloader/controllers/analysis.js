@@ -28,6 +28,10 @@ Downloader.analysisController = SC.ObjectController.create(Slimarray.Analyzable,
         
       new_name = hybDate.replace(/\//g, "") + "_" + name;
 
+      // add the file extension from the original file name
+      file_ending = /\..*/.exec(original_name);
+      if(file_ending) { new_name += file_ending; }
+
       dataHash.microarrays.pushObject({
         'new_name': new_name,
         'original_name': original_name
