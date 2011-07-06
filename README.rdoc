@@ -9,12 +9,12 @@ Make sure you have the following prerequisites:
 - Ruby 1.8.7
 - Bundler ~> 1.0
 - Java (for the build tools)
-- SLIMarray (http://github.com/bmarzolf/slimarray)
+- SLIMarray (http://github.com/systemsbiology/slimarray)
 - Addama Script Execution Service (http://code.google.com/docreader/#p=addama&s=addama&t=HowToScriptExec)
 
 Clone the git repository:
 
-  git clone git://github.com/bmarzolf/array_pipelines.git
+  git clone git://github.com/systemsbiology/array_pipelines.git
 
 Copy the example configuration files:
 
@@ -43,7 +43,7 @@ This assumes the prerequisites for development plus having the Apache2 and the l
 
 Install the application on your server:
 
-  git clone git://github.com/bmarzolf/array_pipelines.git
+  git clone git://github.com/systemsbiology/array_pipelines.git
   cd array_pipelines
 
 Build the user interface:
