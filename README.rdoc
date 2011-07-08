@@ -50,11 +50,11 @@ Build the user interface:
 
   rake build:ui
 
-This will build the static UI files and then place them into your /server/public/static and /server/public/ui folders.
+This will build the static UI files and then place them into your public/static and public/ui folders.
 
 Create a symlink named 'pipelines' from your Apache DocumentRoot to the public folder in the Rails 3 server, for instance:
 
-  ln -s /local/apps/array_pipelines/server/public /var/www/pipelines
+  ln -s /local/apps/array_pipelines/public /var/www/pipelines
 
 Add the following directive to your Apache2 configuration:
 
@@ -64,10 +64,10 @@ Restart Apache, and the app should be available at http://yourserver/pipelines. 
 
 === Enabling authentication
 
-Array pipelines can use RubyCAS-server to authenticate users, which also allows for administrator users. Enable this by editing server/config/initializers/app_config.rb
+Array pipelines can use RubyCAS-server to authenticate users, which also allows for administrator users. Enable this by editing config/initializers/app_config.rb
 
 === Steps for adding new pipelines
 
-  * Make a copy of an existing pipeline under /apps, then customize as needed
-  * Add the pipeline name under 'pipelines' in /server/config/application.yml
+  * Make a copy of an existing pipeline under app/sproutcore/apps, then customize as needed
+  * Add the pipeline name under 'pipelines' in config/application.yml
   * Set up an accompanying script in the Script Execution Service
