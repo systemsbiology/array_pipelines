@@ -25,14 +25,14 @@ VeraSam.mainPage = SC.Page.design({
         layout: { left: 20, top: 4, width: 400, height: 24 },
         controlSize: SC.LARGE_CONTROL_SIZE,
         value: 'Exiqon VERA/SAM 2-color Pipeline'
-      }),
+      })
     }),
 
     sceneView: SC.SceneView.design({
       layout: { left: 0, top: 32, right: 0, bottom: 0 },
       scenes: "labGroupsLoading labGroupsFailed labGroupsLoaded".w(),
       nowShowingBinding: "VeraSam.currentScene"
-    }),
+    })
 
   }),
   
@@ -45,7 +45,7 @@ VeraSam.mainPage = SC.Page.design({
 	  controlSize: SC.LARGE_CONTROL_SIZE,
       fontWeight: SC.BOLD_WEIGHT,
       value: 'Loading lab groups and projects...'
-    }),
+    })
   }),
 
   labGroupsFailed: SC.View.design({
@@ -64,7 +64,7 @@ VeraSam.mainPage = SC.Page.design({
       layout: { width: 100, height: 32, centerX:0, centerY: 32 },
       title: 'Retry',
       action: 'retryLoading'
-    }),
+    })
   }),
 
   labGroupsLoaded: SC.View.design({
@@ -90,80 +90,95 @@ VeraSam.mainPage = SC.Page.design({
 						contentValueKey: "name",
 						canEditContent: NO,
 						canDeleteContent: NO,
-						rowHeight:24,
+						rowHeight:24
 					})
-				}), // labGroupScroll
+				}) // labGroupScroll
       }), // topLeftView
 
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'legend availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
-
-		legend: Slimarray.LegendView.design({
-		  layout: { top: 10, left: 280, width: 400, height: 26 },
-		}),
-
-        availableLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 20, top: 40 },
-          value: 'Available Arrays',
+        childViews: 'legend splitView'.w(),
+        
+        legend: Slimarray.LegendView.design({
+          layout: { top: 10, left: 280, width: 400, height: 26 }
         }),
 
-        availableScroll: SC.ScrollView.design({
-          layout: { left: 20, top: 60, bottom: 50, width: 400 },
+        splitView: SC.SplitView.design({
+          dividerThickness: 0,
+          defaultThickness: 0.55,
+          autoresizeBehavior: SC.RESIZE_TOP_LEFT,
 
-          contentView: SC.ListView.design({
-            contentBinding: "VeraSam.availableMicroarraysController.arrangedObjects",
-            selectionBinding: "VeraSam.availableMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
+          topLeftView: SC.View.design({
+            childViews: 'availableLabel availableScroll'.w(),
+
+            availableLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 20, top: 40 },
+              value: 'Available Arrays'
+            }),
+
+            availableScroll: SC.ScrollView.design({
+              layout: { left: 20, top: 60, bottom: 50, right: 10 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "VeraSam.availableMicroarraysController.arrangedObjects",
+                selectionBinding: "VeraSam.availableMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon"
+              })
+            })
           }),
-        }),
 
-        addButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: -15, width: 120, height: 24 },
-          title: 'Add Array(s)',
-          target: 'VeraSam.selectedMicroarraysController',
-          action: 'add',
-          isEnabledBinding: 'VeraSam.availableMicroarraysController.hasSelection',
-        }),
+          bottomRightView: SC.View.design({
+            childViews: 'addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
 
-        removeButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: 15, width: 120, height: 24 },
-          title: 'Remove Array(s)',
-          target: 'VeraSam.selectedMicroarraysController',
-          action: 'remove',
-          isEnabledBinding: 'VeraSam.selectedMicroarraysController.hasSelection',
-        }),
+            addButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: -15, width: 120, height: 24 },
+              title: 'Add Array(s)',
+              target: 'VeraSam.selectedMicroarraysController',
+              action: 'add',
+              isEnabledBinding: 'VeraSam.availableMicroarraysController.hasSelection'
+            }),
 
-        selectedLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 560, top: 40 },
-          value: 'Selected Arrays',
-        }),
+            removeButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: 15, width: 120, height: 24 },
+              title: 'Remove Array(s)',
+              target: 'VeraSam.selectedMicroarraysController',
+              action: 'remove',
+              isEnabledBinding: 'VeraSam.selectedMicroarraysController.hasSelection'
+            }),
 
-        selectedScroll: SC.ScrollView.design({
-          layout: { left: 560, top: 60, bottom: 50, width: 400 },
+            selectedLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 130, top: 40 },
+              value: 'Selected Arrays'
+            }),
 
-          contentView: SC.ListView.design({
-            contentBinding: "VeraSam.selectedMicroarraysController.arrangedObjects",
-            selectionBinding: "VeraSam.selectedMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
-          }),
-        }),
+            selectedScroll: SC.ScrollView.design({
+              layout: { left: 130, top: 60, bottom: 50, right: 20 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "VeraSam.selectedMicroarraysController.arrangedObjects",
+                selectionBinding: "VeraSam.selectedMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon",
+                toolTipKey: "displayName"
+              })
+            }),
 
-        analyzeButton: SC.ButtonView.design({
-          layout: { left: 830, width: 120, bottom: 13, height: 24 },
-          title: 'Launch Pipeline',
-          isEnabledBinding: 'VeraSam.selectedMicroarraysController.hasArrays',
-		  action: 'runAnalysis'
-        }),
-      }),
-    }),
+            analyzeButton: SC.ButtonView.design({
+              layout: { right: 20, width: 120, bottom: 13, height: 24 },
+              title: 'Download',
+              isEnabledBinding: 'VeraSam.selectedMicroarraysController.hasArrays',
+              action: 'runAnalysis'
+            })
+          })
+        })
+      })
+    })
   }),
 
   samplesFailed: SC.PanelPane.design({
@@ -178,7 +193,7 @@ VeraSam.mainPage = SC.Page.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Loading samples from the server failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       retryButton: SC.ButtonView.design({
@@ -197,34 +212,34 @@ VeraSam.mainPage = SC.Page.design({
   }),
   
   analysisRunning: SC.PanelPane.design({
-  	defaultResponder: VeraSam,
+    defaultResponder: VeraSam,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message loadingIndicator cancelButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 60, right: 0 },
-		value: 'VERA/SAM Pipeline Running',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  loadingIndicator: SC.ImageView.design({
-	  	layout: { left: 20, top: 20, width: 32, height: 32 },
-	    value: 'icon-loading-32',
-	  }),
-	  
-	  cancelButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Cancel',
-		action: 'cancel'
-	  })
-	})
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'message loadingIndicator cancelButton'.w(),
+      
+      message: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 60, right: 0 },
+        value: 'VERA/SAM Pipeline Running',
+        controlSize: SC.LARGE_CONTROL_SIZE
+      }),
+      
+      loadingIndicator: SC.ImageView.design({
+        layout: { left: 20, top: 20, width: 32, height: 32 },
+        value: 'icon-loading-32'
+      }),
+      
+      cancelButton: SC.ButtonView.design({
+        layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+        title: 'Cancel',
+        action: 'cancel'
+      })
+    })
   }),
   
   analysisFailed: SC.PanelPane.design({
-  	defaultResponder: VeraSam,
+    defaultResponder: VeraSam,
 	
     layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
     
@@ -235,14 +250,14 @@ VeraSam.mainPage = SC.Page.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'VERA/SAM pipeline failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       errorDetail: SC.LabelView.design({
         layout: { top: 60, height: 80, left: 10, right: 10 },
         textAlign: SC.ALIGN_CENTER,
         valueBinding: 'VeraSam.analysisController.failureMessage',
-        escapeHTML: NO,
+        escapeHTML: NO
       }),
 
       retryButton: SC.ButtonView.design({
@@ -261,32 +276,32 @@ VeraSam.mainPage = SC.Page.design({
   }),
   
   analysisDone: SC.PanelPane.design({
-  	defaultResponder: VeraSam,
+    defaultResponder: VeraSam,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message resultLink closeButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		value: 'Download results',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  resultLink: SC.LabelView.design({
-	  	layout: { centerY: 0, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		valueBinding: 'VeraSam.analysisController.hyperlink',
-		escapeHTML: NO,
-	  }),
-	  
-	  closeButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Close',
-		action: 'close'
-	  })
-	})
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'message resultLink closeButton'.w(),
+      
+      message: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 0, right: 0 },
+        textAlign: SC.ALIGN_CENTER,
+        value: 'Download results',
+        controlSize: SC.LARGE_CONTROL_SIZE
+      }),
+      
+      resultLink: SC.LabelView.design({
+        layout: { centerY: 0, height: 32, left: 0, right: 0 },
+        textAlign: SC.ALIGN_CENTER,
+        valueBinding: 'VeraSam.analysisController.hyperlink',
+        escapeHTML: NO
+      }),
+      
+      closeButton: SC.ButtonView.design({
+        layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+        title: 'Close',
+        action: 'close'
+      })
+    })
   }),
 });

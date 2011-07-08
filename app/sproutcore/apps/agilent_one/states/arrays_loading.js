@@ -22,25 +22,25 @@ AgilentOne.ARRAYS_LOADING = SC.Responder.create(
   loadingView: null,
   
   didBecomeFirstResponder: function() {
-  	AgilentOne.availableMicroarraysController.set('selection', []);
+    AgilentOne.availableMicroarraysController.set('selection', []);
+
+    var loadingView = SC.LabelView.create({
+      classNames: 'arrays-loading-message'.w(),
+      layout: { left: 4, top: 4 },
+      value: 'Loading...'
+    });
 	
-  	var loadingView = SC.LabelView.create({
-	  classNames: 'arrays-loading-message'.w(),
-	  layout: { left: 4, top: 4 },
-	  value: 'Loading...'
-	})
-	
-  	// save this so it can be removed later
-	this.set('loadingView', loadingView);
-  	AgilentOne.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.availableScroll')
-	  .appendChild(loadingView);
+    // save this so it can be removed later
+    this.set('loadingView', loadingView);
+    AgilentOne.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.splitView.topLeftView.availableScroll')
+      .appendChild(loadingView);
 	  
     AgilentOne.availableMicroarraysController.load();
   },
   
   willLoseFirstResponder: function() {
-    AgilentOne.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.availableScroll')
-	  .removeChild( this.get('loadingView') );
+    AgilentOne.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.splitView.topLeftView.availableScroll')
+      .removeChild( this.get('loadingView') );
   },
   
   // ..........................................................
@@ -53,6 +53,6 @@ AgilentOne.ARRAYS_LOADING = SC.Responder.create(
 
   loadingFailed: function() {
     AgilentOne.makeFirstResponder(AgilentOne.ARRAYS_FAILED);
-  },
+  }
   
 }) ;

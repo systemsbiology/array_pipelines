@@ -25,14 +25,14 @@ GeneData.mainPage = SC.Page.design({
         layout: { left: 20, top: 4, width: 300, height: 24 },
         controlSize: SC.LARGE_CONTROL_SIZE,
         value: 'GeneData Import File Generator'
-      }),
+      })
     }),
 
     sceneView: SC.SceneView.design({
       layout: { left: 0, top: 32, right: 0, bottom: 0 },
       scenes: "schemesLoading schemesFailed schemesLoaded".w(),
       nowShowingBinding: "GeneData.currentScene"
-    }),
+    })
 
   }),
 
@@ -50,7 +50,7 @@ GeneData.mainPage = SC.Page.design({
 	  controlSize: SC.LARGE_CONTROL_SIZE,
       fontWeight: SC.BOLD_WEIGHT,
       value: 'Loading naming schemes...'
-    }),
+    })
   }),
 
   schemesFailed: SC.View.design({
@@ -69,7 +69,7 @@ GeneData.mainPage = SC.Page.design({
       layout: { width: 100, height: 32, centerX:0, centerY: 32 },
       title: 'Retry',
       action: 'retryLoading'
-    }),
+    })
   }),
 
   schemesLoaded: SC.View.design({
@@ -95,80 +95,95 @@ GeneData.mainPage = SC.Page.design({
 						contentValueKey: "name",
 						canEditContent: NO,
 						canDeleteContent: NO,
-						rowHeight:24,
+						rowHeight:24
 					})
-				}), // schemeScroll
+				}) // schemeScroll
       }), // topLeftView
 
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'legend availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
-
-		legend: Slimarray.LegendView.design({
-		  layout: { top: 10, left: 280, width: 400, height: 26 },
-		}),
-
-        availableLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 20, top: 40 },
-          value: 'Available Arrays',
+        childViews: 'legend splitView'.w(),
+        
+        legend: Slimarray.LegendView.design({
+          layout: { top: 10, left: 280, width: 400, height: 26 }
         }),
 
-        availableScroll: SC.ScrollView.design({
-          layout: { left: 20, top: 60, bottom: 50, width: 400 },
-		  
-          contentView: SC.ListView.design({
-            contentBinding: "GeneData.availableMicroarraysController.arrangedObjects",
-            selectionBinding: "GeneData.availableMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
+        splitView: SC.SplitView.design({
+          dividerThickness: 0,
+          defaultThickness: 0.55,
+          autoresizeBehavior: SC.RESIZE_TOP_LEFT,
+
+          topLeftView: SC.View.design({
+            childViews: 'availableLabel availableScroll'.w(),
+
+            availableLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 20, top: 40 },
+              value: 'Available Arrays'
+            }),
+
+            availableScroll: SC.ScrollView.design({
+              layout: { left: 20, top: 60, bottom: 50, right: 10 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "GeneData.availableMicroarraysController.arrangedObjects",
+                selectionBinding: "GeneData.availableMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon"
+              })
+            })
           }),
-        }),
 
-        addButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: -15, width: 120, height: 24 },
-          title: 'Add Array(s)',
-          target: 'GeneData.selectedMicroarraysController',
-          action: 'add',
-          isEnabledBinding: 'GeneData.availableMicroarraysController.hasSelection',
-        }),
+          bottomRightView: SC.View.design({
+            childViews: 'addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
 
-        removeButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: 15, width: 120, height: 24 },
-          title: 'Remove Array(s)',
-          target: 'GeneData.selectedMicroarraysController',
-          action: 'remove',
-          isEnabledBinding: 'GeneData.selectedMicroarraysController.hasSelection',
-        }),
+            addButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: -15, width: 120, height: 24 },
+              title: 'Add Array(s)',
+              target: 'GeneData.selectedMicroarraysController',
+              action: 'add',
+              isEnabledBinding: 'GeneData.availableMicroarraysController.hasSelection'
+            }),
 
-        selectedLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 560, top: 40 },
-          value: 'Selected Arrays',
-        }),
+            removeButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: 15, width: 120, height: 24 },
+              title: 'Remove Array(s)',
+              target: 'GeneData.selectedMicroarraysController',
+              action: 'remove',
+              isEnabledBinding: 'GeneData.selectedMicroarraysController.hasSelection'
+            }),
 
-        selectedScroll: SC.ScrollView.design({
-          layout: { left: 560, top: 60, bottom: 50, width: 400 },
-		  
-          contentView: SC.ListView.design({
-            contentBinding: "GeneData.selectedMicroarraysController.arrangedObjects",
-            selectionBinding: "GeneData.selectedMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
-          }),
-        }),
+            selectedLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 130, top: 40 },
+              value: 'Selected Arrays'
+            }),
 
-        analyzeButton: SC.ButtonView.design({
-          layout: { left: 830, width: 120, bottom: 13, height: 24 },
-          title: 'Run Analysis',
-          isEnabledBinding: 'GeneData.selectedMicroarraysController.hasArrays',
-		  action: 'runAnalysis'
-        }),
-      }),
-    }),
+            selectedScroll: SC.ScrollView.design({
+              layout: { left: 130, top: 60, bottom: 50, right: 20 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "GeneData.selectedMicroarraysController.arrangedObjects",
+                selectionBinding: "GeneData.selectedMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon",
+                toolTipKey: "displayName"
+              })
+            }),
+
+            analyzeButton: SC.ButtonView.design({
+              layout: { right: 20, width: 120, bottom: 13, height: 24 },
+              title: 'Download',
+              isEnabledBinding: 'GeneData.selectedMicroarraysController.hasArrays',
+              action: 'runAnalysis'
+            })
+          })
+        })
+      })
+    })
   }),
 
   samplesFailed: SC.PanelPane.design({
@@ -183,7 +198,7 @@ GeneData.mainPage = SC.Page.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Loading samples from the server failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       retryButton: SC.ButtonView.design({
@@ -202,52 +217,52 @@ GeneData.mainPage = SC.Page.design({
   }),
   
   analysisRunning: SC.PanelPane.design({
-  	defaultResponder: GeneData,
+    defaultResponder: GeneData,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message loadingIndicator cancelButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 60, right: 0 },
-		value: 'Bundling data files and meta data',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  loadingIndicator: SC.ImageView.design({
-	  	layout: { left: 20, top: 20, width: 32, height: 32 },
-	    value: 'icon-loading-32',
-	  }),
-	  
-	  cancelButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Cancel',
-		action: 'cancel'
-	  })
-	})
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'message loadingIndicator cancelButton'.w(),
+      
+      message: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 60, right: 0 },
+        value: 'Bundling data files and meta data',
+        controlSize: SC.LARGE_CONTROL_SIZE
+      }),
+      
+      loadingIndicator: SC.ImageView.design({
+        layout: { left: 20, top: 20, width: 32, height: 32 },
+        value: 'icon-loading-32'
+      }),
+      
+      cancelButton: SC.ButtonView.design({
+        layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+        title: 'Cancel',
+        action: 'cancel'
+      })
+    })
   }),
   
   analysisFailed: SC.PanelPane.design({
-  	defaultResponder: GeneData,
+    defaultResponder: GeneData,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
       childViews: 'errorMessage errorDetail retryButton cancelButton'.w(),
 
       errorMessage: SC.LabelView.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Bundling data files and meta data failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       errorDetail: SC.LabelView.design({
         layout: { top: 60, height: 80, left: 10, right: 10 },
         textAlign: SC.ALIGN_CENTER,
         valueBinding: 'GeneData.analysisController.failureMessage',
-        escapeHTML: NO,
+        escapeHTML: NO
       }),
 
       retryButton: SC.ButtonView.design({
@@ -262,36 +277,36 @@ GeneData.mainPage = SC.Page.design({
         title: 'Cancel',
         action: 'cancel'
       }),
-	})
+    })
   }),
   
   analysisDone: SC.PanelPane.design({
-  	defaultResponder: GeneData,
-	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message resultLink closeButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		value: 'Download results',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  resultLink: SC.LabelView.design({
-	  	layout: { centerY: 0, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		valueBinding: 'GeneData.analysisController.hyperlink',
-		escapeHTML: NO,
-	  }),
-	  
-	  closeButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Close',
-		action: 'close'
-	  })
-	})
+    defaultResponder: GeneData,
+
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+
+    contentView: SC.View.design({
+    childViews: 'message resultLink closeButton'.w(),
+
+    message: SC.LabelView.design({
+      layout: { top: 20, height: 32, left: 0, right: 0 },
+      textAlign: SC.ALIGN_CENTER,
+      value: 'Download results',
+      controlSize: SC.LARGE_CONTROL_SIZE
+    }),
+
+    resultLink: SC.LabelView.design({
+      layout: { centerY: 0, height: 32, left: 0, right: 0 },
+      textAlign: SC.ALIGN_CENTER,
+      valueBinding: 'GeneData.analysisController.hyperlink',
+      escapeHTML: NO
+    }),
+
+    closeButton: SC.ButtonView.design({
+      layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+      title: 'Close',
+      action: 'close'
+      })
+    })
   }),
 });

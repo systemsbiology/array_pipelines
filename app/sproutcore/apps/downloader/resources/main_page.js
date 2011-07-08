@@ -90,80 +90,95 @@ Downloader.mainPage = SC.Page.design({
 						contentValueKey: "name",
 						canEditContent: NO,
 						canDeleteContent: NO,
-						rowHeight:24,
+						rowHeight:24
 					})
-				}), // labGroupScroll
+				}) // labGroupScroll
       }), // topLeftView
 
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'legend availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
-
-		legend: Slimarray.LegendView.design({
-		  layout: { top: 10, left: 280, width: 400, height: 26 },
-		}),
-
-        availableLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 20, top: 40 },
-          value: 'Available Arrays',
+        childViews: 'legend splitView'.w(),
+        
+        legend: Slimarray.LegendView.design({
+          layout: { top: 10, left: 280, width: 400, height: 26 }
         }),
 
-        availableScroll: SC.ScrollView.design({
-          layout: { left: 20, top: 60, bottom: 50, width: 400 },
-		  
-          contentView: SC.ListView.design({
-            contentBinding: "Downloader.availableMicroarraysController.arrangedObjects",
-            selectionBinding: "Downloader.availableMicroarraysController.selection",
-            contentValueKey: "displayName",
-            hasContentIcon: YES,
-            contentIconKey: "icon"
+        splitView: SC.SplitView.design({
+          dividerThickness: 0,
+          defaultThickness: 0.55,
+          autoresizeBehavior: SC.RESIZE_TOP_LEFT,
+
+          topLeftView: SC.View.design({
+            childViews: 'availableLabel availableScroll'.w(),
+
+            availableLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 20, top: 40 },
+              value: 'Available Arrays'
+            }),
+
+            availableScroll: SC.ScrollView.design({
+              layout: { left: 20, top: 60, bottom: 50, right: 10 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "Downloader.availableMicroarraysController.arrangedObjects",
+                selectionBinding: "Downloader.availableMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon"
+              })
+            })
           }),
-        }),
 
-        addButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: -15, width: 120, height: 24 },
-          title: 'Add Array(s)',
-          target: 'Downloader.selectedMicroarraysController',
-          action: 'add',
-          isEnabledBinding: 'Downloader.availableMicroarraysController.hasSelection',
-        }),
+          bottomRightView: SC.View.design({
+            childViews: 'addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
 
-        removeButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: 15, width: 120, height: 24 },
-          title: 'Remove Array(s)',
-          target: 'Downloader.selectedMicroarraysController',
-          action: 'remove',
-          isEnabledBinding: 'Downloader.selectedMicroarraysController.hasSelection',
-        }),
+            addButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: -15, width: 120, height: 24 },
+              title: 'Add Array(s)',
+              target: 'Downloader.selectedMicroarraysController',
+              action: 'add',
+              isEnabledBinding: 'Downloader.availableMicroarraysController.hasSelection'
+            }),
 
-        selectedLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 560, top: 40 },
-          value: 'Selected Arrays',
-        }),
+            removeButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: 15, width: 120, height: 24 },
+              title: 'Remove Array(s)',
+              target: 'Downloader.selectedMicroarraysController',
+              action: 'remove',
+              isEnabledBinding: 'Downloader.selectedMicroarraysController.hasSelection'
+            }),
 
-        selectedScroll: SC.ScrollView.design({
-          layout: { left: 560, top: 60, bottom: 50, width: 400 },
-		  
-          contentView: SC.ListView.design({
-            contentBinding: "Downloader.selectedMicroarraysController.arrangedObjects",
-            selectionBinding: "Downloader.selectedMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
-          }),
-        }),
+            selectedLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 130, top: 40 },
+              value: 'Selected Arrays'
+            }),
 
-        analyzeButton: SC.ButtonView.design({
-          layout: { left: 830, width: 120, bottom: 13, height: 24 },
-          title: 'Download',
-          isEnabledBinding: 'Downloader.selectedMicroarraysController.hasArrays',
-		  action: 'runAnalysis'
-        }),
-      }),
-    }),
+            selectedScroll: SC.ScrollView.design({
+              layout: { left: 130, top: 60, bottom: 50, right: 20 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "Downloader.selectedMicroarraysController.arrangedObjects",
+                selectionBinding: "Downloader.selectedMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon",
+                toolTipKey: "displayName"
+              })
+            }),
+
+            analyzeButton: SC.ButtonView.design({
+              layout: { right: 20, width: 120, bottom: 13, height: 24 },
+              title: 'Download',
+              isEnabledBinding: 'Downloader.selectedMicroarraysController.hasArrays',
+              action: 'runAnalysis'
+            })
+          })
+        })
+      })
+    })
   }),
 
   samplesFailed: SC.PanelPane.design({
@@ -178,7 +193,7 @@ Downloader.mainPage = SC.Page.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Loading samples from the server failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       retryButton: SC.ButtonView.design({
@@ -197,52 +212,52 @@ Downloader.mainPage = SC.Page.design({
   }),
   
   analysisRunning: SC.PanelPane.design({
-  	defaultResponder: Downloader,
+    defaultResponder: Downloader,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
 	
 	contentView: SC.View.design({
 	  childViews: 'message loadingIndicator cancelButton'.w(),
 	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 60, right: 0 },
-		value: 'Bundling data files',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
+    message: SC.LabelView.design({
+      layout: { top: 20, height: 32, left: 60, right: 0 },
+      value: 'Bundling data files',
+      controlSize: SC.LARGE_CONTROL_SIZE
+    }),
 	  
 	  loadingIndicator: SC.ImageView.design({
-	  	layout: { left: 20, top: 20, width: 32, height: 32 },
-	    value: 'icon-loading-32',
+      layout: { left: 20, top: 20, width: 32, height: 32 },
+	    value: 'icon-loading-32'
 	  }),
 	  
 	  cancelButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Cancel',
-		action: 'cancel'
+      layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+      title: 'Cancel',
+      action: 'cancel'
 	  })
 	})
   }),
   
   analysisFailed: SC.PanelPane.design({
-  	defaultResponder: Downloader,
+    defaultResponder: Downloader,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
 	
-	contentView: SC.View.design({
+    contentView: SC.View.design({
       childViews: 'errorMessage errorDetail retryButton cancelButton'.w(),
 
       errorMessage: SC.LabelView.design({
         layout: { top: 20, height: 32, left: 0, right: 0 },
         value: 'Bundling data files and meta data failed',
         textAlign: SC.ALIGN_CENTER,
-        controlSize: SC.LARGE_CONTROL_SIZE,
+        controlSize: SC.LARGE_CONTROL_SIZE
       }),
 
       errorDetail: SC.LabelView.design({
         layout: { top: 60, height: 80, left: 10, right: 10 },
         textAlign: SC.ALIGN_CENTER,
         valueBinding: 'Downloader.analysisController.failureMessage',
-        escapeHTML: NO,
+        escapeHTML: NO
       }),
 
       retryButton: SC.ButtonView.design({
@@ -261,32 +276,32 @@ Downloader.mainPage = SC.Page.design({
   }),
   
   analysisDone: SC.PanelPane.design({
-  	defaultResponder: Downloader,
+    defaultResponder: Downloader,
 	
-	layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
-	
-	contentView: SC.View.design({
-	  childViews: 'message resultLink closeButton'.w(),
-	  
-	  message: SC.LabelView.design({
-	  	layout: { top: 20, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		value: 'Download results',
-        controlSize: SC.LARGE_CONTROL_SIZE,
-	  }),
-	  
-	  resultLink: SC.LabelView.design({
-	  	layout: { centerY: 0, height: 32, left: 0, right: 0 },
-		textAlign: SC.ALIGN_CENTER,
-		valueBinding: 'Downloader.analysisController.hyperlink',
-		escapeHTML: NO,
-	  }),
-	  
-	  closeButton: SC.ButtonView.design({
-	  	layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
-		title: 'Close',
-		action: 'close'
-	  })
-	})
-  }),
+    layout: { width: 400, height: 200, centerX: 0, centerY: 0 },
+    
+    contentView: SC.View.design({
+      childViews: 'message resultLink closeButton'.w(),
+      
+      message: SC.LabelView.design({
+        layout: { top: 20, height: 32, left: 0, right: 0 },
+        textAlign: SC.ALIGN_CENTER,
+        value: 'Download results',
+        controlSize: SC.LARGE_CONTROL_SIZE
+      }),
+      
+      resultLink: SC.LabelView.design({
+        layout: { centerY: 0, height: 32, left: 0, right: 0 },
+        textAlign: SC.ALIGN_CENTER,
+        valueBinding: 'Downloader.analysisController.hyperlink',
+        escapeHTML: NO
+      }),
+      
+      closeButton: SC.ButtonView.design({
+        layout: { bottom: 20, centerX: 0, width: 100, height: 32 },
+        title: 'Close',
+        action: 'close'
+      })
+    })
+  })
 });

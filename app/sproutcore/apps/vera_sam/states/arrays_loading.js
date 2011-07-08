@@ -22,25 +22,25 @@ VeraSam.ARRAYS_LOADING = SC.Responder.create(
   loadingView: null,
   
   didBecomeFirstResponder: function() {
-  	VeraSam.availableMicroarraysController.set('selection', []);
-	
-  	var loadingView = SC.LabelView.create({
-	  classNames: 'arrays-loading-message'.w(),
-	  layout: { left: 4, top: 4 },
-	  value: 'Loading...'
-	})
-	
-  	// save this so it can be removed later
-	this.set('loadingView', loadingView);
-  	VeraSam.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.availableScroll')
-	  .appendChild(loadingView);
-	  
+    VeraSam.availableMicroarraysController.set('selection', []);
+
+    var loadingView = SC.LabelView.create({
+      classNames: 'arrays-loading-message'.w(),
+      layout: { left: 4, top: 4 },
+      value: 'Loading...'
+    });
+
+    // save this so it can be removed later
+    this.set('loadingView', loadingView);
+    VeraSam.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.splitView.topLeftView.availableScroll')
+      .appendChild(loadingView);
+
     VeraSam.availableMicroarraysController.load();
   },
   
   willLoseFirstResponder: function() {
-    VeraSam.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.availableScroll')
-	  .removeChild( this.get('loadingView') );
+    VeraSam.mainPage.getPath('labGroupsLoaded.mainView.bottomRightView.splitView.topLeftView.availableScroll')
+      .removeChild( this.get('loadingView') );
   },
   
   // ..........................................................

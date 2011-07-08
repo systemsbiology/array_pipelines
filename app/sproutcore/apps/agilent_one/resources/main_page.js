@@ -98,72 +98,87 @@ AgilentOne.mainPage = SC.Page.design({
       bottomRightView: SC.View.design({
         backgroundColor: '#EEEEEE',
         
-        childViews: 'legend availableLabel availableScroll addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
-
-		legend: Slimarray.LegendView.design({
-		  layout: { top: 10, left: 280, width: 400, height: 26 },
-		}),
-
-        availableLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 20, top: 40 },
-          value: 'Available Arrays'
+        childViews: 'legend splitView'.w(),
+        
+        legend: Slimarray.LegendView.design({
+          layout: { top: 10, left: 280, width: 400, height: 26 }
         }),
 
-        availableScroll: SC.ScrollView.design({
-          layout: { left: 20, top: 60, bottom: 50, width: 400 },
+        splitView: SC.SplitView.design({
+          dividerThickness: 0,
+          defaultThickness: 0.55,
+          autoresizeBehavior: SC.RESIZE_TOP_LEFT,
 
-          contentView: SC.ListView.design({
-            contentBinding: "AgilentOne.availableMicroarraysController.arrangedObjects",
-            selectionBinding: "AgilentOne.availableMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
+          topLeftView: SC.View.design({
+            childViews: 'availableLabel availableScroll'.w(),
+
+            availableLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 20, top: 40 },
+              value: 'Available Arrays'
+            }),
+
+            availableScroll: SC.ScrollView.design({
+              layout: { left: 20, top: 60, bottom: 50, right: 10 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "AgilentOne.availableMicroarraysController.arrangedObjects",
+                selectionBinding: "AgilentOne.availableMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon"
+              })
+            })
           }),
-        }),
 
-        addButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: -15, width: 120, height: 24 },
-          title: 'Add Array(s)',
-          target: 'AgilentOne.selectedMicroarraysController',
-          action: 'add',
-          isEnabledBinding: 'AgilentOne.availableMicroarraysController.hasSelection'
-        }),
+          bottomRightView: SC.View.design({
+            childViews: 'addButton removeButton selectedLabel selectedScroll analyzeButton'.w(),
 
-        removeButton: SC.ButtonView.design({
-          layout: { left: 430, centerY: 15, width: 120, height: 24 },
-          title: 'Remove Array(s)',
-          target: 'AgilentOne.selectedMicroarraysController',
-          action: 'remove',
-          isEnabledBinding: 'AgilentOne.selectedMicroarraysController.hasSelection'
-        }),
+            addButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: -15, width: 120, height: 24 },
+              title: 'Add Array(s)',
+              target: 'AgilentOne.selectedMicroarraysController',
+              action: 'add',
+              isEnabledBinding: 'AgilentOne.availableMicroarraysController.hasSelection'
+            }),
 
-        selectedLabel: SC.LabelView.design({
-          classNames: ['array-scroll-label'],
-          layout: { left: 560, top: 40 },
-          value: 'Selected Arrays'
-        }),
+            removeButton: SC.ButtonView.design({
+              layout: { left: 0, centerY: 15, width: 120, height: 24 },
+              title: 'Remove Array(s)',
+              target: 'AgilentOne.selectedMicroarraysController',
+              action: 'remove',
+              isEnabledBinding: 'AgilentOne.selectedMicroarraysController.hasSelection'
+            }),
 
-        selectedScroll: SC.ScrollView.design({
-          layout: { left: 560, top: 60, bottom: 50, width: 400 },
+            selectedLabel: SC.LabelView.design({
+              classNames: ['array-scroll-label'],
+              layout: { left: 130, top: 40 },
+              value: 'Selected Arrays'
+            }),
 
-          contentView: SC.ListView.design({
-            contentBinding: "AgilentOne.selectedMicroarraysController.arrangedObjects",
-            selectionBinding: "AgilentOne.selectedMicroarraysController.selection",
-            contentValueKey: "displayName",
-			hasContentIcon: YES,
-			contentIconKey: "icon"
-          }),
-        }),
+            selectedScroll: SC.ScrollView.design({
+              layout: { left: 130, top: 60, bottom: 50, right: 20 },
+          
+              contentView: SC.ListView.design({
+                contentBinding: "AgilentOne.selectedMicroarraysController.arrangedObjects",
+                selectionBinding: "AgilentOne.selectedMicroarraysController.selection",
+                contentValueKey: "displayName",
+                hasContentIcon: YES,
+                contentIconKey: "icon",
+                toolTipKey: "displayName"
+              })
+            }),
 
-        analyzeButton: SC.ButtonView.design({
-          layout: { left: 830, width: 120, bottom: 13, height: 24 },
-          title: 'Launch Pipeline',
-          isEnabledBinding: 'AgilentOne.selectedMicroarraysController.hasArrays',
-		  action: 'runAnalysis'
-        }),
-      }),
-    }),
+            analyzeButton: SC.ButtonView.design({
+              layout: { right: 20, width: 120, bottom: 13, height: 24 },
+              title: 'Download',
+              isEnabledBinding: 'AgilentOne.selectedMicroarraysController.hasArrays',
+              action: 'runAnalysis'
+            })
+          })
+        })
+      })
+    })
   }),
 
   samplesFailed: SC.PanelPane.design({

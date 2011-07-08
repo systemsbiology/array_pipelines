@@ -22,25 +22,25 @@ GeneData.ARRAYS_LOADING = SC.Responder.create(
   loadingView: null,
   
   didBecomeFirstResponder: function() {
-  	GeneData.availableMicroarraysController.set('selection', []);
+    GeneData.availableMicroarraysController.set('selection', []);
 		
-  	var loadingView = SC.LabelView.create({
-	  classNames: 'arrays-loading-message'.w(),
-	  layout: { left: 4, top: 4 },
-	  value: 'Loading...'
-	})
+    var loadingView = SC.LabelView.create({
+      classNames: 'arrays-loading-message'.w(),
+      layout: { left: 4, top: 4 },
+      value: 'Loading...'
+    });
 	
-  	// save this so it can be removed later
-	this.set('loadingView', loadingView);
-  	GeneData.mainPage.getPath('schemesLoaded.mainView.bottomRightView.availableScroll')
-	  .appendChild(loadingView);
+    // save this so it can be removed later
+    this.set('loadingView', loadingView);
+    GeneData.mainPage.getPath('schemesLoaded.mainView.bottomRightView.splitView.topLeftView.availableScroll')
+      .appendChild(loadingView);
 	  
     GeneData.availableMicroarraysController.load();
   },
   
   willLoseFirstResponder: function() {
-    GeneData.mainPage.getPath('schemesLoaded.mainView.bottomRightView.availableScroll')
-	  .removeChild( this.get('loadingView') );
+    GeneData.mainPage.getPath('schemesLoaded.mainView.bottomRightView.splitView.topLeftView.availableScroll')
+      .removeChild( this.get('loadingView') );
   },
   
   // ..........................................................

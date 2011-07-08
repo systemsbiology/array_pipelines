@@ -17,7 +17,7 @@ AgilentOne = SC.Application.create(
   VERSION: '0.1.0',
 
   store: SC.Store.create({
-  	commitRecordsAutomatically: NO
+    commitRecordsAutomatically: NO
   }).from('Slimarray.DataSource')
 
 }) ;
